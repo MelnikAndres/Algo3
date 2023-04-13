@@ -37,9 +37,7 @@ public class Evento extends Asignable {
        LocalDateTime primerDiaDelMes = LocalDateTime.of(anio,numeroDeMes,1,0,0);
 
        //Verificar que tenga sentido calcular apariciones
-       if(this.ultimoDiaDeRepeticion != null && (this.ultimoDiaDeRepeticion.isBefore(primerDiaDelMes) ||
-               this.fechaFinal.isBefore(primerDiaDelMes))
-       ){
+       if(this.ultimoDiaDeRepeticion != null && this.ultimoDiaDeRepeticion.isBefore(primerDiaDelMes)){
            return repeticionesDelEvento;
        }
        LocalDateTime fechaDeAparicion = this.fechaInicio;
