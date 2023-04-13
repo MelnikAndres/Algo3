@@ -11,32 +11,29 @@ abstract class Asignable {
     protected LocalDateTime fechaFinal;
     private List<Alarma> alarmas = new ArrayList<>();
 
-    public ErrorTipo AgregarAlarma(LocalDateTime fecha, boolean esAbsoluta, AlarmaTipo tipo){
+    public void AgregarAlarma(LocalDateTime fecha, boolean esAbsoluta, AlarmaTipo tipo) throws RuntimeException{
         if(fecha == null){
-            return ErrorTipo.FECHA_FALTANTE;
+            throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
         if(tipo == null){
-            return ErrorTipo.TIPO_FALTANTE;
+            throw new RuntimeException(ErrorTipo.TIPO_FALTANTE.toString());
         }
         alarmas.add(new Alarma(fecha,esAbsoluta,tipo));
-        return null;
     }
-    public ErrorTipo Editar(String nuevoTitulo, String nuevaDescripcion,
-                       LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal){
+    public void Editar(String nuevoTitulo, String nuevaDescripcion,
+                       LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
         if(nuevoTitulo.isEmpty()){
-            return ErrorTipo.NO_TITULO;
+            throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
         }
         if(nuevaFechaInicio == null || nuevaFechaFinal == null){
-            return ErrorTipo.FECHA_FALTANTE;
+            throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
         if(nuevaFechaInicio.isAfter(nuevaFechaFinal)){
-            return ErrorTipo.FECHA_INICIO_INVALIDA;
+            throw new RuntimeException(ErrorTipo.FECHA_INICIO_INVALIDA.toString());
         }
         this.titulo = nuevoTitulo;
         this.descripcion = nuevaDescripcion;
         this.fechaInicio = nuevaFechaInicio;
         this.fechaFinal = nuevaFechaFinal;
-        return null;
     }
-
 }
