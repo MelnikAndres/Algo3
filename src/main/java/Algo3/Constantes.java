@@ -14,6 +14,12 @@ enum RepeticionTipo {
         this.valor =valor;
     }
 }
+enum Dia{
+    LUNES(1),MARTES(2),MIERCOLES(3),JUEVES(4),VIERNES(5),SABADO(6),DOMINGO(7);
+    private final int valor;
+    public int getValor(){return valor;}
+    Dia(int valor){this.valor = valor;}
+}
 enum ErrorTipo {
     FECHA_INICIO_INVALIDA("La fecha de inicio es menor a la fecha final"),
     FECHA_FALTANTE("No se definien las fechas de inicio y/o fin"),

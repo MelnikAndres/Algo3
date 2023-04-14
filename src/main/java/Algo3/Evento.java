@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Evento extends Asignable {
-    /* NADA DE ESTE CODIGO ESTA TESTEADO. FALTA METODO EDITAR */
+    /* FALTA METODO EDITAR */
 
     private FrecuenciaTipo frecuencia;
     private List<Integer> intervalo;
@@ -53,14 +53,22 @@ public class Evento extends Asignable {
        }
        LocalDateTime fechaDeAparicion = getFechaInicio();
 
-       //Llegar al mes actual
-       while (fechaDeAparicion != null && (fechaDeAparicion.getMonth().getValue() < numeroDeMes
-               || fechaDeAparicion.getYear() < anio) ){
+       //Llegar al año actual
+       while (fechaDeAparicion != null && fechaDeAparicion.getYear() < anio){
            fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
        }
+       //llegar al mes actual
+       while(fechaDeAparicion != null && fechaDeAparicion.getYear() == anio && fechaDeAparicion.getMonth().getValue() < numeroDeMes){
+           fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
+       }
+       //se pueden fusionar los while anteriores,pero la condicion que queda es horrible
+
        //Obtener las apariciones del mes actual
        while (fechaDeAparicion != null && (fechaDeAparicion.getYear() == anio
                && fechaDeAparicion.getMonth().getValue() == numeroDeMes)){
+           if(this.ultimoDiaDeRepeticion != null && fechaDeAparicion.isAfter(this.ultimoDiaDeRepeticion)){
+               break;
+           }
             repeticionesDelEvento.add(fechaDeAparicion);
             fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
         }
@@ -75,7 +83,13 @@ public class Evento extends Asignable {
         }
         if(frecuencia == FrecuenciaTipo.SEMANAL){
             Integer diaActual = fechaActual.getDayOfWeek().getValue();
-            Integer siguienteDia = intervalo.get(intervalo.indexOf(diaActual)+1);
+            int indiceDiaActual = intervalo.indexOf(diaActual);
+            Integer siguienteDia;
+            if(indiceDiaActual == intervalo.size()-1){
+                siguienteDia = intervalo.get(0);
+                return fechaActual.plusDays(siguienteDia-diaActual+7);
+            }
+            siguienteDia = intervalo.get(indiceDiaActual+1);
             return fechaActual.plusDays(Math.abs(siguienteDia-diaActual));
         }
         if(frecuencia == FrecuenciaTipo.MENSUAL){
