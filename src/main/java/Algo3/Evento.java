@@ -48,31 +48,22 @@ public class Evento extends Asignable {
        LocalDateTime primerDiaDelMes = LocalDateTime.of(anio,numeroDeMes,1,0,0);
 
        //Verificar que tenga sentido calcular apariciones
-       if(this.ultimoDiaDeRepeticion != null && this.ultimoDiaDeRepeticion.isBefore(primerDiaDelMes)){
+       if(ultimoDiaDeRepeticion != null && ultimoDiaDeRepeticion.isBefore(primerDiaDelMes)){
            return repeticionesDelEvento;
        }
-       LocalDateTime fechaDeAparicion = getFechaInicio();
 
-       //Llegar al año actual
-       while (fechaDeAparicion != null && fechaDeAparicion.getYear() < anio){
-           fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
-       }
-       //llegar al mes actual
-       while(fechaDeAparicion != null && fechaDeAparicion.getYear() == anio && fechaDeAparicion.getMonth().getValue() < numeroDeMes){
-           fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
-       }
-       //se pueden fusionar los while anteriores,pero la condicion que queda es horrible
+       LocalDateTime fechaDeAparicion = iterarHastaMesyAnio(numeroDeMes,anio);
 
        //Obtener las apariciones del mes actual
        while (fechaDeAparicion != null && (fechaDeAparicion.getYear() == anio
                && fechaDeAparicion.getMonth().getValue() == numeroDeMes)){
-           if(this.ultimoDiaDeRepeticion != null && fechaDeAparicion.isAfter(this.ultimoDiaDeRepeticion)){
+           if(ultimoDiaDeRepeticion != null && ultimoDiaDeRepeticion.isBefore(fechaDeAparicion)){
                break;
            }
             repeticionesDelEvento.add(fechaDeAparicion);
             fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
         }
-       return repeticionesDelEvento;
+        return repeticionesDelEvento;
     }
     private LocalDateTime obtenerSiguienteAparicion(LocalDateTime fechaActual){
         /*  Devuelve la siguiente aparicion del evento.
@@ -108,6 +99,19 @@ public class Evento extends Asignable {
             cantidadDeRepeticiones-=1;
         }
         return ultimaRepeticion;
+    }
+    private LocalDateTime iterarHastaMesyAnio(int numeroDeMes, int anio){
+        var fechaDeAparicion = getFechaInicio();
+        //Llegar al año actual
+        while (fechaDeAparicion != null && fechaDeAparicion.getYear() < anio){
+            fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
+        }
+        //llegar al mes actual
+        while(fechaDeAparicion != null && fechaDeAparicion.getYear() == anio && fechaDeAparicion.getMonth().getValue() < numeroDeMes){
+            fechaDeAparicion = obtenerSiguienteAparicion(fechaDeAparicion);
+        }
+        //se pueden fusionar los while anteriores,pero la condicion que queda es horrible
+        return  fechaDeAparicion;
     }
 
 }

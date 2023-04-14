@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -153,5 +152,21 @@ public class EventoTest {
         }
         //act
         assertEquals(resultadoEsperado, repeticionesObtenidas);
+    }
+    @Test
+    public void EventoDiarioInfinitoYFechaMuyLejana(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, List.of(1),RepeticionTipo.INFINITO, null);
+        var resultadoEsperado = new ArrayList<>();
+        var inicio = LocalDateTime.of(9999,5,1,6,3);
+        for(int i = 0;i < 31;i++){
+            resultadoEsperado.add(inicio.plusDays(i));
+        }
+
+        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(5, 9999);
+        assertEquals(resultadoEsperado, repeticionesObtenidas);
+
     }
 }
