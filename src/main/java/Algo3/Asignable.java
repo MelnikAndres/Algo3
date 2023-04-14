@@ -7,11 +7,18 @@ import java.util.List;
 abstract class Asignable {
     private String titulo;
     private String descripcion;
-    protected LocalDateTime fechaInicio;
-    protected LocalDateTime fechaFinal;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFinal;
     private List<Alarma> alarmas = new ArrayList<>();
 
-    public void AgregarAlarma(LocalDateTime fecha, boolean esAbsoluta, AlarmaTipo tipo) throws RuntimeException{
+    Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaInicio =fechaInicio;
+        this.fechaFinal = fechaFinal;
+    }
+
+    public void agregarAlarma(LocalDateTime fecha, boolean esAbsoluta, AlarmaTipo tipo) throws RuntimeException{
         if(fecha == null){
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
@@ -20,7 +27,7 @@ abstract class Asignable {
         }
         alarmas.add(new Alarma(fecha,esAbsoluta,tipo));
     }
-    public void Editar(String nuevoTitulo, String nuevaDescripcion,
+    public void editar(String nuevoTitulo, String nuevaDescripcion,
                        LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
         if(nuevoTitulo.isEmpty()){
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
@@ -35,5 +42,37 @@ abstract class Asignable {
         this.descripcion = nuevaDescripcion;
         this.fechaInicio = nuevaFechaInicio;
         this.fechaFinal = nuevaFechaFinal;
+    }
+
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDateTime fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDateTime getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public void setFechaFinal(LocalDateTime fechaFinal) {
+        this.fechaFinal = fechaFinal;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
