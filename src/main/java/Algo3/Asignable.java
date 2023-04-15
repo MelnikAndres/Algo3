@@ -1,10 +1,13 @@
 package Algo3;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 abstract class Asignable {
+
+
     private String titulo;
     private String descripcion;
     private LocalDateTime fechaInicio;
@@ -18,14 +21,14 @@ abstract class Asignable {
         this.fechaFinal = fechaFinal;
     }
 
-    public void agregarAlarma(LocalDateTime fecha, boolean esAbsoluta, AlarmaTipo tipo) throws RuntimeException{
+    public void agregarAlarma(LocalDateTime fecha, Duration tiempoAntes, AlarmaTipo tipo) throws RuntimeException{
         if(fecha == null){
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
         if(tipo == null){
             throw new RuntimeException(ErrorTipo.TIPO_FALTANTE.toString());
         }
-        alarmas.add(new Alarma(fecha,esAbsoluta,tipo));
+        alarmas.add(new Alarma(fecha,tiempoAntes,tipo));
     }
     public void editar(String nuevoTitulo, String nuevaDescripcion,
                        LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
@@ -75,4 +78,6 @@ abstract class Asignable {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+
 }

@@ -5,8 +5,9 @@ enum AlarmaTipo {
 
 }
 enum FrecuenciaTipo{
-    DIARIA,SEMANAL,MENSUAL,ANUAL
+    NINGUNA,DIARIA,SEMANAL,MENSUAL,ANUAL
 }
+
 enum RepeticionTipo {
     CANTIDAD_LIMITE("cantidad"), FECHA_LIMITE("fecha"), INFINITO("infinito");
     public final String valor;
@@ -24,7 +25,11 @@ enum ErrorTipo {
     FECHA_INICIO_INVALIDA("La fecha de inicio es menor a la fecha final"),
     FECHA_FALTANTE("No se definien las fechas de inicio y/o fin"),
     TIPO_FALTANTE("No se selecciona el tipo"),
-    NO_TITULO("No se proporciona un titulo");
+    NO_TITULO("No se proporciona un titulo"),
+    INTERVALO_INVALIDO("No se proporciona un intervalo válido"),
+    REPETICIONES_INVALIDAS("Se proporciona un numero de repeticiones invalido"),
+    FECHA_ULTIMA_REPETICION("Se proporciona una fecha de repetición final previa a la fecha de comienzo del evento");
+
 
     public final String texto;
     ErrorTipo(String texto) {
@@ -36,4 +41,6 @@ enum ErrorTipo {
         return this.texto;
     }
 }
+
+
 
