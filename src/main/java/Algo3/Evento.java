@@ -9,41 +9,42 @@ public class Evento extends Asignable {
     argumentos distintos, pero me pareció que quedaba mas claro así) */
 
     private FrecuenciaTipo frecuencia;
-    private List<Integer> intervalo;
-    //si el tipo es semanal guarda mas de un valor, para el resto solo tiene un valor
+    private Integer intervalo;
     private RepeticionTipo tipo;
     private Integer cantidadDeRepeticiones;
     private LocalDateTime ultimoDiaDeRepeticion;
 
 
-    public Evento(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
-        super(titulo, descripcion, fechaInicio, fechaFinal);
-        this.frecuencia = FrecuenciaTipo.NINGUNA;
-        this.intervalo = null;
-        this.tipo = null;
-        this.ultimoDiaDeRepeticion = getFechaFinal();
-        this.cantidadDeRepeticiones = 0;
-    }
-    public Evento(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, FrecuenciaTipo frecuencia, List<Integer> intervalo, int cantidadDeOcurrencias) {
-        super(titulo, descripcion, fechaInicio, fechaFinal);
-        this.frecuencia = frecuencia;
-        this.intervalo = intervalo;
-        this.tipo = RepeticionTipo.CANTIDAD_LIMITE;
-        this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion(cantidadDeOcurrencias);
-        this.cantidadDeRepeticiones = cantidadDeOcurrencias;
-    }
-    public Evento(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, FrecuenciaTipo frecuencia, List<Integer> intervalo, RepeticionTipo tipo, LocalDateTime ultimoDiaDeRepeticion) {
+
+    public Evento(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, FrecuenciaTipo frecuencia, int intervalo, RepeticionTipo tipo, LocalDateTime ultimoDiaDeRepeticion, int cantidadDeRepeticiones) {
         super(titulo, descripcion, fechaInicio, fechaFinal);
         this.frecuencia = frecuencia;
         this.intervalo = intervalo;
         this.tipo = tipo;
-        if(tipo == RepeticionTipo.INFINITO){
-            this.ultimoDiaDeRepeticion = LocalDateTime.MAX;
-        }else{
-            this.ultimoDiaDeRepeticion = ultimoDiaDeRepeticion;
-        }
-        this.cantidadDeRepeticiones = 0;
+        this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion(cantidadDeRepeticiones, ultimoDiaDeRepeticion);
+        this.cantidadDeRepeticiones = cantidadDeRepeticiones;
     }
+
+    public FrecuenciaTipo getFrecuencia() {
+        return frecuencia;
+    }
+
+    public Integer getIntervalo() {
+        return intervalo;
+    }
+
+    public RepeticionTipo getTipo() {
+        return tipo;
+    }
+
+    public Integer getCantidadDeRepeticiones() {
+        return cantidadDeRepeticiones;
+    }
+
+    public LocalDateTime getUltimoDiaDeRepeticion() {
+        return ultimoDiaDeRepeticion;
+    }
+
     public List<LocalDateTime> obtenerRepeticionesEnMesyAnio(int numeroDeMes, int anio) {
         /*  Funcion a ejecutar cuando se carga un mes.
             Devuelve una lista con los dias en los que el evento aparece
@@ -73,37 +74,28 @@ public class Evento extends Asignable {
 
 
     public void editarEvento(String nuevoTitulo, String nuevaDescripcion, LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal,
-                             FrecuenciaTipo nuevaFrecuencia, List<Integer> nuevoIntervalo, int nuevaCantidadDeRepeticiones, LocalDateTime nuevaFechaLimite, RepeticionTipo nuevoTipo) throws RuntimeException{
+                             FrecuenciaTipo nuevaFrecuencia, int nuevoIntervalo, RepeticionTipo nuevoTipo, LocalDateTime nuevaFechaLimite, int nuevaCantidadDeRepeticiones) throws RuntimeException{
         super.editar(nuevoTitulo, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFinal);
-        if(nuevaFrecuencia == FrecuenciaTipo.NINGUNA) {
-            this.frecuencia = nuevaFrecuencia;
-            this.intervalo = null;
-            this.tipo = null;
-            this.cantidadDeRepeticiones = 0;
-            this.ultimoDiaDeRepeticion = nuevaFechaFinal;
-
-        }else {
-            if(intervalo.isEmpty())
+        if(nuevaFrecuencia == FrecuenciaTipo.SEMANAL)
+            if (intervalo < 1 || intervalo > 126)
                 throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
+
+            if (nuevoTipo == RepeticionTipo.FECHA_LIMITE)
+                if (nuevaFechaLimite.isBefore(nuevaFechaFinal))
+                    throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+
+            if (nuevoTipo == RepeticionTipo.CANTIDAD_LIMITE)
+                if (nuevaCantidadDeRepeticiones < 0)
+                    throw new RuntimeException(ErrorTipo.REPETICIONES_INVALIDAS.toString());
 
             this.frecuencia = nuevaFrecuencia;
             this.intervalo = nuevoIntervalo;
             this.tipo = nuevoTipo;
-            if(nuevoTipo == RepeticionTipo.FECHA_LIMITE) {
-                if(nuevaFechaLimite.isBefore(nuevaFechaFinal))
-                    throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
-                this.cantidadDeRepeticiones = 0;
-                this.ultimoDiaDeRepeticion = nuevaFechaLimite;
-            }else if(nuevoTipo == RepeticionTipo.INFINITO) {
-                this.cantidadDeRepeticiones = 0;
-                this.ultimoDiaDeRepeticion = LocalDateTime.MAX;
-            }else{
-                if(nuevaCantidadDeRepeticiones < 0)
-                    throw new RuntimeException(ErrorTipo.REPETICIONES_INVALIDAS.toString());
-                this.cantidadDeRepeticiones = nuevaCantidadDeRepeticiones;
-                this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion(nuevaCantidadDeRepeticiones);
-            }
-        }
+            this.cantidadDeRepeticiones = nuevaCantidadDeRepeticiones;
+            this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion(nuevaCantidadDeRepeticiones, nuevaFechaLimite);
+
+
+
     }
 
 
@@ -112,18 +104,27 @@ public class Evento extends Asignable {
             Se toma en cuenta a partir del dia pasado como parmetro */
 
         if (frecuencia == FrecuenciaTipo.DIARIA){
-            return fechaActual.plusDays(intervalo.get(0));
+            return fechaActual.plusDays(intervalo);
         }
         if(frecuencia == FrecuenciaTipo.SEMANAL){
-            Integer diaActual = fechaActual.getDayOfWeek().getValue();
-            int indiceDiaActual = intervalo.indexOf(diaActual);
+            Integer exponente = fechaActual.getDayOfWeek().getValue() - 1;
+            LocalDateTime diaSiguiente = fechaActual;
+            boolean encontrado = false;
+            while(!encontrado){
+                exponente = (exponente+1)%7;
+                diaSiguiente = diaSiguiente.plusDays(1);
+                if((intervalo & (1<<exponente)) == (1<<exponente)){
+                    return diaSiguiente;
+                }
+            }
+            /*int indiceDiaActual = intervalo.indexOf(diaActual);
             Integer siguienteDia;
             if(indiceDiaActual == intervalo.size()-1){
                 siguienteDia = intervalo.get(0);
                 return fechaActual.plusDays(siguienteDia-diaActual+7);
             }
             siguienteDia = intervalo.get(indiceDiaActual+1);
-            return fechaActual.plusDays(Math.abs(siguienteDia-diaActual));
+            return fechaActual.plusDays(Math.abs(siguienteDia-diaActual));*/
         }
         if(frecuencia == FrecuenciaTipo.MENSUAL){
             return fechaActual.plusMonths(1);
@@ -134,13 +135,18 @@ public class Evento extends Asignable {
         }
         return null;
     }
-    private LocalDateTime obtenerUltimoDiaDeRepeticion(int cantidadDeRepeticiones){
-        LocalDateTime ultimaRepeticion = getFechaInicio();
-        while (cantidadDeRepeticiones > 0){
-            ultimaRepeticion = obtenerSiguienteAparicion(ultimaRepeticion);
-            cantidadDeRepeticiones-=1;
-        }
-        return ultimaRepeticion;
+    private LocalDateTime obtenerUltimoDiaDeRepeticion(int cantidadDeRepeticiones, LocalDateTime fechaLimite){
+        if(this.tipo == RepeticionTipo.CANTIDAD_LIMITE) {
+            LocalDateTime ultimaRepeticion = getFechaInicio();
+            while (cantidadDeRepeticiones > 0) {
+                ultimaRepeticion = obtenerSiguienteAparicion(ultimaRepeticion);
+                cantidadDeRepeticiones -= 1;
+            }
+            return ultimaRepeticion;
+        }else if(this.tipo == RepeticionTipo.INFINITO)
+            return LocalDateTime.MAX;
+        else
+            return fechaLimite;
     }
     private LocalDateTime iterarHastaMesyAnio(int numeroDeMes, int anio){
         var fechaDeAparicion = getFechaInicio();

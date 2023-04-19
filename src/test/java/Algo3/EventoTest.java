@@ -14,7 +14,7 @@ public class EventoTest {
         //arrange
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
-                LocalDateTime.of(2002,1,17,1,0));
+                LocalDateTime.of(2002,1,17,1,0), FrecuenciaTipo.NINGUNA, 0, null, null, 0);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         //act
@@ -26,7 +26,7 @@ public class EventoTest {
     public void EventoQueDuraDosDias(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
-                LocalDateTime.of(2002,1,18,3,0));
+                LocalDateTime.of(2002,1,18,3,0), FrecuenciaTipo.NINGUNA, 0, null, null, 0);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         //act
@@ -39,7 +39,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.DIARIA, List.of(3),1);
+                FrecuenciaTipo.DIARIA, 3,RepeticionTipo.CANTIDAD_LIMITE, null, 1);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         resultadoEsperado.add(LocalDateTime.of(2002,1,20,0,0));
@@ -53,7 +53,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.DIARIA, List.of(3),0);
+                FrecuenciaTipo.DIARIA, 3,RepeticionTipo.CANTIDAD_LIMITE, null, 0);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
 
@@ -66,8 +66,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.SEMANAL, List.of(Dia.JUEVES.getValor()),RepeticionTipo.FECHA_LIMITE,
-                LocalDateTime.of(2002,2,17,3,0));
+                FrecuenciaTipo.SEMANAL, Dia.JUEVES.getValorBinario(), RepeticionTipo.FECHA_LIMITE,
+                LocalDateTime.of(2002,2,17,3,0), 0);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         resultadoEsperado.add(LocalDateTime.of(2002,1,24,0,0));
@@ -86,8 +86,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.SEMANAL, List.of(Dia.MARTES.getValor(),Dia.JUEVES.getValor(),Dia.VIERNES.getValor()),RepeticionTipo.FECHA_LIMITE,
-                LocalDateTime.of(2002,3,5,3,0));
+                FrecuenciaTipo.SEMANAL, Dia.MARTES.getValorBinario()+Dia.JUEVES.getValorBinario()+Dia.VIERNES.getValorBinario(), RepeticionTipo.FECHA_LIMITE,
+                LocalDateTime.of(2002,3,5,3,0), 0);
         var resultadoEsperado = new ArrayList<>();
         for(int dia: List.of(17,18,22,24,25,29,31)){
             resultadoEsperado.add(LocalDateTime.of(2002,1,dia,0,0));
@@ -110,7 +110,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.MENSUAL, List.of(1),RepeticionTipo.INFINITO, null);
+                FrecuenciaTipo.MENSUAL, 1,RepeticionTipo.INFINITO, null, 0);
         var resultadoEsperado = new ArrayList<>();
         for(int mes: List.of(1,2,3,4,5,6,7,8,9,10,11,12)){
             resultadoEsperado.add(LocalDateTime.of(2002,mes,17,0,0));
@@ -134,7 +134,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.ANUAL, List.of(1),7);
+                FrecuenciaTipo.ANUAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, 7);
         var resultadoEsperado = new ArrayList<>();
         for(int anio: List.of(2002,2003,2004,2005,2006,2007,2008)){
             resultadoEsperado.add(LocalDateTime.of(anio,1,17,0,0));
@@ -158,7 +158,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, List.of(1),RepeticionTipo.INFINITO, null);
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
         var resultadoEsperado = new ArrayList<>();
         var inicio = LocalDateTime.of(9999,5,1,6,3);
         for(int i = 0;i < 31;i++){
@@ -169,4 +169,50 @@ public class EventoTest {
         assertEquals(resultadoEsperado, repeticionesObtenidas);
 
     }
+    @Test
+    public void editarNombreEvento(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
+        String resultadoEsperado = "Nuevo nombre";
+        eventoDePrueba.editarEvento("Nuevo nombre","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
+        assertEquals(resultadoEsperado, eventoDePrueba.getTitulo());
+    }
+    @Test
+    public void editarDescripcionEvento(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        String resultadoEsperado = "Nueva descripcion";
+        eventoDePrueba.editarEvento("Prueba","Nueva descripcion",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE,LocalDateTime.of(2023, 4, 21, 12, 30),0 );
+        assertEquals(resultadoEsperado, eventoDePrueba.getDescripcion());
+    }
+
+    @Test
+    public void editarFechas(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        LocalDateTime resultadoFechaInicialEsperado = LocalDateTime.of(2022, 5, 3, 0, 0);
+        LocalDateTime resultadoFechaFinalEsperado = LocalDateTime.of(2022, 5, 4, 0, 0);
+        LocalDateTime resultadoUltimaRepeticionEsperado = LocalDateTime.of(2023, 2, 4, 0, 0 );
+        eventoDePrueba.editarEvento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,3,0,0),
+                LocalDateTime.of(2022,5,4,0,0),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE,LocalDateTime.of(2023, 2, 4, 0, 0),0 );
+        assertEquals(resultadoFechaInicialEsperado, eventoDePrueba.getFechaInicio());
+        assertEquals(resultadoFechaFinalEsperado, eventoDePrueba.getFechaFinal());
+        assertEquals(resultadoUltimaRepeticionEsperado, eventoDePrueba.getUltimoDiaDeRepeticion());
+    }
+
+
 }

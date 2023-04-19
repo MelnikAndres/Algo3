@@ -30,7 +30,7 @@ abstract class Asignable {
         }
         alarmas.add(new Alarma(fecha,tiempoAntes,tipo));
     }
-    public void editar(String nuevoTitulo, String nuevaDescripcion,
+    protected void editar(String nuevoTitulo, String nuevaDescripcion,
                        LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
         if(nuevoTitulo.isEmpty()){
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
