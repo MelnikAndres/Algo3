@@ -47,7 +47,7 @@ enum ErrorTipo {
     ASIGNABLE_INVALIDO("Se proporciona un asignable invalido");
 
 
-    public final String texto;
+    private final String texto;
     ErrorTipo(String texto) {
         this.texto = texto;
     }

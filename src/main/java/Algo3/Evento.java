@@ -18,8 +18,19 @@ public class Evento extends Asignable {
 
     public Evento(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, FrecuenciaTipo frecuencia, int intervalo, RepeticionTipo tipo, LocalDateTime ultimoDiaDeRepeticion, int cantidadDeRepeticiones) {
         super(titulo, descripcion, fechaInicio, fechaFinal);
+        if(frecuencia == FrecuenciaTipo.SEMANAL)
+            if (intervalo < 1 || intervalo > 126)
+                throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
+
+        if (tipo == RepeticionTipo.FECHA_LIMITE)
+            if (ultimoDiaDeRepeticion == null || ultimoDiaDeRepeticion.isBefore(fechaFinal))
+                throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+
+        if (tipo == RepeticionTipo.CANTIDAD_LIMITE)
+            if (cantidadDeRepeticiones < 0)
+                throw new RuntimeException(ErrorTipo.REPETICIONES_INVALIDAS.toString());
         this.frecuencia = frecuencia;
-        this.intervalo = intervalo;
+        this.intervalo = Math.abs(intervalo);
         this.tipo = tipo;
         this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion(cantidadDeRepeticiones, ultimoDiaDeRepeticion);
         this.cantidadDeRepeticiones = cantidadDeRepeticiones;
@@ -73,15 +84,15 @@ public class Evento extends Asignable {
     }
 
 
-    public void editarEvento(String nuevoTitulo, String nuevaDescripcion, LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal,
+    public void editar(String nuevoTitulo, String nuevaDescripcion, LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal,
                              FrecuenciaTipo nuevaFrecuencia, int nuevoIntervalo, RepeticionTipo nuevoTipo, LocalDateTime nuevaFechaLimite, int nuevaCantidadDeRepeticiones) throws RuntimeException{
         super.editar(nuevoTitulo, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFinal);
         if(nuevaFrecuencia == FrecuenciaTipo.SEMANAL)
-            if (intervalo < 1 || intervalo > 126)
+            if (nuevoIntervalo < 1 || nuevoIntervalo > 126)
                 throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
 
             if (nuevoTipo == RepeticionTipo.FECHA_LIMITE)
-                if (nuevaFechaLimite.isBefore(nuevaFechaFinal))
+                if (nuevaFechaLimite == null || nuevaFechaLimite.isBefore(nuevaFechaFinal))
                     throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
 
             if (nuevoTipo == RepeticionTipo.CANTIDAD_LIMITE)
@@ -91,7 +102,7 @@ public class Evento extends Asignable {
             this.frecuencia = nuevaFrecuencia;
             this.intervalo = nuevoIntervalo;
             this.tipo = nuevoTipo;
-            this.cantidadDeRepeticiones = nuevaCantidadDeRepeticiones;
+            this.cantidadDeRepeticiones = (int)Math.abs(nuevaCantidadDeRepeticiones);
             this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion(nuevaCantidadDeRepeticiones, nuevaFechaLimite);
 
 
@@ -107,10 +118,9 @@ public class Evento extends Asignable {
             return fechaActual.plusDays(intervalo);
         }
         if(frecuencia == FrecuenciaTipo.SEMANAL){
-            Integer exponente = fechaActual.getDayOfWeek().getValue() - 1;
+            int exponente = fechaActual.getDayOfWeek().getValue() - 1;
             LocalDateTime diaSiguiente = fechaActual;
-            boolean encontrado = false;
-            while(!encontrado){
+            while(exponente < 7){
                 exponente = (exponente+1)%7;
                 diaSiguiente = diaSiguiente.plusDays(1);
                 if((intervalo & (1<<exponente)) == (1<<exponente)){

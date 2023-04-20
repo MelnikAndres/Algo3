@@ -1,6 +1,8 @@
 package Algo3;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -176,7 +178,7 @@ public class EventoTest {
                 LocalDateTime.of(2022,5,4,12,45),
                 FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
         String resultadoEsperado = "Nuevo nombre";
-        eventoDePrueba.editarEvento("Nuevo nombre","Esto es una prueba",
+        eventoDePrueba.editar("Nuevo nombre","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
                 FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
@@ -189,7 +191,7 @@ public class EventoTest {
                 LocalDateTime.of(2022,5,4,12,45),
                 FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
         String resultadoEsperado = "Nueva descripcion";
-        eventoDePrueba.editarEvento("Prueba","Nueva descripcion",
+        eventoDePrueba.editar("Prueba","Nueva descripcion",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
                 FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE,LocalDateTime.of(2023, 4, 21, 12, 30),0 );
@@ -205,7 +207,7 @@ public class EventoTest {
         LocalDateTime resultadoFechaInicialEsperado = LocalDateTime.of(2022, 5, 3, 0, 0);
         LocalDateTime resultadoFechaFinalEsperado = LocalDateTime.of(2022, 5, 4, 0, 0);
         LocalDateTime resultadoUltimaRepeticionEsperado = LocalDateTime.of(2023, 2, 4, 0, 0 );
-        eventoDePrueba.editarEvento("Prueba","Esto es una prueba",
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,3,0,0),
                 LocalDateTime.of(2022,5,4,0,0),
                 FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE,LocalDateTime.of(2023, 2, 4, 0, 0),0 );
@@ -213,6 +215,341 @@ public class EventoTest {
         assertEquals(resultadoFechaFinalEsperado, eventoDePrueba.getFechaFinal());
         assertEquals(resultadoUltimaRepeticionEsperado, eventoDePrueba.getUltimoDiaDeRepeticion());
     }
+    @Test
+    public void editarFrecuenciaDiaraASemanalConRepeticionTipoFechaLimite(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        FrecuenciaTipo frecuenciaEsperada = FrecuenciaTipo.SEMANAL;
+        LocalDateTime fechaEsperada = LocalDateTime.of(2023, 4, 21, 12, 30);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuencia());
+        assertEquals(fechaEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+    }
+
+    @Test
+    public void editarFrecuenciaDiaraASemanalConRepeticionTipoCantidad(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.CANTIDAD_LIMITE, null, 10);
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 7, 11, 6, 3);
+        FrecuenciaTipo frecuenciaEsperada = FrecuenciaTipo.SEMANAL;
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, Dia.LUNES.getValorBinario(),RepeticionTipo.CANTIDAD_LIMITE, null, 10);
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuencia());
+    }
+    @Test
+    public void editarFrecuenciaSemanalAMensualConRepeticionTipoCantidad(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, Dia.LUNES.getValorBinario() + Dia.MIERCOLES.getValorBinario(), RepeticionTipo.CANTIDAD_LIMITE,
+                null, 10);
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2023, 3, 4, 6, 3);
+        FrecuenciaTipo frecuenciaEsperada = FrecuenciaTipo.MENSUAL;
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.MENSUAL, 0,RepeticionTipo.CANTIDAD_LIMITE, null, 10);
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuencia());
+    }
+
+    @Test
+    public void editarIntervaloSemanal(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, Dia.LUNES.getValorBinario() + Dia.MIERCOLES.getValorBinario(), RepeticionTipo.CANTIDAD_LIMITE,
+                null, 10);
+        Integer resultadoEsperado = 74;
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 5, 26, 6, 3);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, Dia.MARTES.getValorBinario()+Dia.JUEVES.getValorBinario()+Dia.DOMINGO.getValorBinario(), RepeticionTipo.CANTIDAD_LIMITE,
+                LocalDateTime.of(2023, 4, 21, 12, 30), 10);
+        assertEquals(resultadoEsperado, eventoDePrueba.getIntervalo());
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+    }
+    @Test
+    public void editarIntervaloDiario(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.CANTIDAD_LIMITE,
+                null, 10);
+        Integer resultadoEsperado = 3;
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 6, 3, 6, 3);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA,3 , RepeticionTipo.CANTIDAD_LIMITE,
+                null, 10);
+        assertEquals(resultadoEsperado, eventoDePrueba.getIntervalo());
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+    }
+
+    @Test
+    public void editarTipoRepeticionDeCantidadAFechaLimite(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.CANTIDAD_LIMITE,
+                null, 10);
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2023, 4, 21, 12, 30);
+        RepeticionTipo tipoEsperado = RepeticionTipo.FECHA_LIMITE;
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA,1 , RepeticionTipo.FECHA_LIMITE,
+                LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+        assertEquals(tipoEsperado, eventoDePrueba.getTipo());
+    }
+
+    @Test
+    public void editarTipoRepeticionDeFechaLimiteAInfinito(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.FECHA_LIMITE,
+                LocalDateTime.of(2023,4,4,4,4), 10);
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.MAX;
+        RepeticionTipo tipoEsperado = RepeticionTipo.INFINITO;
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA,1 , RepeticionTipo.INFINITO,
+                null, 0);
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+        assertEquals(tipoEsperado, eventoDePrueba.getTipo());
+    }
+    @Test
+    public void editarCantidadDeRepeticiones(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.CANTIDAD_LIMITE,
+                null, 10);
+        Integer resultadoEsperado = 1;
+        LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022,5,5,6,3);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA,1 , RepeticionTipo.CANTIDAD_LIMITE,
+                null, 1);
+        assertEquals(resultadoEsperado, eventoDePrueba.getCantidadDeRepeticiones());
+        assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
+    }
+    @Rule
+    public ExpectedException excepcion = ExpectedException.none();
+    @Test
+    public void editarConNuevaFechaLimiteAnteriorANuevaFechaFinal() throws RuntimeException{
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(201, 4, 21, 12, 30), 0);
 
 
+    }
+    @Test
+    public void editarEventoConNombreInvalido(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.NO_TITULO.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar(null,"Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void editarEventoConFechaInicialInvalida(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022, 5, 3, 0,0), LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                null, LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void editarEventoConFechaFinallInvalida(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                null, FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void editarEventoConFrecuenciaSemanalEIntervaloMayorA126(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 13,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 127,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+    }
+    @Test
+    public void editarEventoConFrecuenciaSemanalEIntervaloMenorA1(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 34,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 0,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void editarEventoConFechaLimiteInexistente(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, null, 0);
+
+    }
+    @Test
+    public void editarEventoConFechaLimiteAnteriorAFechaFinal(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2021, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void editarEventoConRepeticionTipoCantidadLimiteConCantidadInvalida(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.REPETICIONES_INVALIDAS.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, 2);
+        eventoDePrueba.editar("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, -1);
+    }
+    @Test
+    public void eventoConNombreInvalido(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.NO_TITULO.toString());
+        var eventoDePrueba = new Evento("","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void eventoConFechaInicialInvalida(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                null, LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void eventoConFechaFinallInvalida(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,1,1,1,1), null,
+                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void eventoConFrecuenciaSemanalEIntervaloMayorA126(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 127,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void eventoConFrecuenciaSemanalEIntervaloMenorA1(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 0,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void eventoConFechaLimiteInexistente(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.DIARIA, 0,RepeticionTipo.FECHA_LIMITE, null, 0);
+
+    }
+    @Test
+    public void eventoConFechaLimiteAnteriorAFechaFinal(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2021, 4, 21, 12, 30), 0);
+
+    }
+    @Test
+    public void eventoConRepeticionTipoCantidadLimiteConCantidadInvalida(){
+        excepcion.expect(RuntimeException.class);
+        excepcion.expectMessage(ErrorTipo.REPETICIONES_INVALIDAS.toString());
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, -2);
+    }
 }

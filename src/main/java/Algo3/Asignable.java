@@ -15,6 +15,15 @@ abstract class Asignable {
     private List<Alarma> alarmas = new ArrayList<>();
 
     Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        if(titulo == null || titulo.isEmpty())
+            throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
+
+        if(fechaInicio == null || fechaFinal == null)
+            throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
+
+        if(fechaInicio.isAfter(fechaFinal))
+            throw new RuntimeException(ErrorTipo.FECHA_INICIO_INVALIDA.toString());
+
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaInicio =fechaInicio;
@@ -30,9 +39,9 @@ abstract class Asignable {
         }
         alarmas.add(new Alarma(fecha,tiempoAntes,tipo));
     }
-    protected void editar(String nuevoTitulo, String nuevaDescripcion,
+    public void editar(String nuevoTitulo, String nuevaDescripcion,
                        LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
-        if(nuevoTitulo.isEmpty()){
+        if(nuevoTitulo == null || nuevoTitulo.isEmpty()){
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
         }
         if(nuevaFechaInicio == null || nuevaFechaFinal == null){
