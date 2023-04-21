@@ -26,7 +26,7 @@ abstract class Asignable {
 
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.fechaInicio =fechaInicio;
+        this.fechaInicio = fechaInicio;
         this.fechaFinal = fechaFinal;
     }
 

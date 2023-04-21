@@ -127,14 +127,6 @@ public class Evento extends Asignable {
                     return diaSiguiente;
                 }
             }
-            /*int indiceDiaActual = intervalo.indexOf(diaActual);
-            Integer siguienteDia;
-            if(indiceDiaActual == intervalo.size()-1){
-                siguienteDia = intervalo.get(0);
-                return fechaActual.plusDays(siguienteDia-diaActual+7);
-            }
-            siguienteDia = intervalo.get(indiceDiaActual+1);
-            return fechaActual.plusDays(Math.abs(siguienteDia-diaActual));*/
         }
         if(frecuencia == FrecuenciaTipo.MENSUAL){
             return fechaActual.plusMonths(1);
