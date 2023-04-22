@@ -1,5 +1,7 @@
 package Algo3;
 
+import Algo3.Constantes.AlarmaTipo;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 

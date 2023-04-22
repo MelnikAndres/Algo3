@@ -1,11 +1,14 @@
 package Algo3;
 
+import Algo3.Constantes.AlarmaTipo;
+import Algo3.Constantes.ErrorTipo;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class Asignable {
+abstract class Notificable {
 
 
     private String titulo;
@@ -14,7 +17,7 @@ abstract class Asignable {
     private LocalDateTime fechaFinal;
     private List<Alarma> alarmas = new ArrayList<>();
 
-    Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+    Notificable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
         if(titulo == null || titulo.isEmpty())
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
 
@@ -60,33 +63,21 @@ abstract class Asignable {
         return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDateTime fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
 
     public LocalDateTime getFechaFinal() {
         return fechaFinal;
     }
 
-    public void setFechaFinal(LocalDateTime fechaFinal) {
-        this.fechaFinal = fechaFinal;
-    }
 
     public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public String getTitulo() {
         return titulo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
 
 
 }

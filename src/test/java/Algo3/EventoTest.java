@@ -1,5 +1,13 @@
 package Algo3;
 
+import Algo3.Constantes.Dia;
+import Algo3.Constantes.ErrorTipo;
+import Algo3.Constantes.FrecuenciaTipo;
+import Algo3.Constantes.RepeticionTipo;
+import Algo3.Frecuencia.*;
+import Algo3.Repeticion.RepeticionCantidadLimite;
+import Algo3.Repeticion.RepeticionFechaLimite;
+import Algo3.Repeticion.RepeticionInfinita;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -16,19 +24,21 @@ public class EventoTest {
         //arrange
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
-                LocalDateTime.of(2002,1,17,1,0), FrecuenciaTipo.NINGUNA, 0, null, null, 0);
+                LocalDateTime.of(2002,1,17,1,0),
+                null, null);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         //act
         var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
-        assertEquals(repeticionesObtenidas, resultadoEsperado);
+        assertEquals(resultadoEsperado,repeticionesObtenidas);
         //assert
     }
     @Test
     public void EventoQueDuraDosDias(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
-                LocalDateTime.of(2002,1,18,3,0), FrecuenciaTipo.NINGUNA, 0, null, null, 0);
+                LocalDateTime.of(2002,1,18,3,0),
+                null, null);
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         //act
@@ -41,7 +51,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.DIARIA, 3,RepeticionTipo.CANTIDAD_LIMITE, null, 1);
+                new FrecuenciaDiaria(3),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(3),LocalDateTime.of(2002,1,17,0,0),1));
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         resultadoEsperado.add(LocalDateTime.of(2002,1,20,0,0));
@@ -55,7 +66,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.DIARIA, 3,RepeticionTipo.CANTIDAD_LIMITE, null, 0);
+                new FrecuenciaDiaria(3),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(3),LocalDateTime.of(2002,1,17,0,0), 0));
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
 
@@ -68,8 +80,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.SEMANAL, Dia.JUEVES.getValorBinario(), RepeticionTipo.FECHA_LIMITE,
-                LocalDateTime.of(2002,2,17,3,0), 0);
+                new FrecuenciaSemanal(List.of(Dia.JUEVES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2002,2,17,3,0)));
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         resultadoEsperado.add(LocalDateTime.of(2002,1,24,0,0));
@@ -88,8 +100,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.SEMANAL, Dia.MARTES.getValorBinario()+Dia.JUEVES.getValorBinario()+Dia.VIERNES.getValorBinario(), RepeticionTipo.FECHA_LIMITE,
-                LocalDateTime.of(2002,3,5,3,0), 0);
+                new FrecuenciaSemanal(List.of(Dia.MARTES,Dia.JUEVES,Dia.VIERNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2002,3,5,3,0)));
         var resultadoEsperado = new ArrayList<>();
         for(int dia: List.of(17,18,22,24,25,29,31)){
             resultadoEsperado.add(LocalDateTime.of(2002,1,dia,0,0));
@@ -112,7 +124,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.MENSUAL, 1,RepeticionTipo.INFINITO, null, 0);
+                new FrecuenciaMensual(),new RepeticionInfinita());
         var resultadoEsperado = new ArrayList<>();
         for(int mes: List.of(1,2,3,4,5,6,7,8,9,10,11,12)){
             resultadoEsperado.add(LocalDateTime.of(2002,mes,17,0,0));
@@ -136,7 +148,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
-                FrecuenciaTipo.ANUAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, 7);
+                new FrecuenciaAnual(),
+                new RepeticionCantidadLimite(new FrecuenciaAnual(),LocalDateTime.of(2002,1,17,0,0),7));
         var resultadoEsperado = new ArrayList<>();
         for(int anio: List.of(2002,2003,2004,2005,2006,2007,2008)){
             resultadoEsperado.add(LocalDateTime.of(anio,1,17,0,0));
@@ -160,7 +173,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
+                new FrecuenciaDiaria(1),new RepeticionInfinita());
         var resultadoEsperado = new ArrayList<>();
         var inicio = LocalDateTime.of(9999,5,1,6,3);
         for(int i = 0;i < 31;i++){
@@ -176,12 +189,12 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
+                new FrecuenciaDiaria(1),new RepeticionInfinita());
         String resultadoEsperado = "Nuevo nombre";
         eventoDePrueba.editar("Nuevo nombre","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.INFINITO, null, 0);
+                new FrecuenciaDiaria(1),new RepeticionInfinita());
         assertEquals(resultadoEsperado, eventoDePrueba.getTitulo());
     }
     @Test
@@ -189,12 +202,14 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         String resultadoEsperado = "Nueva descripcion";
         eventoDePrueba.editar("Prueba","Nueva descripcion",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE,LocalDateTime.of(2023, 4, 21, 12, 30),0 );
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         assertEquals(resultadoEsperado, eventoDePrueba.getDescripcion());
     }
 
@@ -203,14 +218,16 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         LocalDateTime resultadoFechaInicialEsperado = LocalDateTime.of(2022, 5, 3, 0, 0);
         LocalDateTime resultadoFechaFinalEsperado = LocalDateTime.of(2022, 5, 4, 0, 0);
         LocalDateTime resultadoUltimaRepeticionEsperado = LocalDateTime.of(2023, 2, 4, 0, 0 );
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,3,0,0),
                 LocalDateTime.of(2022,5,4,0,0),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE,LocalDateTime.of(2023, 2, 4, 0, 0),0 );
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 2, 4, 0, 0)));
         assertEquals(resultadoFechaInicialEsperado, eventoDePrueba.getFechaInicio());
         assertEquals(resultadoFechaFinalEsperado, eventoDePrueba.getFechaFinal());
         assertEquals(resultadoUltimaRepeticionEsperado, eventoDePrueba.getUltimoDiaDeRepeticion());
@@ -220,14 +237,16 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         FrecuenciaTipo frecuenciaEsperada = FrecuenciaTipo.SEMANAL;
         LocalDateTime fechaEsperada = LocalDateTime.of(2023, 4, 21, 12, 30);
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
-        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuencia());
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
+        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuenciaTipo());
         assertEquals(fechaEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
     }
 
@@ -236,31 +255,34 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.CANTIDAD_LIMITE, null, 10);
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1), LocalDateTime.of(2022,5,4,6,3), 10));
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 7, 11, 6, 3);
         FrecuenciaTipo frecuenciaEsperada = FrecuenciaTipo.SEMANAL;
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, Dia.LUNES.getValorBinario(),RepeticionTipo.CANTIDAD_LIMITE, null, 10);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),LocalDateTime.of(2022,5,4,6,3),10));
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
-        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuencia());
+        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuenciaTipo());
     }
     @Test
     public void editarFrecuenciaSemanalAMensualConRepeticionTipoCantidad(){
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, Dia.LUNES.getValorBinario() + Dia.MIERCOLES.getValorBinario(), RepeticionTipo.CANTIDAD_LIMITE,
-                null, 10);
+                new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.MIERCOLES)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.MIERCOLES)), LocalDateTime.of(2022,5,4,6,3), 10));
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2023, 3, 4, 6, 3);
         FrecuenciaTipo frecuenciaEsperada = FrecuenciaTipo.MENSUAL;
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.MENSUAL, 0,RepeticionTipo.CANTIDAD_LIMITE, null, 10);
+                new FrecuenciaMensual(),
+                new RepeticionCantidadLimite(new FrecuenciaMensual(), LocalDateTime.of(2022,5,4,6,3), 10));
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
-        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuencia());
+        assertEquals(frecuenciaEsperada, eventoDePrueba.getFrecuenciaTipo());
     }
 
     @Test
@@ -268,16 +290,17 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, Dia.LUNES.getValorBinario() + Dia.MIERCOLES.getValorBinario(), RepeticionTipo.CANTIDAD_LIMITE,
-                null, 10);
+                new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.MIERCOLES)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.MIERCOLES)), LocalDateTime.of(2022,5,4,6,3), 10));
         Integer resultadoEsperado = 74;
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 5, 26, 6, 3);
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, Dia.MARTES.getValorBinario()+Dia.JUEVES.getValorBinario()+Dia.DOMINGO.getValorBinario(), RepeticionTipo.CANTIDAD_LIMITE,
-                LocalDateTime.of(2023, 4, 21, 12, 30), 10);
-        assertEquals(resultadoEsperado, eventoDePrueba.getIntervalo());
+                new FrecuenciaSemanal(List.of(Dia.MARTES,Dia.JUEVES,Dia.DOMINGO)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.MARTES,Dia.JUEVES,Dia.DOMINGO)), LocalDateTime.of(2022,5,4,6,3), 10));
+        Integer resultadoObtenido = Integer.parseInt(eventoDePrueba.getParametrosFrecuencia().getValor("Intervalo"));
+        assertEquals(resultadoEsperado,resultadoObtenido);
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
     }
     @Test
@@ -285,16 +308,17 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.CANTIDAD_LIMITE,
-                null, 10);
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1),LocalDateTime.of(2022,5,4,6,3),10));
         Integer resultadoEsperado = 3;
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 6, 3, 6, 3);
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA,3 , RepeticionTipo.CANTIDAD_LIMITE,
-                null, 10);
-        assertEquals(resultadoEsperado, eventoDePrueba.getIntervalo());
+                new FrecuenciaDiaria(3),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(3),LocalDateTime.of(2022,5,4,6,3),10));
+        Integer resultadoObtenido = Integer.parseInt(eventoDePrueba.getParametrosFrecuencia().getValor("Intervalo"));
+        assertEquals(resultadoEsperado, resultadoObtenido);
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
     }
 
@@ -303,17 +327,17 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.CANTIDAD_LIMITE,
-                null, 10);
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1),LocalDateTime.of(2022,5,4,6,3),10));
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2023, 4, 21, 12, 30);
         RepeticionTipo tipoEsperado = RepeticionTipo.FECHA_LIMITE;
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA,1 , RepeticionTipo.FECHA_LIMITE,
-                LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
-        assertEquals(tipoEsperado, eventoDePrueba.getTipo());
+        assertEquals(tipoEsperado, eventoDePrueba.getRepeticionTipo());
     }
 
     @Test
@@ -321,33 +345,33 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.FECHA_LIMITE,
-                LocalDateTime.of(2023,4,4,4,4), 10);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023,4,4,4,4)));
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.MAX;
         RepeticionTipo tipoEsperado = RepeticionTipo.INFINITO;
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA,1 , RepeticionTipo.INFINITO,
-                null, 0);
+                new FrecuenciaDiaria(1),new RepeticionInfinita());
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
-        assertEquals(tipoEsperado, eventoDePrueba.getTipo());
+        assertEquals(tipoEsperado, eventoDePrueba.getRepeticionTipo());
     }
     @Test
     public void editarCantidadDeRepeticiones(){
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1, RepeticionTipo.CANTIDAD_LIMITE,
-                null, 10);
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1),LocalDateTime.of(2022,5,4,6,3),10));
         Integer resultadoEsperado = 1;
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022,5,5,6,3);
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA,1 , RepeticionTipo.CANTIDAD_LIMITE,
-                null, 1);
-        assertEquals(resultadoEsperado, eventoDePrueba.getCantidadDeRepeticiones());
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1),LocalDateTime.of(2022,5,4,6,3),1));
+        Integer resultadoObtenido = Integer.parseInt(eventoDePrueba.getParametrosRepeticion().getValor("Repeticiones"));
+        assertEquals(resultadoEsperado, resultadoObtenido);
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
     }
     @Rule
@@ -357,29 +381,33 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1)
+                ,new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
         excepcion.expect(RuntimeException.class);
         excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(201, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(201, 4, 21, 12, 30)));
 
 
     }
-   /* @Test
+    @Test
     public void editarEventoConNombreInvalido(){
         excepcion.expect(RuntimeException.class);
         excepcion.expectMessage(ErrorTipo.NO_TITULO.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar(null,"Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -388,10 +416,12 @@ public class EventoTest {
         excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022, 5, 3, 0,0), LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 null, LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -401,12 +431,14 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
-                null, FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                null, new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
-    }*/
+    }
     @Test
     public void editarEventoConFrecuenciaSemanalEIntervaloMayorA126(){
         excepcion.expect(RuntimeException.class);
@@ -414,11 +446,13 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 13,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.JUEVES, Dia.MIERCOLES, Dia.LUNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 127,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.values())),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
     }
     @Test
     public void editarEventoConFrecuenciaSemanalEIntervaloMenorA1(){
@@ -427,11 +461,13 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 34,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.MARTES, Dia.SABADO)),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 0,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(new ArrayList<>()),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -441,11 +477,13 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, null, 0);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionFechaLimite(null));
 
     }
     @Test
@@ -455,11 +493,13 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2021, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2021, 4, 21, 12, 30)));
 
     }
     @Test
@@ -469,20 +509,23 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, 2);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),LocalDateTime.of(2022,5,4,6,3),2));
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, -1);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),LocalDateTime.of(2022,5,4,6,3),-1));
     }
-
-    /*public void eventoConNombreInvalido(){
+    @Test
+    public void eventoConNombreInvalido(){
         excepcion.expect(RuntimeException.class);
         excepcion.expectMessage(ErrorTipo.NO_TITULO.toString());
         var eventoDePrueba = new Evento("","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -491,7 +534,8 @@ public class EventoTest {
         excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 null, LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -500,9 +544,10 @@ public class EventoTest {
         excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,1,1,1,1), null,
-                FrecuenciaTipo.DIARIA, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
-    }*/
+    }
     @Test
     public void eventoConFrecuenciaSemanalEIntervaloMayorA126(){
         excepcion.expect(RuntimeException.class);
@@ -510,7 +555,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 127,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.values())),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -520,7 +566,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 0,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2023, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(new ArrayList<>()),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
 
     }
     @Test
@@ -530,7 +577,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.DIARIA, 0,RepeticionTipo.FECHA_LIMITE, null, 0);
+                new FrecuenciaDiaria(1),
+                new RepeticionFechaLimite(null));
 
     }
     @Test
@@ -540,7 +588,8 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.FECHA_LIMITE, LocalDateTime.of(2021, 4, 21, 12, 30), 0);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2021, 4, 21, 12, 30)));
 
     }
     @Test
@@ -550,6 +599,7 @@ public class EventoTest {
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                FrecuenciaTipo.SEMANAL, 1,RepeticionTipo.CANTIDAD_LIMITE, null, -2);
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),null,-2));
     }
 }
