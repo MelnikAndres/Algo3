@@ -1,9 +1,6 @@
 package Algo3;
 
-import Algo3.Constantes.Dia;
-import Algo3.Constantes.ErrorTipo;
-import Algo3.Constantes.FrecuenciaTipo;
-import Algo3.Constantes.RepeticionTipo;
+import Algo3.Constantes.*;
 import Algo3.Frecuencia.*;
 import Algo3.Repeticion.RepeticionCantidadLimite;
 import Algo3.Repeticion.RepeticionFechaLimite;
@@ -29,7 +26,7 @@ public class EventoTest {
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         //act
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
         assertEquals(resultadoEsperado,repeticionesObtenidas);
         //assert
     }
@@ -42,7 +39,7 @@ public class EventoTest {
         var resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
         //act
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
         assertEquals(repeticionesObtenidas, resultadoEsperado);
     }
 
@@ -58,7 +55,7 @@ public class EventoTest {
         resultadoEsperado.add(LocalDateTime.of(2002,1,20,0,0));
 
         //act
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
@@ -72,7 +69,7 @@ public class EventoTest {
         resultadoEsperado.add(LocalDateTime.of(2002,1,17,0,0));
 
         //act
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
@@ -91,8 +88,8 @@ public class EventoTest {
 
 
         //act
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
-        repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(2, 2002));
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
+        repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(2, 2002));
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
@@ -114,9 +111,9 @@ public class EventoTest {
 
 
         //act
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
-        repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(2, 2002));
-        repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(3, 2002));
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
+        repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(2, 2002));
+        repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(3, 2002));
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
@@ -132,12 +129,12 @@ public class EventoTest {
         for(int mes: List.of(1,2,3,4,5,6,7,8,9,10,11,12)){
             resultadoEsperado.add(LocalDateTime.of(2003,mes,17,0,0));
         }
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
         for(int mes: List.of(2,3,4,5,6,7,8,9,10,11,12)){
-            repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(mes, 2002));
+            repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(mes, 2002));
         }
         for(int mes: List.of(1,2,3,4,5,6,7,8,9,10,11,12)){
-            repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(mes, 2003));
+            repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(mes, 2003));
         }
         //act
         assertEquals(resultadoEsperado, repeticionesObtenidas);
@@ -155,15 +152,15 @@ public class EventoTest {
             resultadoEsperado.add(LocalDateTime.of(anio,1,17,0,0));
         }
 
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, 2002);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(1, 2002);
         for(int anio: List.of(2003,2004,2005,2006,2007,2008)){
-            repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, anio));
+            repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(1, anio));
         }
         for(int mes: List.of(3,4,5,6)){
-            repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(mes, 2003));
+            repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(mes, 2003));
         }
         for(int anio: List.of(2000,2001,2010,2014)){
-            repeticionesObtenidas.addAll(eventoDePrueba.obtenerRepeticionesEnMesyAnio(1, anio));
+            repeticionesObtenidas.addAll(eventoDePrueba.obtenerAparicionesEnMesyAnio(1, anio));
         }
         //act
         assertEquals(resultadoEsperado, repeticionesObtenidas);
@@ -180,7 +177,7 @@ public class EventoTest {
             resultadoEsperado.add(inicio.plusDays(i));
         }
 
-        var repeticionesObtenidas = eventoDePrueba.obtenerRepeticionesEnMesyAnio(5, 9999);
+        var repeticionesObtenidas = eventoDePrueba.obtenerAparicionesEnMesyAnio(5, 9999);
         assertEquals(resultadoEsperado, repeticionesObtenidas);
 
     }
@@ -601,5 +598,25 @@ public class EventoTest {
                 LocalDateTime.of(2022,5,4,12,45),
                 new FrecuenciaSemanal(List.of(Dia.LUNES)),
                 new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),null,-2));
+    }
+
+    @Test
+    public void parametrosTest(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.of(2022,5,4,6,3),
+                LocalDateTime.of(2022,5,4,12,45),
+                new FrecuenciaSemanal(List.of(Dia.LUNES)),
+                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
+
+        Parametros parametrosFrecuencia = eventoDePrueba.getParametrosFrecuencia();
+        System.out.println("Frecuencia tipo: " + eventoDePrueba.getFrecuenciaTipo());
+        for(String nombre: parametrosFrecuencia.getNombres()){
+            String valor = parametrosFrecuencia.getValor(nombre);
+            ParametroTipo tipo = parametrosFrecuencia.getTipo(nombre);
+            if(tipo == ParametroTipo.DIASDESEMANA){
+                System.out.println("Ingrese un dia de la semana: ");
+                System.out.println("Actual: " + Dia.parseDia(valor));
+            }
+        }
     }
 }

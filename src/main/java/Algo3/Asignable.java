@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class Notificable {
+abstract class Asignable {
 
 
     private String titulo;
@@ -17,7 +17,7 @@ abstract class Notificable {
     private LocalDateTime fechaFinal;
     private List<Alarma> alarmas = new ArrayList<>();
 
-    Notificable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+    Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
         if(titulo == null || titulo.isEmpty())
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
 
@@ -62,22 +62,15 @@ abstract class Notificable {
     public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }
-
-
     public LocalDateTime getFechaFinal() {
         return fechaFinal;
     }
-
-
     public String getDescripcion() {
         return descripcion;
     }
-
-
     public String getTitulo() {
         return titulo;
     }
-
-
+    public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
 
 }

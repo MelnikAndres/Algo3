@@ -6,9 +6,8 @@ import Algo3.Constantes.RepeticionTipo;
 import Algo3.Parametros;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 
-public class RepeticionFechaLimite implements Repeticion{
+public class RepeticionFechaLimite implements Repeticion {
 
     private LocalDateTime fechaLimite;
     public RepeticionFechaLimite(LocalDateTime fechaLimite){
@@ -21,6 +20,8 @@ public class RepeticionFechaLimite implements Repeticion{
     public LocalDateTime obtenerUltimoDiaDeRepeticion(){
         return fechaLimite;
     }
+
+    public LocalDateTime getFecha(){return fechaLimite;}
 
     @Override
     public RepeticionTipo getTipo() {

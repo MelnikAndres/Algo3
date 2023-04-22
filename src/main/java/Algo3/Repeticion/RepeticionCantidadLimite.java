@@ -46,6 +46,7 @@ public class RepeticionCantidadLimite implements Repeticion{
         parametros.agregarParametro("Repeticiones",ParametroTipo.ENTERO, cantidadDeRepeticiones.toString());
         return parametros;
     }
+
 }
 
 

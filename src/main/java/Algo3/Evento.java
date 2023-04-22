@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Evento extends Notificable {
+public class Evento extends Asignable {
     /* FALTA TESTEAR EL METODO EDITAR (Quizas se puede separar en distintos métodos que reciban
     argumentos distintos, pero me pareció que quedaba mas claro así) */
 
@@ -47,7 +47,7 @@ public class Evento extends Notificable {
     }
     public LocalDateTime getUltimoDiaDeRepeticion(){return ultimoDiaDeRepeticion;}
 
-    public List<LocalDateTime> obtenerRepeticionesEnMesyAnio(int numeroDeMes, int anio) {
+    public List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio) {
         /*  Funcion a ejecutar cuando se carga un mes.
             Devuelve una lista con los dias en los que el evento aparece
             en el mes y año recibidos como parametros   */
