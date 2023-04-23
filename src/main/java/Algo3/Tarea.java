@@ -10,6 +10,7 @@ public class Tarea extends Asignable {
         super(titulo, descripcion, fechaInicio, fechaFinal);
         this.esCompletada = false;
     }
+    public boolean getEsCompletada(){return this.esCompletada;}
 
     @Override
     public List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio) {
