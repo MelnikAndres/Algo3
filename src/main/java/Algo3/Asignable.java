@@ -1,6 +1,6 @@
 package Algo3;
 
-import Algo3.Constantes.AlarmaTipo;
+import Algo3.Disparador.Disparador;
 import Algo3.Constantes.ErrorTipo;
 
 import java.time.Duration;
@@ -33,7 +33,7 @@ abstract class Asignable {
         this.fechaFinal = fechaFinal;
     }
 
-    public void agregarAlarma(LocalDateTime fecha, Duration tiempoAntes, AlarmaTipo tipo) throws RuntimeException{
+    public void agregarAlarma(LocalDateTime fecha, Duration tiempoAntes, Disparador tipo) throws RuntimeException{
         if(fecha == null){
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }

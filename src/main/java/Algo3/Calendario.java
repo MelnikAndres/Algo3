@@ -3,7 +3,7 @@ package Algo3;
 import java.util.HashMap;
 
 public class Calendario {
-    /*FALTA IMPLEMENTAR CREAR Y ELIMINAR*/
+
     private final HashMap<Integer, Asignable> asignables = new HashMap<>();
     private int IdIncremental = 0;
 
@@ -19,4 +19,9 @@ public class Calendario {
         asignables.put(IdIncremental, asignableNuevo);
         IdIncremental = IdIncremental + 1;
     }
+
+    public boolean contiene(Asignable asignable){
+        return asignables.containsValue(asignable);
+    }
+    public Asignable asignableConClave(Integer clave){return asignables.get(clave);}
 }

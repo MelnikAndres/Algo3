@@ -117,4 +117,49 @@ public class TareaTest {
                 LocalDateTime.of(2023,3,3,0,0),
                 LocalDateTime.of(2022, 3, 3, 12, 0));
     }
+    @Test
+    public void editarTareaConTituloValido(){
+        var tarea = new Tarea("Prueba", "Descripcion",
+                LocalDateTime.of(2022, 3, 3, 0, 0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        String resultadoEsperado = "Otro titulo";
+        tarea.editar("Otro titulo", "Descripcion",
+                LocalDateTime.of(2022,3,3,0,0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        assertEquals(resultadoEsperado, tarea.getTitulo());
+    }
+    @Test
+    public void editarTareaConDescripcionValida(){
+        var tarea = new Tarea("Prueba", "Descripcion",
+                LocalDateTime.of(2022, 3, 3, 0, 0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        String resultadoEsperado = "nueva descripcion";
+        tarea.editar("Prueba", "nueva descripcion",
+                LocalDateTime.of(2022,3,3,0,0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        assertEquals(resultadoEsperado, tarea.getDescripcion());
+    }
+
+    @Test
+    public void editarTareaConFechaInicialValida(){
+        var tarea = new Tarea("Prueba", "Descripcion",
+                LocalDateTime.of(2022, 3, 3, 0, 0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        LocalDateTime resultadoEsperado = LocalDateTime.of(2021,3,3,0,0);
+        tarea.editar("Prueba", "Descripcion",
+                LocalDateTime.of(2021,3,3,0,0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        assertEquals(resultadoEsperado, tarea.getFechaInicio());
+    }
+    @Test
+    public void editarTareaConFechaFinalValida(){
+        var tarea = new Tarea("Prueba", "Descripcion",
+                LocalDateTime.of(2022, 3, 3, 0, 0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        LocalDateTime resultadoEsperado = LocalDateTime.of(2023,3,3,12,0);
+        tarea.editar("Prueba", "Descripcion",
+                LocalDateTime.of(2022,3,3,0,0),
+                LocalDateTime.of(2023, 3, 3, 12, 0));
+        assertEquals(resultadoEsperado, tarea.getFechaFinal());
+    }
 }
