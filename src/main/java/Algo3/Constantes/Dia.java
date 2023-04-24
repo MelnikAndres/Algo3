@@ -13,7 +13,7 @@ public enum Dia{
     private final int valor;
     public int getValor(){return valor;}
     public static Dia parseDia(String numero){
-        Integer numeroValue = Integer.parseInt(numero);
+        int numeroValue = Integer.parseInt(numero);
         for(Dia dia: Dia.values()){
             if(dia.getValor() == numeroValue){
                 return dia;

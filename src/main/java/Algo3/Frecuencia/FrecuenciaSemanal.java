@@ -16,27 +16,29 @@ public class FrecuenciaSemanal implements Frecuencia {
     private Integer intervalo;
 
     public FrecuenciaSemanal(List<Dia> diasDeLaSemana){
-        final int[] intervalo = {0};
-        // No se puede usar una variable que no sea final en una expresion anonima, por eso es una lista de un elemento
-        diasDeLaSemana.forEach(dia -> intervalo[0]+=dia.getValor());
-        if (intervalo[0] < 1 || intervalo[0] > 126){
+        int intervalo = 0;
+        for(Dia dia: diasDeLaSemana){
+            if((intervalo & dia.getValor()) != 0){
+                throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
+            }
+            intervalo+=dia.getValor();
+        }
+        if(intervalo == 0){
             throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
         }
-        this.intervalo = intervalo[0];
+        this.intervalo = intervalo;
     }
 
     @Override
     public LocalDateTime obtenerSiguienteAparicion(LocalDateTime fechaActual){
         int exponente = fechaActual.getDayOfWeek().getValue() - 1;
         LocalDateTime diaSiguiente = fechaActual;
-        while(exponente < 7){
-            exponente = (exponente+1)%7;
-            diaSiguiente = diaSiguiente.plusDays(1);
-            if((intervalo & (1<<exponente)) == (1<<exponente)){
-                return diaSiguiente;
-            }
+        exponente = (exponente+1)%7;
+        diaSiguiente = diaSiguiente.plusDays(1);
+        if((intervalo & (1<<exponente)) == (1<<exponente)){
+            return diaSiguiente;
         }
-        return LocalDateTime.MAX;
+        return obtenerSiguienteAparicion(diaSiguiente);
     }
     public FrecuenciaTipo getTipo(){
         return FrecuenciaTipo.SEMANAL;

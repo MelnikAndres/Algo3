@@ -437,7 +437,7 @@ public class EventoTest {
 
     }
     @Test
-    public void editarEventoConFrecuenciaSemanalEIntervaloMayorA126(){
+    public void editarEventoConFrecuenciaSemanalEIntervaloMayorA127(){
         excepcion.expect(RuntimeException.class);
         excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
@@ -448,7 +448,7 @@ public class EventoTest {
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaSemanal(List.of(Dia.values())),
+                new FrecuenciaSemanal(List.of(Dia.DOMINGO, Dia.DOMINGO)),
                 new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
     }
     @Test
@@ -470,7 +470,7 @@ public class EventoTest {
     @Test
     public void editarEventoConFechaLimiteInexistente(){
         excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
@@ -546,40 +546,7 @@ public class EventoTest {
 
     }
     @Test
-    public void eventoConFrecuenciaSemanalEIntervaloMayorA126(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
-        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
-                LocalDateTime.of(2022,5,4,6,3),
-                LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaSemanal(List.of(Dia.values())),
-                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
-
-    }
-    @Test
-    public void eventoConFrecuenciaSemanalEIntervaloMenorA1(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
-        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
-                LocalDateTime.of(2022,5,4,6,3),
-                LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaSemanal(new ArrayList<>()),
-                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
-
-    }
-    @Test
-    public void eventoConFechaLimiteInexistente(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
-        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
-                LocalDateTime.of(2022,5,4,6,3),
-                LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaDiaria(1),
-                new RepeticionFechaLimite(null));
-
-    }
-    @Test
-    public void eventoConFechaLimiteAnteriorAFechaFinal(){
+    public void eventoConFechaUltimaAnteriorAFechaFinal(){
         excepcion.expect(RuntimeException.class);
         excepcion.expectMessage(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
@@ -588,35 +555,5 @@ public class EventoTest {
                 new FrecuenciaSemanal(List.of(Dia.LUNES)),
                 new RepeticionFechaLimite(LocalDateTime.of(2021, 4, 21, 12, 30)));
 
-    }
-    @Test
-    public void eventoConRepeticionTipoCantidadLimiteConCantidadInvalida(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.REPETICIONES_INVALIDAS.toString());
-        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
-                LocalDateTime.of(2022,5,4,6,3),
-                LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaSemanal(List.of(Dia.LUNES)),
-                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),null,-2));
-    }
-
-    @Test
-    public void parametrosTest(){
-        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
-                LocalDateTime.of(2022,5,4,6,3),
-                LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaSemanal(List.of(Dia.LUNES)),
-                new RepeticionFechaLimite(LocalDateTime.of(2023, 4, 21, 12, 30)));
-
-        Parametros parametrosFrecuencia = eventoDePrueba.getParametrosFrecuencia();
-        System.out.println("Frecuencia tipo: " + eventoDePrueba.getFrecuenciaTipo());
-        for(String nombre: parametrosFrecuencia.getNombres()){
-            String valor = parametrosFrecuencia.getValor(nombre);
-            ParametroTipo tipo = parametrosFrecuencia.getTipo(nombre);
-            if(tipo == ParametroTipo.DIASDESEMANA){
-                System.out.println("Ingrese un dia de la semana: ");
-                System.out.println("Actual: " + Dia.parseDia(valor));
-            }
-        }
     }
 }

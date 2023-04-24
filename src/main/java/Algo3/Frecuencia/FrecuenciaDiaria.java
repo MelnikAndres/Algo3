@@ -13,7 +13,7 @@ public class FrecuenciaDiaria implements Frecuencia {
     private Integer intervalo;
 
     public FrecuenciaDiaria(Integer intervalo){
-        if (intervalo < 1 || intervalo > 126){
+        if (intervalo < 1){
             throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
         }
 

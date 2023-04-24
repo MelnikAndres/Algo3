@@ -20,6 +20,9 @@ public class RepeticionCantidadLimite implements Repeticion{
         if(fechaInicio == null){
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
+        if(frecuencia == null){
+            throw new RuntimeException(ErrorTipo.REPETICION_SIN_FRECUENCIA.toString());
+        }
 
         this.frecuencia = frecuencia;
         this.fechaInicio = fechaInicio;

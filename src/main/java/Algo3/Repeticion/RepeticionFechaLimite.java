@@ -12,7 +12,7 @@ public class RepeticionFechaLimite implements Repeticion {
     private LocalDateTime fechaLimite;
     public RepeticionFechaLimite(LocalDateTime fechaLimite){
         if (fechaLimite == null)
-            throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
+            throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         this.fechaLimite = fechaLimite;
     }
 
@@ -20,8 +20,6 @@ public class RepeticionFechaLimite implements Repeticion {
     public LocalDateTime obtenerUltimoDiaDeRepeticion(){
         return fechaLimite;
     }
-
-    public LocalDateTime getFecha(){return fechaLimite;}
 
     @Override
     public RepeticionTipo getTipo() {

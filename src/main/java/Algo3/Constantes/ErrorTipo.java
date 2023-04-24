@@ -7,6 +7,7 @@ public enum ErrorTipo {
     NO_TITULO("No se proporciona un titulo"),
     INTERVALO_INVALIDO("No se proporciona un intervalo válido"),
     REPETICIONES_INVALIDAS("Se proporciona un numero de repeticiones invalido"),
+    REPETICION_SIN_FRECUENCIA("No se proporciona frecuencia a la repeticion"),
     FECHA_ULTIMA_REPETICION("Se proporciona una fecha de repetición final previa a la fecha de comienzo del evento"),
     ASIGNABLE_INVALIDO("Se proporciona un asignable invalido");
 
