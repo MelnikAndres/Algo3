@@ -1,6 +1,7 @@
 package Algo3;
 
 import Algo3.Constantes.DisparadorTipo;
+import Algo3.Constantes.ErrorTipo;
 import Algo3.Disparador.Disparador;
 
 
@@ -17,9 +18,16 @@ public class Alarma {
 
 
     public Alarma(LocalDateTime fecha, Duration tiempoAntes, Disparador tipo) {
-        this.fecha = fecha;
-        this.tiempoAntes = tiempoAntes;
-        this.tipo = tipo;
+        if (fecha == null) {
+            throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
+        }
+        if (tipo == null) {
+            throw new RuntimeException(ErrorTipo.TIPO_FALTANTE.toString());
+        }
+            this.fecha = fecha;
+            this.tiempoAntes = tiempoAntes;
+            this.tipo = tipo;
+
     }
 
     public DisparadorTipo getTipo(){

@@ -24,4 +24,11 @@ public class Calendario {
         return asignables.containsValue(asignable);
     }
     public Asignable asignableConClave(Integer clave){return asignables.get(clave);}
+
+    public void agregarAlarma(Integer clave, Alarma alarma){
+        Asignable asignable = asignables.get(clave);
+        if(asignable != null){
+            asignable.agregarAlarma(alarma);
+        }
+    }
 }

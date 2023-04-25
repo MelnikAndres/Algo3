@@ -1,11 +1,14 @@
 package Algo3;
 
 import Algo3.Constantes.Dia;
+
+import Algo3.Disparador.Mail;
 import Algo3.Frecuencia.FrecuenciaDiaria;
 import Algo3.Frecuencia.FrecuenciaSemanal;
 import Algo3.Repeticion.RepeticionCantidadLimite;
 import org.junit.Test;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,18 +54,29 @@ public class CalendarioTest {
                 LocalDateTime.of(2022, 3, 3, 0, 0),
                 LocalDateTime.of(2022, 3, 3, 12, 0));
         calendario.agregar(tarea);
-        assertEquals(true, calendario.contiene(tarea));
+        assertTrue(calendario.contiene(tarea));
         calendario.eliminar(0);
-        assertEquals(false, calendario.contiene(tarea));
+        assertFalse(calendario.contiene(tarea));
     }
 
     @Test
-    public void agregar() {
+    public void agregarAsignable() {
         var calendario = new Calendario();
         Tarea tarea = new Tarea("Tarea", "Descripcion",
                 LocalDateTime.of(2022, 3, 3, 0, 0),
                 LocalDateTime.of(2022, 3, 3, 12, 0));
         calendario.agregar(tarea);
         assertEquals(true, calendario.contiene(tarea));
+    }
+    @Test
+    public void agregarAlarma(){
+        var calendario = new Calendario();
+        Tarea tarea = new Tarea("Tarea", "Descripcion",
+                LocalDateTime.of(2022, 3, 3, 0, 0),
+                LocalDateTime.of(2022, 3, 3, 12, 0));
+        calendario.agregar(tarea);
+        var alarma = new Alarma(tarea.getFechaInicio(), Duration.ZERO, new Mail());
+        calendario.agregarAlarma(0, alarma);
+        assertTrue(calendario.asignableConClave(0).getAlarmas().contains(alarma));
     }
 }

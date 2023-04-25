@@ -1,9 +1,9 @@
 package Algo3;
 
-import Algo3.Disparador.Disparador;
+
 import Algo3.Constantes.ErrorTipo;
 
-import java.time.Duration;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +33,10 @@ abstract class Asignable {
         this.fechaFinal = fechaFinal;
     }
 
-    public void agregarAlarma(LocalDateTime fecha, Duration tiempoAntes, Disparador tipo) throws RuntimeException{
-        if(fecha == null){
-            throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
+    public void agregarAlarma(Alarma alarma) throws RuntimeException{
+        if(alarma != null) {
+            alarmas.add(alarma);
         }
-        if(tipo == null){
-            throw new RuntimeException(ErrorTipo.TIPO_FALTANTE.toString());
-        }
-        alarmas.add(new Alarma(fecha,tiempoAntes,tipo));
     }
     public void editar(String nuevoTitulo, String nuevaDescripcion,
                        LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
@@ -70,6 +66,9 @@ abstract class Asignable {
     }
     public String getTitulo() {
         return titulo;
+    }
+    public List<Alarma> getAlarmas(){
+        return alarmas;
     }
     public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
 
