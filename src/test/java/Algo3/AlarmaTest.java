@@ -6,9 +6,10 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Disparador.Mail;
 import Algo3.Disparador.Notificacion;
 import Algo3.Disparador.Sonido;
-import org.junit.Rule;
+import org.junit.Assert;
+
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -16,8 +17,7 @@ import static org.junit.Assert.*;
 
 
 public class AlarmaTest {
-    @Rule
-    public ExpectedException excepcion = ExpectedException.none();
+
     @Test
     public void alarmaTipoMail(){
 
@@ -37,14 +37,14 @@ public class AlarmaTest {
     }
     @Test
     public void crearAlarmaConFechaInvalida(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
-        var alarma = new Alarma(null, Duration.ZERO, new Sonido());
+        Assert.assertThrows(ErrorTipo.FECHA_FALTANTE.toString(), RuntimeException.class, () -> {
+            var alarma = new Alarma(null, Duration.ZERO, new Sonido());
+        });
     }
     @Test
     public void crearAlarmaConTipoFaltante(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.TIPO_FALTANTE.toString());
-        var alarma = new Alarma(LocalDateTime.of(2022,1,1,0,0), Duration.ZERO, null);
+        Assert.assertThrows(ErrorTipo.TIPO_FALTANTE.toString(), RuntimeException.class, () -> {
+            var alarma = new Alarma(LocalDateTime.of(2022,1,1,0,0), Duration.ZERO, null);
+        });
     }
 }

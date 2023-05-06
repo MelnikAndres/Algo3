@@ -4,23 +4,16 @@ import Algo3.Constantes.Dia;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Frecuencia.*;
-import Algo3.Repeticion.RepeticionCantidadLimite;
-import Algo3.Repeticion.RepeticionFechaLimite;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 public class FrecuenciaTest {
 
-    @Rule
-    public ExpectedException excepcion = ExpectedException.none();
+
     @Test
     public void frecuenciaAnualTipo(){
         Frecuencia frecuencia = new FrecuenciaAnual();
@@ -100,15 +93,14 @@ public class FrecuenciaTest {
     }
     @Test
     public void FrecuenciaSemanalIntervaloMayorA127(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
-        new FrecuenciaSemanal(List.of(Dia.DOMINGO,Dia.DOMINGO));
+
+        Assert.assertThrows(ErrorTipo.INTERVALO_INVALIDO.toString(), RuntimeException.class, () -> new FrecuenciaSemanal(List.of(Dia.DOMINGO,Dia.DOMINGO)));
     }
     @Test
     public void FrecuenciaSemanalIntervaloMenorA1(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
-        new FrecuenciaSemanal(new ArrayList<>());
+
+
+        Assert.assertThrows(ErrorTipo.INTERVALO_INVALIDO.toString(), RuntimeException.class, () -> new FrecuenciaSemanal(new ArrayList<>()));
     }
 
     @Test
@@ -133,8 +125,8 @@ public class FrecuenciaTest {
 
     @Test
     public void FrecuenciaDiariaIntervaloMenorA1(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.INTERVALO_INVALIDO.toString());
-        new FrecuenciaDiaria(0);
+
+
+        Assert.assertThrows(ErrorTipo.INTERVALO_INVALIDO.toString(), RuntimeException.class, () -> new FrecuenciaDiaria(0));
     }
 }

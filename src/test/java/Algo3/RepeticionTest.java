@@ -1,28 +1,22 @@
 package Algo3;
 
-import Algo3.Constantes.Dia;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.FrecuenciaDiaria;
-import Algo3.Frecuencia.FrecuenciaSemanal;
 import Algo3.Repeticion.Repeticion;
 import Algo3.Repeticion.RepeticionCantidadLimite;
 import Algo3.Repeticion.RepeticionFechaLimite;
 import Algo3.Repeticion.RepeticionInfinita;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 import static org.junit.Assert.*;
 
 public class RepeticionTest {
 
-    @Rule
-    public ExpectedException excepcion = ExpectedException.none();
+
 
     @Test
     public void repeticionCantidadLimiteTipo(){
@@ -42,11 +36,12 @@ public class RepeticionTest {
     }
     @Test
     public void repeticionCantidadLimiteMenorA0(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.REPETICIONES_INVALIDAS.toString());
-        Repeticion repeticion = new RepeticionCantidadLimite(new FrecuenciaDiaria(1),
-                LocalDateTime.of(2023,4,24,4,4),
-                -1);
+
+        Assert.assertThrows(ErrorTipo.REPETICIONES_INVALIDAS.toString(), RuntimeException.class, () -> {
+            Repeticion repeticion = new RepeticionCantidadLimite(new FrecuenciaDiaria(1),
+                    LocalDateTime.of(2023,4,24,4,4),
+                    -1);
+        });
     }
 
     @Test
@@ -63,9 +58,11 @@ public class RepeticionTest {
     }
     @Test
     public void repeticionCantidadLimiteNula(){
-        excepcion.expect(RuntimeException.class);
-        excepcion.expectMessage(ErrorTipo.FECHA_FALTANTE.toString());
-        Repeticion repeticion = new RepeticionFechaLimite(null);
+
+        assertThrows(ErrorTipo.FECHA_FALTANTE.toString(), RuntimeException.class, () -> {
+
+            Repeticion repeticion = new RepeticionFechaLimite(null);
+        });
 
     }
     @Test
