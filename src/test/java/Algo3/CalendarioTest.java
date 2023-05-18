@@ -8,6 +8,8 @@ import Algo3.Frecuencia.FrecuenciaSemanal;
 import Algo3.Repeticion.RepeticionCantidadLimite;
 import org.junit.Test;
 
+
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +19,7 @@ import static org.junit.Assert.*;
 public class CalendarioTest {
 
     @Test
-    public void editar() {
+    public void editar() throws IOException {
         var calendario = new Calendario();
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
@@ -33,6 +35,8 @@ public class CalendarioTest {
                 new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),LocalDateTime.of(2022,5,4,6,3),10));
         calendario.editar(0, eventoDePrueba);
         assertEquals(eventoDePrueba, calendario.asignableConClave(0));
+        calendario.serializar();
+
     }
     @Test
     public void reemplazarAsignablePorOtro(){
