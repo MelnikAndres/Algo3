@@ -5,7 +5,10 @@ import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,33 +22,30 @@ public class Evento extends Asignable {
     private Repeticion repeticion;
     private LocalDateTime ultimoDiaDeRepeticion;
 
-
-    public Evento(){
-        super();
-    }
-    public Evento(String titulo,  String descripcion,
-                  LocalDateTime fechaInicio,  LocalDateTime fechaFinal,
-                  Frecuencia frecuencia, Repeticion repeticion) {
+    Evento(    @JsonProperty("titulo") String titulo,  @JsonProperty("descripcion") String descripcion,
+               @JsonProperty("fechaInicio") LocalDateTime fechaInicio,  @JsonProperty("fechaFinal") LocalDateTime fechaFinal,
+               @JsonProperty("frecuenciaTipo") Frecuencia frecuenciaTipo, @JsonProperty("repeticion")Repeticion repeticion) {
         super(titulo, descripcion, fechaInicio, fechaFinal);
-        this.frecuenciaTipo = frecuencia;
+        this.frecuenciaTipo = frecuenciaTipo;
         this.repeticion = repeticion;
         if(obtenerUltimoDiaDeRepeticion().isBefore(fechaInicio)){
             throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
         }
         this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion();
     }
-
+    @JsonIgnore
     public FrecuenciaTipo getFrecuenciaTipo() {
         return frecuenciaTipo.getTipo();
     }
+    @JsonIgnore
     public RepeticionTipo getRepeticionTipo() {
         return repeticion.getTipo();
     }
-
+    @JsonIgnore
     public Parametros getParametrosFrecuencia() {
         return frecuenciaTipo.getParams();
     }
-
+    @JsonIgnore
     public Parametros getParametrosRepeticion() {
         return repeticion.getParams();
     }

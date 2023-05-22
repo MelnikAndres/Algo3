@@ -5,14 +5,18 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Parametros;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
 public class FrecuenciaSemanal implements Frecuencia {
 
     private Integer intervalo;
-
-    public FrecuenciaSemanal(List<Dia> diasDeLaSemana){
+    @JsonCreator
+    public FrecuenciaSemanal(@JsonProperty("diasDeLaSemana")List<Dia> diasDeLaSemana){
         int intervalo = 0;
         for(Dia dia: diasDeLaSemana){
             if((intervalo & dia.getValor()) != 0){

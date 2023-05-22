@@ -1,11 +1,9 @@
 package Algo3.Frecuencia;
 
 import Algo3.Constantes.FrecuenciaTipo;
-import Algo3.Parametros;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-
 public class FrecuenciaAnual implements Frecuencia {
 
     @Override

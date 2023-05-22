@@ -3,6 +3,8 @@ package Algo3;
 
 import java.io.*;
 import java.util.HashMap;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -15,10 +17,11 @@ import com.google.gson.Gson;
 public class Calendario implements Serializable{
 
     private final HashMap<Integer, Asignable> asignables = new HashMap<>();
-    private int IdIncremental = 0;
+    @JsonProperty("idIncremental")
+    private int idIncremental = 0;
 
     public int getIdIncremental() {
-        return IdIncremental;
+        return idIncremental;
     }
 
     public HashMap<Integer, Asignable> getAsignables() {
@@ -34,8 +37,8 @@ public class Calendario implements Serializable{
     }
 
     public void agregar(Asignable asignableNuevo){
-        asignables.put(IdIncremental, asignableNuevo);
-        IdIncremental = IdIncremental + 1;
+        asignables.put(idIncremental, asignableNuevo);
+        idIncremental = idIncremental + 1;
     }
     public boolean contiene(Asignable asignable){
         return asignables.containsValue(asignable);

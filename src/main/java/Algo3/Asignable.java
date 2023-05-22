@@ -2,6 +2,7 @@ package Algo3;
 
 
 import Algo3.Constantes.ErrorTipo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -11,9 +12,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "@type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = Evento.class, name = "evento"), @JsonSubTypes.Type(value = Tarea.class, name = "tarea"), })
+@JsonSubTypes({ @JsonSubTypes.Type(value = Evento.class, name = "Evento"), @JsonSubTypes.Type(value = Tarea.class, name = "Tarea"), })
 abstract class Asignable implements Serializable {
-
 
     private String titulo;
     private String descripcion;
@@ -21,9 +21,6 @@ abstract class Asignable implements Serializable {
     private LocalDateTime fechaFinal;
     private List<Alarma> alarmas = new ArrayList<>();
 
-    Asignable() {
-
-    }
     Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
         if(titulo == null || titulo.isEmpty())
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());

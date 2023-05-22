@@ -69,7 +69,7 @@ public class CalendarioTest {
     }
 
     @Test
-    public void agregarAsignable() {
+    public void agregarAsignable() throws IOException, ParseException, ClassNotFoundException {
         var calendario = new Calendario();
         Tarea tarea = new Tarea("Tarea", "Descripcion",
                 LocalDateTime.of(2022, 3, 3, 0, 0),
