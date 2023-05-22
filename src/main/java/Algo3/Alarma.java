@@ -5,10 +5,11 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Disparador.Disparador;
 
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Alarma {
+public class Alarma implements Serializable {
     /* tiempoAntes marca cuanto tiempo antes del evento/tarea debe sonar la alarma.
     Si la alarma es absoluta, es 0. */
     private LocalDateTime fecha;

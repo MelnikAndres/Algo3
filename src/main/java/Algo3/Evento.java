@@ -5,25 +5,29 @@ import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Evento extends Asignable {
-    /* FALTA TESTEAR EL METODO EDITAR (Quizas se puede separar en distintos métodos que reciban
-    argumentos distintos, pero me pareció que quedaba mas claro así) */
 
-    private Frecuencia frecuencia;
+
+    private Frecuencia frecuenciaTipo;
     private Repeticion repeticion;
     private LocalDateTime ultimoDiaDeRepeticion;
 
 
-
-    public Evento(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal,
+    public Evento(){
+        super();
+    }
+    public Evento(String titulo,  String descripcion,
+                  LocalDateTime fechaInicio,  LocalDateTime fechaFinal,
                   Frecuencia frecuencia, Repeticion repeticion) {
         super(titulo, descripcion, fechaInicio, fechaFinal);
-        this.frecuencia = frecuencia;
+        this.frecuenciaTipo = frecuencia;
         this.repeticion = repeticion;
         if(obtenerUltimoDiaDeRepeticion().isBefore(fechaInicio)){
             throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
@@ -32,14 +36,14 @@ public class Evento extends Asignable {
     }
 
     public FrecuenciaTipo getFrecuenciaTipo() {
-        return frecuencia.getTipo();
+        return frecuenciaTipo.getTipo();
     }
     public RepeticionTipo getRepeticionTipo() {
         return repeticion.getTipo();
     }
 
     public Parametros getParametrosFrecuencia() {
-        return frecuencia.getParams();
+        return frecuenciaTipo.getParams();
     }
 
     public Parametros getParametrosRepeticion() {
@@ -80,7 +84,7 @@ public class Evento extends Asignable {
                        Frecuencia nuevaFrecuencia, Repeticion nuevaRepeticion) throws RuntimeException{
         super.editar(nuevoTitulo, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFinal);
 
-        this.frecuencia = nuevaFrecuencia;
+        this.frecuenciaTipo = nuevaFrecuencia;
         this.repeticion = nuevaRepeticion;
 
         if(obtenerUltimoDiaDeRepeticion().isBefore(nuevaFechaInicio)){
@@ -95,10 +99,10 @@ public class Evento extends Asignable {
     private LocalDateTime obtenerSiguienteAparicion(LocalDateTime fechaActual){
         /*  Devuelve la siguiente aparicion del evento.
             Se toma en cuenta a partir del dia pasado como parametro */
-        if(frecuencia == null){
+        if(frecuenciaTipo == null){
             return LocalDateTime.MAX;
         }
-        return frecuencia.obtenerSiguienteAparicion(fechaActual);
+        return frecuenciaTipo.obtenerSiguienteAparicion(fechaActual);
     }
     private LocalDateTime obtenerUltimoDiaDeRepeticion(){
         if(repeticion == null){
@@ -109,7 +113,7 @@ public class Evento extends Asignable {
     }
     private LocalDateTime iterarHastaMesyAnio(int numeroDeMes, int anio){
         var fechaDeAparicion = getFechaInicio();
-        if(frecuencia == null){
+        if(frecuenciaTipo == null){
             return fechaDeAparicion;
         }
         //Llegar al año actual

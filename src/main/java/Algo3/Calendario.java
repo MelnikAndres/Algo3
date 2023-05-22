@@ -3,17 +3,27 @@ package Algo3;
 
 import java.io.*;
 import java.util.HashMap;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.gson.Gson;
 
-public class Calendario {
+public class Calendario implements Serializable{
 
     private final HashMap<Integer, Asignable> asignables = new HashMap<>();
     private int IdIncremental = 0;
+
+    public int getIdIncremental() {
+        return IdIncremental;
+    }
+
+    public HashMap<Integer, Asignable> getAsignables() {
+        return asignables;
+    }
 
     public void editar(Integer clave, Asignable asignableEditado){
         asignables.put(clave, asignableEditado);
@@ -39,17 +49,19 @@ public class Calendario {
             asignable.agregarAlarma(alarma);
         }
     }
-    public void serializar() throws IOException {
-        ObjectMapper mapper = new JsonMapper();
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        mapper.registerModule(new JavaTimeModule());
-        File file = new File("package.json");
-        mapper.writeValue(file, this);
+    public void serializar(OutputStream os) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+        objectWriter.writeValue(os, this);
+
     }
 
-    public Calendario deserializar(File archivoJSON) throws IOException {
-        ObjectMapper mapper = new JsonMapper();
-        return mapper.readValue(archivoJSON, Calendario.class);
+    public Calendario deserializar(InputStream is) throws IOException{
+        ObjectMapper objectMapper = new JsonMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        ObjectReader objectReader = objectMapper.reader();
+        return objectReader.readValue(is, Calendario.class);
     }
 
 

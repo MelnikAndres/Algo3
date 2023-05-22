@@ -6,10 +6,11 @@ import Algo3.Disparador.Mail;
 import Algo3.Frecuencia.FrecuenciaDiaria;
 import Algo3.Frecuencia.FrecuenciaSemanal;
 import Algo3.Repeticion.RepeticionCantidadLimite;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 
-import java.io.IOException;
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 public class CalendarioTest {
 
     @Test
-    public void editar() throws IOException {
+    public void editar() throws IOException, ParseException, ClassNotFoundException {
         var calendario = new Calendario();
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
@@ -35,7 +36,11 @@ public class CalendarioTest {
                 new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),LocalDateTime.of(2022,5,4,6,3),10));
         calendario.editar(0, eventoDePrueba);
         assertEquals(eventoDePrueba, calendario.asignableConClave(0));
-        calendario.serializar();
+        FileOutputStream file = new FileOutputStream("calendario.json");
+        calendario.serializar(file);
+        FileInputStream fs = new FileInputStream("calendario.json");
+        assertEquals(calendario.deserializar(fs).getIdIncremental(), calendario.getIdIncremental());
+
 
     }
     @Test

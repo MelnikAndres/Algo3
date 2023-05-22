@@ -5,10 +5,7 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Parametros;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FrecuenciaSemanal implements Frecuencia {
