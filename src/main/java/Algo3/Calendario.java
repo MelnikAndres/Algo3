@@ -4,6 +4,7 @@ package Algo3;
 import java.io.*;
 import java.util.HashMap;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Calendario implements Serializable{
 
     private final HashMap<Integer, Asignable> asignables = new HashMap<>();
@@ -22,10 +24,6 @@ public class Calendario implements Serializable{
 
     public int getIdIncremental() {
         return idIncremental;
-    }
-
-    public HashMap<Integer, Asignable> getAsignables() {
-        return asignables;
     }
 
     public void editar(Integer clave, Asignable asignableEditado){
@@ -60,7 +58,7 @@ public class Calendario implements Serializable{
 
     }
 
-    public Calendario deserializar(InputStream is) throws IOException{
+    static Calendario deserializar(InputStream is) throws IOException{
         ObjectMapper objectMapper = new JsonMapper();
         objectMapper.registerModule(new JavaTimeModule());
         ObjectReader objectReader = objectMapper.reader();

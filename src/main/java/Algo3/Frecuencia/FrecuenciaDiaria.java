@@ -13,7 +13,6 @@ import java.util.HashMap;
 public class FrecuenciaDiaria implements Frecuencia {
 
     private Integer intervalo;
-    @JsonCreator
 
     public FrecuenciaDiaria(@JsonProperty("intervalo")Integer intervalo){
         if (intervalo < 1){

@@ -1,12 +1,14 @@
 package Algo3;
 
 import Algo3.Constantes.ParametroTipo;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 
 public class Parametros {
     private HashMap<String, ParametroTipo> tipos = new HashMap<>();

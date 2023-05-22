@@ -15,8 +15,7 @@ import java.util.List;
 public class FrecuenciaSemanal implements Frecuencia {
 
     private Integer intervalo;
-    @JsonCreator
-    public FrecuenciaSemanal(@JsonProperty("diasDeLaSemana")List<Dia> diasDeLaSemana){
+    public FrecuenciaSemanal(List<Dia> diasDeLaSemana){
         int intervalo = 0;
         for(Dia dia: diasDeLaSemana){
             if((intervalo & dia.getValor()) != 0){
@@ -27,6 +26,10 @@ public class FrecuenciaSemanal implements Frecuencia {
         if(intervalo == 0){
             throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
         }
+        this.intervalo = intervalo;
+    }
+    @JsonCreator
+    FrecuenciaSemanal(@JsonProperty("intervalo")Integer intervalo){
         this.intervalo = intervalo;
     }
 

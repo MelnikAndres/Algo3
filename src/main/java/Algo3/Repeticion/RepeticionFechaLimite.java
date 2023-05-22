@@ -4,13 +4,14 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Parametros;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
 public class RepeticionFechaLimite implements Repeticion {
 
     private LocalDateTime fechaLimite;
-    public RepeticionFechaLimite(LocalDateTime fechaLimite){
+    public RepeticionFechaLimite(@JsonProperty("fechaLimite")LocalDateTime fechaLimite){
         if (fechaLimite == null)
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         this.fechaLimite = fechaLimite;

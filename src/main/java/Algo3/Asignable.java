@@ -11,8 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "@type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = Evento.class, name = "Evento"), @JsonSubTypes.Type(value = Tarea.class, name = "Tarea"), })
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@type")
 abstract class Asignable implements Serializable {
 
     private String titulo;
@@ -75,5 +74,6 @@ abstract class Asignable implements Serializable {
         return alarmas;
     }
     public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
+    public abstract boolean comparar(Visitor visitor, Asignable asignable);
 
 }

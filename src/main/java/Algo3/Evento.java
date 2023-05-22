@@ -5,37 +5,36 @@ import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Evento extends Asignable {
 
 
-    private Frecuencia frecuenciaTipo;
+    private Frecuencia frecuencia;
     private Repeticion repeticion;
     private LocalDateTime ultimoDiaDeRepeticion;
 
-    Evento(    @JsonProperty("titulo") String titulo,  @JsonProperty("descripcion") String descripcion,
+    public Evento(    @JsonProperty("titulo") String titulo,  @JsonProperty("descripcion") String descripcion,
                @JsonProperty("fechaInicio") LocalDateTime fechaInicio,  @JsonProperty("fechaFinal") LocalDateTime fechaFinal,
-               @JsonProperty("frecuenciaTipo") Frecuencia frecuenciaTipo, @JsonProperty("repeticion")Repeticion repeticion) {
+               @JsonProperty("frecuencia") Frecuencia frecuencia, @JsonProperty("repeticion")Repeticion repeticion) {
         super(titulo, descripcion, fechaInicio, fechaFinal);
-        this.frecuenciaTipo = frecuenciaTipo;
+        this.frecuencia = frecuencia;
         this.repeticion = repeticion;
         if(obtenerUltimoDiaDeRepeticion().isBefore(fechaInicio)){
             throw new RuntimeException(ErrorTipo.FECHA_ULTIMA_REPETICION.toString());
         }
         this.ultimoDiaDeRepeticion = obtenerUltimoDiaDeRepeticion();
     }
+
     @JsonIgnore
     public FrecuenciaTipo getFrecuenciaTipo() {
-        return frecuenciaTipo.getTipo();
+        return frecuencia.getTipo();
     }
     @JsonIgnore
     public RepeticionTipo getRepeticionTipo() {
@@ -43,7 +42,7 @@ public class Evento extends Asignable {
     }
     @JsonIgnore
     public Parametros getParametrosFrecuencia() {
-        return frecuenciaTipo.getParams();
+        return frecuencia.getParams();
     }
     @JsonIgnore
     public Parametros getParametrosRepeticion() {
@@ -84,7 +83,7 @@ public class Evento extends Asignable {
                        Frecuencia nuevaFrecuencia, Repeticion nuevaRepeticion) throws RuntimeException{
         super.editar(nuevoTitulo, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFinal);
 
-        this.frecuenciaTipo = nuevaFrecuencia;
+        this.frecuencia = nuevaFrecuencia;
         this.repeticion = nuevaRepeticion;
 
         if(obtenerUltimoDiaDeRepeticion().isBefore(nuevaFechaInicio)){
@@ -99,10 +98,10 @@ public class Evento extends Asignable {
     private LocalDateTime obtenerSiguienteAparicion(LocalDateTime fechaActual){
         /*  Devuelve la siguiente aparicion del evento.
             Se toma en cuenta a partir del dia pasado como parametro */
-        if(frecuenciaTipo == null){
+        if(frecuencia == null){
             return LocalDateTime.MAX;
         }
-        return frecuenciaTipo.obtenerSiguienteAparicion(fechaActual);
+        return frecuencia.obtenerSiguienteAparicion(fechaActual);
     }
     private LocalDateTime obtenerUltimoDiaDeRepeticion(){
         if(repeticion == null){
@@ -113,7 +112,7 @@ public class Evento extends Asignable {
     }
     private LocalDateTime iterarHastaMesyAnio(int numeroDeMes, int anio){
         var fechaDeAparicion = getFechaInicio();
-        if(frecuenciaTipo == null){
+        if(frecuencia == null){
             return fechaDeAparicion;
         }
         //Llegar al año actual
@@ -126,6 +125,19 @@ public class Evento extends Asignable {
         }
         //se pueden fusionar los while anteriores,pero la condicion que queda es horrible
         return  fechaDeAparicion;
+    }
+
+    public boolean comparar(Visitor visitor, Asignable asignable){
+        visitor.visitar(this, asignable);
+        return true;
+    }
+    public boolean comparar(Visitor visitor, Evento evento){
+        visitor.visitar(this, evento);
+        return true;
+    }
+    public boolean comparar(Evento evento){
+
+        return true;
     }
 
 }

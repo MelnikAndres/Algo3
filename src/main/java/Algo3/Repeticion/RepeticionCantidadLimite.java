@@ -5,6 +5,7 @@ import Algo3.Constantes.ParametroTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Parametros;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ public class RepeticionCantidadLimite implements Repeticion{
     private LocalDateTime fechaInicio;
     private Frecuencia frecuencia;
     private Integer cantidadDeRepeticiones;
-    public RepeticionCantidadLimite(Frecuencia frecuencia, LocalDateTime fechaInicio, Integer cantidadDeRepeticiones){
+    public RepeticionCantidadLimite(@JsonProperty("frecuencia") Frecuencia frecuencia, @JsonProperty("fechaInicio")LocalDateTime fechaInicio,@JsonProperty("cantidadDeRepeticiones") Integer cantidadDeRepeticiones){
         if (cantidadDeRepeticiones < 0)
             throw new RuntimeException(ErrorTipo.REPETICIONES_INVALIDAS.toString());
 

@@ -3,6 +3,7 @@ package Algo3;
 import Algo3.Constantes.DisparadorTipo;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Disparador.Disparador;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import java.io.Serializable;
@@ -30,12 +31,12 @@ public class Alarma implements Serializable {
             this.tipo = tipo;
 
     }
-
+    @JsonIgnore
     public DisparadorTipo getTipo(){
         return this.tipo.getTipo();
     }
 
-    public void Disparar(){
+    public void disparar(){
        this.tipo.disparar();
     }
     

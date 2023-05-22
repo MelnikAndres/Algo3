@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Tarea extends Asignable {
     private boolean esCompletada;
-    Tarea(@JsonProperty("titulo") String titulo, @JsonProperty("descripcion") String descripcion,
+    public Tarea(@JsonProperty("titulo") String titulo, @JsonProperty("descripcion") String descripcion,
           @JsonProperty("fechaInicio") LocalDateTime fechaInicio, @JsonProperty("fechaFinal") LocalDateTime fechaFinal) {
         super(titulo, descripcion, fechaInicio, fechaFinal);
         this.esCompletada = false;
