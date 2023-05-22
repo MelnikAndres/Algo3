@@ -74,6 +74,5 @@ abstract class Asignable implements Serializable {
         return alarmas;
     }
     public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
-    public abstract boolean comparar(Visitor visitor, Asignable asignable);
 
 }

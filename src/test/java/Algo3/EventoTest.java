@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 public class EventoTest {
     @Test
-    public void EventoSinRepeticiones() {
+    public void eventoSinRepeticiones() {
         //arrange
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
@@ -32,7 +32,7 @@ public class EventoTest {
         //assert
     }
     @Test
-    public void EventoQueDuraDosDias(){
+    public void eventoQueDuraDosDias(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,18,3,0),
@@ -45,7 +45,7 @@ public class EventoTest {
     }
 
     @Test
-    public void EventoDiarioUnaRepeticion(){
+    public void eventoDiarioUnaRepeticion(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
@@ -60,7 +60,7 @@ public class EventoTest {
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
-    public void EventoDiarioCeroRepeticiones(){
+    public void eventoDiarioCeroRepeticiones(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
@@ -74,7 +74,7 @@ public class EventoTest {
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
-    public void EventoSemanalHastaFechaLimite(){
+    public void eventoSemanalHastaFechaLimite(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
@@ -94,7 +94,7 @@ public class EventoTest {
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
-    public void EventoSemanalTripleHastaFechaLimite(){
+    public void eventoSemanalTripleHastaFechaLimite(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
@@ -118,7 +118,7 @@ public class EventoTest {
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
-    public void EventoMensualInfinito(){
+    public void eventoMensualInfinito(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
@@ -142,7 +142,7 @@ public class EventoTest {
     }
 
     @Test
-    public void EventoAnualConCantidadyFechasSinAparicion(){
+    public void eventoAnualConCantidadyFechasSinAparicion(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2002,1,17,0,0),
                 LocalDateTime.of(2002,1,17,3,0),
@@ -167,7 +167,7 @@ public class EventoTest {
         assertEquals(resultadoEsperado, repeticionesObtenidas);
     }
     @Test
-    public void EventoDiarioInfinitoYFechaMuyLejana(){
+    public void eventoDiarioInfinitoYFechaMuyLejana(){
         var eventoDePrueba = new Evento("Prueba","Esto es una preueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),

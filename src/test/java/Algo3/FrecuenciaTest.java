@@ -92,12 +92,12 @@ public class FrecuenciaTest {
         Assert.assertEquals(resultadoEsperado, fechaCorrida);
     }
     @Test
-    public void FrecuenciaSemanalIntervaloMayorA127(){
+    public void frecuenciaSemanalIntervaloMayorA127(){
 
         Assert.assertThrows(ErrorTipo.INTERVALO_INVALIDO.toString(), RuntimeException.class, () -> new FrecuenciaSemanal(List.of(Dia.DOMINGO,Dia.DOMINGO)));
     }
     @Test
-    public void FrecuenciaSemanalIntervaloMenorA1(){
+    public void frecuenciaSemanalIntervaloMenorA1(){
 
 
         Assert.assertThrows(ErrorTipo.INTERVALO_INVALIDO.toString(), RuntimeException.class, () -> new FrecuenciaSemanal(new ArrayList<>()));
@@ -124,7 +124,7 @@ public class FrecuenciaTest {
     }
 
     @Test
-    public void FrecuenciaDiariaIntervaloMenorA1(){
+    public void frecuenciaDiariaIntervaloMenorA1(){
 
 
         Assert.assertThrows(ErrorTipo.INTERVALO_INVALIDO.toString(), RuntimeException.class, () -> new FrecuenciaDiaria(0));

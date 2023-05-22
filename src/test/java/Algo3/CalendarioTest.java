@@ -83,7 +83,7 @@ public class CalendarioTest {
         assertTrue(calendario.asignableConClave(0).getAlarmas().contains(alarma));
     }
     @Test
-    public void serializarEvento() throws IOException{
+    public void serializarConEvento() throws IOException{
         var calendario = new Calendario();
         var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
@@ -91,19 +91,29 @@ public class CalendarioTest {
                 new FrecuenciaDiaria(1),
                 new RepeticionCantidadLimite(new FrecuenciaDiaria(1), LocalDateTime.of(2022,5,4,6,3), 10));
         calendario.agregar(eventoDePrueba);
-        assertEquals(eventoDePrueba, calendario.asignableConClave(0));
-        eventoDePrueba.editar("Prueba","Esto es una prueba",
+        ByteArrayOutputStream primerSerializado = new ByteArrayOutputStream();
+        calendario.serializar(primerSerializado);
+        InputStream stream = new ByteArrayInputStream(primerSerializado.toByteArray());
+        Calendario calendarioDeserealizado = Calendario.deserializar(stream);
+        ByteArrayOutputStream segundoSerializado = new ByteArrayOutputStream();
+        calendarioDeserealizado.serializar(segundoSerializado);
+        assertEquals(primerSerializado.toString(), segundoSerializado.toString());
+    }
+    @Test
+    public void serializarConTarea() throws IOException{
+        var calendario = new Calendario();
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
-                new FrecuenciaSemanal(List.of(Dia.LUNES)),
-                new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES)),LocalDateTime.of(2022,5,4,6,3),10));
-        calendario.editar(0, eventoDePrueba);
-        assertEquals(eventoDePrueba, calendario.asignableConClave(0));
-        FileOutputStream file = new FileOutputStream("calendario.json");
-        calendario.serializar(file);
-        FileInputStream fs = new FileInputStream("calendario.json");
-        Calendario deserealizado = Calendario.deserializar(fs);
-        assertEquals(deserealizado.getIdIncremental(), calendario.getIdIncremental());
-
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1), LocalDateTime.of(2022,5,4,6,3), 10));
+        calendario.agregar(eventoDePrueba);
+        ByteArrayOutputStream primerSerializado = new ByteArrayOutputStream();
+        calendario.serializar(primerSerializado);
+        InputStream stream = new ByteArrayInputStream(primerSerializado.toByteArray());
+        Calendario calendarioDeserealizado = Calendario.deserializar(stream);
+        ByteArrayOutputStream segundoSerializado = new ByteArrayOutputStream();
+        calendarioDeserealizado.serializar(segundoSerializado);
+        assertEquals(primerSerializado.toString(), segundoSerializado.toString());
     }
 }

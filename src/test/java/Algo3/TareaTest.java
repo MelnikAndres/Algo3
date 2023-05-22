@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class TareaTest {
 
     @Test
-    public void TareaValida(){
+    public void tareaValida(){
         var tarea = new Tarea("Tarea", "Descripcion",
                 LocalDateTime.of(2022, 3, 3, 0, 0),
                 LocalDateTime.of(2022, 3, 3, 12, 0));
@@ -24,7 +24,7 @@ public class TareaTest {
         assertEquals(resultadoEsperado,repeticionesObtenidas);
     }
     @Test
-    public void CambiarEstadoTarea(){
+    public void cambiarEstadoTarea(){
         var tarea = new Tarea("Tarea", "Descripcion",
                 LocalDateTime.of(2022, 3, 3, 0, 0),
                 LocalDateTime.of(2022, 3, 3, 12, 0));

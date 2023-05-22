@@ -127,17 +127,4 @@ public class Evento extends Asignable {
         return  fechaDeAparicion;
     }
 
-    public boolean comparar(Visitor visitor, Asignable asignable){
-        visitor.visitar(this, asignable);
-        return true;
-    }
-    public boolean comparar(Visitor visitor, Evento evento){
-        visitor.visitar(this, evento);
-        return true;
-    }
-    public boolean comparar(Evento evento){
-
-        return true;
-    }
-
 }
