@@ -8,6 +8,6 @@ public class Notificacion implements Disparador {
     public void disparar(){
         //enviar notificacion
     }
-    public DisparadorTipo getTipo(){return DisparadorTipo.NOTIFICACION;}
+    public DisparadorTipo getTipoDisparador(){return DisparadorTipo.NOTIFICACION;}
 
 }

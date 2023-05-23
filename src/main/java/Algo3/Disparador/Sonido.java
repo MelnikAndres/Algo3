@@ -8,5 +8,5 @@ public class Sonido implements Disparador {
     public void disparar(){
         //hacer sonido
     }
-    public DisparadorTipo getTipo(){return DisparadorTipo.SONIDO;}
+    public DisparadorTipo getTipoDisparador(){return DisparadorTipo.SONIDO;}
 }

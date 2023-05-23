@@ -10,10 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.google.gson.Gson;
+
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Calendario implements Serializable{
@@ -41,6 +39,7 @@ public class Calendario implements Serializable{
     public boolean contiene(Asignable asignable){
         return asignables.containsValue(asignable);
     }
+
 
     public Asignable asignableConClave(Integer clave){return asignables.get(clave);}
 

@@ -6,8 +6,6 @@ import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
 import com.fasterxml.jackson.annotation.*;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

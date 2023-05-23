@@ -8,5 +8,5 @@ public class Mail implements Disparador {
     public void disparar(){
         //enviar mail
     }
-    public DisparadorTipo getTipo(){return DisparadorTipo.MAIL;}
+    public DisparadorTipo getTipoDisparador(){return DisparadorTipo.MAIL;}
 }
