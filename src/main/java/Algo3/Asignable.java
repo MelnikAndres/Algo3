@@ -2,6 +2,7 @@ package Algo3;
 
 
 import Algo3.Constantes.ErrorTipo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@type")
 abstract class Asignable implements Serializable {
@@ -74,5 +76,28 @@ abstract class Asignable implements Serializable {
         return alarmas;
     }
     public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
+
+    @JsonIgnore
+    public abstract String getData();
+    public boolean comparar(Asignable asignable){
+        if(!asignable.titulo.equals(this.titulo)){
+            return false;
+        }if(!asignable.descripcion.equals(this.descripcion)){
+            return false;
+        }if(!asignable.fechaInicio.equals(this.fechaInicio)){
+            return false;
+        }if(!asignable.fechaFinal.equals(this.fechaFinal)){
+            return false;
+        }
+        if(this.alarmas.size() != asignable.alarmas.size()){
+            return false;
+        }
+        for(int i=0; i< this.alarmas.size();i++){
+            if(!this.alarmas.get(i).comparar(asignable.alarmas.get(i))){
+                return false;
+            }
+        }
+        return this.getData().equals(asignable.getData());
+    }
 
 }

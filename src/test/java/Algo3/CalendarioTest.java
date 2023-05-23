@@ -124,13 +124,11 @@ public class CalendarioTest {
                 new FrecuenciaDiaria(1),
                 new RepeticionCantidadLimite(new FrecuenciaDiaria(1), LocalDateTime.of(2022,5,4,6,3), 10));
         calendario.agregar(eventoDePrueba);
-        ByteArrayOutputStream primerSerializado = new ByteArrayOutputStream();
-        calendario.serializar(primerSerializado);
-        InputStream stream = new ByteArrayInputStream(primerSerializado.toByteArray());
+        ByteArrayOutputStream serializado = new ByteArrayOutputStream();
+        calendario.serializar(serializado);
+        InputStream stream = new ByteArrayInputStream(serializado.toByteArray());
         Calendario calendarioDeserealizado = Calendario.deserializar(stream);
-        ByteArrayOutputStream segundoSerializado = new ByteArrayOutputStream();
-        calendarioDeserealizado.serializar(segundoSerializado);
-        assertEquals(primerSerializado.toString(), segundoSerializado.toString());
+        assertTrue(calendario.obtenerAsignablePorId(0).comparar(calendarioDeserealizado.obtenerAsignablePorId(0)));
     }
     @Test
     public void serializarConTarea() throws IOException{
@@ -139,13 +137,11 @@ public class CalendarioTest {
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45));
         calendario.agregar(tareaDePrueba);
-        ByteArrayOutputStream primerSerializado = new ByteArrayOutputStream();
-        calendario.serializar(primerSerializado);
-        InputStream stream = new ByteArrayInputStream(primerSerializado.toByteArray());
+        ByteArrayOutputStream serializado = new ByteArrayOutputStream();
+        calendario.serializar(serializado);
+        InputStream stream = new ByteArrayInputStream(serializado.toByteArray());
         Calendario calendarioDeserealizado = Calendario.deserializar(stream);
-        ByteArrayOutputStream segundoSerializado = new ByteArrayOutputStream();
-        calendarioDeserealizado.serializar(segundoSerializado);
-        assertEquals(primerSerializado.toString(), segundoSerializado.toString());
+        assertTrue(calendario.obtenerAsignablePorId(0).comparar(calendarioDeserealizado.obtenerAsignablePorId(0)));
     }
     @Test
     public void serializarConMultiplesAsignables() throws IOException{
@@ -172,13 +168,14 @@ public class CalendarioTest {
                 new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.DOMINGO)),
                 new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES, Dia.DOMINGO)), LocalDateTime.of(2022,5,4,6,3), 10));
         calendario.agregar(eventoDePrueba3);
-        ByteArrayOutputStream primerSerializado = new ByteArrayOutputStream();
-        calendario.serializar(primerSerializado);
-        InputStream stream = new ByteArrayInputStream(primerSerializado.toByteArray());
+        ByteArrayOutputStream serializado = new ByteArrayOutputStream();
+        calendario.serializar(serializado);
+        InputStream stream = new ByteArrayInputStream(serializado.toByteArray());
         Calendario calendarioDeserealizado = Calendario.deserializar(stream);
-        ByteArrayOutputStream segundoSerializado = new ByteArrayOutputStream();
-        calendarioDeserealizado.serializar(segundoSerializado);
-        assertEquals(primerSerializado.toString(), segundoSerializado.toString());
+        assertTrue(calendario.obtenerAsignablePorId(0).comparar(calendarioDeserealizado.obtenerAsignablePorId(0)));
+        assertTrue(calendario.obtenerAsignablePorId(1).comparar(calendarioDeserealizado.obtenerAsignablePorId(1)));
+        assertTrue(calendario.obtenerAsignablePorId(2).comparar(calendarioDeserealizado.obtenerAsignablePorId(2)));
+        assertTrue(calendario.obtenerAsignablePorId(3).comparar(calendarioDeserealizado.obtenerAsignablePorId(3)));
     }
     @Test
     public void serializarConMultiplesAsignablesConAlarmas() throws IOException{
@@ -207,13 +204,13 @@ public class CalendarioTest {
         calendario.agregar(eventoDePrueba3);
         eventoDePrueba.agregarAlarma(new Alarma(LocalDateTime.of(2022,5,4,12,45), Duration.ZERO, new Notificacion()));
         eventoDePrueba3.agregarAlarma(new Alarma(LocalDateTime.of(2024,5,4,12,45), Duration.ZERO, new Mail()));
-        ByteArrayOutputStream primerSerializado = new ByteArrayOutputStream();
-        calendario.serializar(primerSerializado);
-        InputStream stream = new ByteArrayInputStream(primerSerializado.toByteArray());
+        ByteArrayOutputStream serializado = new ByteArrayOutputStream();
+        calendario.serializar(serializado);
+        InputStream stream = new ByteArrayInputStream(serializado.toByteArray());
         Calendario calendarioDeserealizado = Calendario.deserializar(stream);
-        ByteArrayOutputStream segundoSerializado = new ByteArrayOutputStream();
-        calendarioDeserealizado.serializar(segundoSerializado);
-        assertEquals(primerSerializado.toString(), segundoSerializado.toString());
+        assertTrue(calendario.obtenerAsignablePorId(0).comparar(calendarioDeserealizado.obtenerAsignablePorId(0)));
+        assertTrue(calendario.obtenerAsignablePorId(1).comparar(calendarioDeserealizado.obtenerAsignablePorId(1)));
+        assertTrue(calendario.obtenerAsignablePorId(2).comparar(calendarioDeserealizado.obtenerAsignablePorId(2)));
 
     }
 }

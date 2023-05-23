@@ -41,5 +41,18 @@ public class Alarma implements Serializable {
     public void disparar(){
        this.disparador.disparar();
     }
+
+    public boolean comparar(Alarma alarma){
+        if(!this.fecha.toString().equals(alarma.fecha.toString())){
+            return false;
+        }
+        if(!this.tiempoAntes.toString().equals(alarma.tiempoAntes.toString())){
+            return false;
+        }
+        if(!this.getTipo().toString().equals(alarma.getTipo().toString())){
+            return false;
+        }
+        return true;
+    }
     
 }
