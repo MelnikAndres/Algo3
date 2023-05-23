@@ -134,7 +134,7 @@ public class Evento extends Asignable {
         for(String name : repeticionData.getNombres()){
             data = data.concat(repeticionData.getValor(name));
         }
-        data.concat(ultimoDiaDeRepeticion.toString());
+        data = data.concat(ultimoDiaDeRepeticion.toString());
         return data;
     }
 
