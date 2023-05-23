@@ -124,7 +124,7 @@ public class Evento extends Asignable {
         //se pueden fusionar los while anteriores,pero la condicion que queda es horrible
         return  fechaDeAparicion;
     }
-    public String getData(){
+    protected String getData(){
         String data = "";
         Parametros frecuenciaData = getParametrosFrecuencia();
         for(String name : frecuenciaData.getNombres()){

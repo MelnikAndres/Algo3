@@ -28,7 +28,8 @@ public class Tarea extends Asignable {
     public void cambiarEstadoCompletada(){
         this.esCompletada = !this.esCompletada;
     }
-    public String getData() {
+    @Override
+    protected String getData() {
         return esCompletada?"esCompletada":"noEsCompletada";
     }
 }

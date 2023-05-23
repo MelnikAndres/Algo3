@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@type")
 abstract class Asignable implements Serializable {
 
@@ -22,14 +23,14 @@ abstract class Asignable implements Serializable {
     private LocalDateTime fechaFinal;
     private List<Alarma> alarmas = new ArrayList<>();
 
-    Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
-        if(titulo == null || titulo.isEmpty())
+    Asignable(String titulo, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
+        if (titulo == null || titulo.isEmpty())
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
 
-        if(fechaInicio == null || fechaFinal == null)
+        if (fechaInicio == null || fechaFinal == null)
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
 
-        if(fechaInicio.isAfter(fechaFinal))
+        if (fechaInicio.isAfter(fechaFinal))
             throw new RuntimeException(ErrorTipo.FECHA_INICIO_INVALIDA.toString());
 
         this.titulo = titulo;
@@ -38,20 +39,21 @@ abstract class Asignable implements Serializable {
         this.fechaFinal = fechaFinal;
     }
 
-    public void agregarAlarma(Alarma alarma) throws RuntimeException{
-        if(alarma != null) {
+    public void agregarAlarma(Alarma alarma) throws RuntimeException {
+        if (alarma != null) {
             alarmas.add(alarma);
         }
     }
+
     public void editar(String nuevoTitulo, String nuevaDescripcion,
-                       LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException{
-        if(nuevoTitulo == null || nuevoTitulo.isEmpty()){
+                       LocalDateTime nuevaFechaInicio, LocalDateTime nuevaFechaFinal) throws RuntimeException {
+        if (nuevoTitulo == null || nuevoTitulo.isEmpty()) {
             throw new RuntimeException(ErrorTipo.NO_TITULO.toString());
         }
-        if(nuevaFechaInicio == null || nuevaFechaFinal == null){
+        if (nuevaFechaInicio == null || nuevaFechaFinal == null) {
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
-        if(nuevaFechaInicio.isAfter(nuevaFechaFinal)){
+        if (nuevaFechaInicio.isAfter(nuevaFechaFinal)) {
             throw new RuntimeException(ErrorTipo.FECHA_INICIO_INVALIDA.toString());
         }
         this.titulo = nuevoTitulo;
@@ -63,41 +65,49 @@ abstract class Asignable implements Serializable {
     public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }
+
     public LocalDateTime getFechaFinal() {
         return fechaFinal;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
+
     public String getTitulo() {
         return titulo;
     }
-    public List<Alarma> getAlarmas(){
+
+    public List<Alarma> getAlarmas() {
         return alarmas;
     }
+
     public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
 
     @JsonIgnore
-    public abstract String getData();
-    public boolean comparar(Asignable asignable){
-        if(!asignable.titulo.equals(this.titulo)){
-            return false;
-        }if(!asignable.descripcion.equals(this.descripcion)){
-            return false;
-        }if(!asignable.fechaInicio.equals(this.fechaInicio)){
-            return false;
-        }if(!asignable.fechaFinal.equals(this.fechaFinal)){
+    protected abstract String getData();
+
+    public boolean comparar(Asignable asignable) {
+        if (!asignable.titulo.equals(this.titulo)) {
             return false;
         }
-        if(this.alarmas.size() != asignable.alarmas.size()){
+        if (!asignable.descripcion.equals(this.descripcion)) {
             return false;
         }
-        for(int i=0; i< this.alarmas.size();i++){
-            if(!this.alarmas.get(i).comparar(asignable.alarmas.get(i))){
+        if (!asignable.fechaInicio.equals(this.fechaInicio)) {
+            return false;
+        }
+        if (!asignable.fechaFinal.equals(this.fechaFinal)) {
+            return false;
+        }
+        if (this.alarmas.size() != asignable.alarmas.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.alarmas.size(); i++) {
+            if (!this.alarmas.get(i).comparar(asignable.alarmas.get(i))) {
                 return false;
             }
         }
         return this.getData().equals(asignable.getData());
     }
-
 }
