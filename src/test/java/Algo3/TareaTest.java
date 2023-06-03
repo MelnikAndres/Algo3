@@ -1,6 +1,7 @@
 package Algo3;
 
 import Algo3.Constantes.ErrorTipo;
+import Algo3.Modelo.Tarea;
 import org.junit.Assert;
 import org.junit.Test;
 

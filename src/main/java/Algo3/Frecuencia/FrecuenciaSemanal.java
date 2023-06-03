@@ -4,11 +4,9 @@ import Algo3.Constantes.Dia;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.ParametroTipo;
-import Algo3.Parametros;
+import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.time.LocalDateTime;
 import java.util.List;

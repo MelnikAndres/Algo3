@@ -1,4 +1,4 @@
-package Algo3;
+package Algo3.Modelo;
 
 import Algo3.Constantes.DisparadorTipo;
 import Algo3.Constantes.ErrorTipo;

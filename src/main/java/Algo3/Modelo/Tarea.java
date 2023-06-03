@@ -1,4 +1,4 @@
-package Algo3;
+package Algo3.Modelo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

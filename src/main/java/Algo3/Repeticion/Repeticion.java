@@ -1,7 +1,7 @@
 package Algo3.Repeticion;
 
 import Algo3.Constantes.RepeticionTipo;
-import Algo3.Parametros;
+import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

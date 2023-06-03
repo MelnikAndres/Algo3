@@ -3,7 +3,7 @@ package Algo3.Repeticion;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
-import Algo3.Parametros;
+import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;

@@ -2,6 +2,7 @@ package Algo3;
 
 import Algo3.Constantes.*;
 import Algo3.Frecuencia.*;
+import Algo3.Modelo.Evento;
 import Algo3.Repeticion.RepeticionCantidadLimite;
 import Algo3.Repeticion.RepeticionFechaLimite;
 import Algo3.Repeticion.RepeticionInfinita;

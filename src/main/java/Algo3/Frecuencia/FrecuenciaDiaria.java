@@ -3,13 +3,11 @@ package Algo3.Frecuencia;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.ParametroTipo;
-import Algo3.Parametros;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+
 public class FrecuenciaDiaria implements Frecuencia {
 
     private Integer intervalo;

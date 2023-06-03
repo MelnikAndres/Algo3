@@ -1,0 +1,13 @@
+.boton-menu{
+    -fx-background-color: lightgray;
+    -fx-border-width: 0;
+    -fx-background-radius: 0 0 0 0
+}
+
+.boton-menu:hover{
+    -fx-background-color: #9a9a9a;
+}
+.boton-cerrar:hover{
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}

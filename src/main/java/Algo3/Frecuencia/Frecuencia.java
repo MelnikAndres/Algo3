@@ -1,7 +1,7 @@
 package Algo3.Frecuencia;
 import Algo3.Constantes.FrecuenciaTipo;
 
-import Algo3.Parametros;
+import Algo3.Modelo.Parametros;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;

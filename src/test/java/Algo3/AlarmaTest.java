@@ -6,6 +6,7 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Disparador.Mail;
 import Algo3.Disparador.Notificacion;
 import Algo3.Disparador.Sonido;
+import Algo3.Modelo.Alarma;
 import org.junit.Assert;
 
 import org.junit.Test;

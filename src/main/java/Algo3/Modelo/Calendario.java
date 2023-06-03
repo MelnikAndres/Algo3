@@ -1,4 +1,4 @@
-package Algo3;
+package Algo3.Modelo;
 
 
 import java.io.*;
@@ -61,7 +61,7 @@ public class Calendario implements Serializable{
 
     }
 
-    static Calendario deserializar(InputStream is) throws IOException{
+    public static Calendario deserializar(InputStream is) throws IOException{
         ObjectMapper objectMapper = new JsonMapper();
         objectMapper.registerModule(new JavaTimeModule());
         ObjectReader objectReader = objectMapper.reader();

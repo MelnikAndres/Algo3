@@ -1,21 +1,18 @@
-package Algo3;
+package Algo3.Modelo;
 
 
 import Algo3.Constantes.ErrorTipo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@type")
-abstract class Asignable implements Serializable {
+public abstract class Asignable implements Serializable {
 
     private String titulo;
     private String descripcion;

@@ -1,4 +1,4 @@
-package Algo3;
+package Algo3.Modelo;
 
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
