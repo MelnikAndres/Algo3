@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="root" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="250.0" minHeight="-Infinity" minWidth="250.0" prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #d2dde1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: #a2d6e7" text="Calendario">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <effect>
+            <DropShadow blurType="ONE_PASS_BOX" height="19.53" offsetY="2.5" radius="4.3825" width="0.0">
+               <color>
+                  <Color red="0.3799999952316284" green="0.3799999952316284" blue="0.3799999952316284" opacity="0.885496199131012" />
+               </color>
+            </DropShadow>
+         </effect>
+
+            </Label>
+      <VBox maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: #a9d9e8; -fx-blend-mode: DARKEN;">
+         <children>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Fecha">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Label>
+            <StackPane maxWidth="250.0" minWidth="250.0" prefWidth="250.0">
+               <children>
+                  <Label fx:id="fechaElegida" alignment="TOP_CENTER" contentDisplay="CENTER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-style: solid none solid none" text="Label">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+               </children>
+            </StackPane>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+         <effect>
+            <ColorAdjust brightness="0.14" contrast="0.14" hue="0.09" saturation="0.09" />
+         </effect>
+      </VBox>
+      <HBox alignment="TOP_CENTER" maxWidth="250.0" minWidth="250.0" prefWidth="250.0">
+         <children>
+            <Button mnemonicParsing="false" text="Dia" />
+            <Button mnemonicParsing="false" text="Semana" />
+            <Button mnemonicParsing="false" text="Mes" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <DatePicker fx:id="datePicker" maxHeight="0.0" maxWidth="0.0" prefHeight="0.0" prefWidth="0.0" />
+      <StackPane fx:id="datePickerPane" alignment="TOP_CENTER" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
+   </children>
+</VBox>

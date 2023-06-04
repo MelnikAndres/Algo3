@@ -20,23 +20,11 @@ public class AppControlador {
         cargarFXML();
         var navBar = new MenuBar();
         var calendario = new CalendarioControlador(ancho, alto-17);
-        var vbox = new VBox();
-        var label = new Label("Calendario");
-        var vista = new Button("Modo de Vista");
-        vista.setPrefWidth(200);
-        label.setPrefWidth(200);
-        label.setAlignment(Pos.CENTER);
-        vista.setAlignment(Pos.CENTER);
-        label.setStyle("-fx-font-size: xx-large");
-        vbox.getChildren().add(label);
-        vbox.getChildren().add(vista);
-        vbox.setPrefWidth(200);
-        vbox.setMinWidth(200);
-        vbox.setPrefHeight(alto-17);
+        var menuIzquierda = new MenuControlador();
         var hbox = new HBox();
         appPane.getChildren().add(navBar);
         appPane.getChildren().add(hbox);
-        hbox.getChildren().add(vbox);
+        hbox.getChildren().add(menuIzquierda.getRoot());
         hbox.getChildren().add(calendario.getRoot());
     }
     public void cargarFXML() {
