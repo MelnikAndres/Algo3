@@ -10,12 +10,11 @@ public class ApiladorDeAsignables extends AnchorPane {
     private final List<Apilable> apilados = new ArrayList<>();
     private final List<Double> anchosDeFilas = new ArrayList<>();
 
-    //el constructor pide 2 ints para que sea mas intuitivo de usar
-    public ApiladorDeAsignables(int numeroDeFilas, int numeroDeSubfilas){
+    public ApiladorDeAsignables(){
         this.setStyle("-fx-background-color: transparent");
         //iniciar los anchos de las filas en 0
-        for(int i = 0; i<numeroDeFilas;i++){
-            for(int j=0;j<numeroDeSubfilas;j++){
+        for(int i = 0; i<24;i++){
+            for(int j=0;j<4;j++){
                 anchosDeFilas.add(0.0);
             }
         }

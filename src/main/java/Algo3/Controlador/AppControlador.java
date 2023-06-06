@@ -1,11 +1,9 @@
 package Algo3.Controlador;
 
-import Algo3.Componentes.MenuBar;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -16,16 +14,16 @@ import java.nio.file.Path;
 public class AppControlador {
     @FXML
     VBox appPane;
-    public AppControlador(double ancho, double alto){
+    private CalendarioControlador calendarioControlador;
+    public AppControlador(ReadOnlyDoubleProperty widthProperty){
         cargarFXML();
-        var navBar = new MenuBar();
-        var calendario = new CalendarioControlador(ancho, alto-17);
+        appPane.prefWidthProperty().bind(widthProperty);
+        calendarioControlador =  new CalendarioControlador(widthProperty,appPane.heightProperty());
         var menuIzquierda = new MenuControlador();
         var hbox = new HBox();
-        appPane.getChildren().add(navBar);
         appPane.getChildren().add(hbox);
         hbox.getChildren().add(menuIzquierda.getRoot());
-        hbox.getChildren().add(calendario.getRoot());
+        hbox.getChildren().add(calendarioControlador.getRoot());
     }
     public void cargarFXML() {
         try {
@@ -39,4 +37,5 @@ public class AppControlador {
     public Pane getRoot(){
         return this.appPane;
     }
+
 }

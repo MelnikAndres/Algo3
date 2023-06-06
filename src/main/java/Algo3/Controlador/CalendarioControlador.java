@@ -2,12 +2,12 @@ package Algo3.Controlador;
 
 import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -29,20 +29,37 @@ public class CalendarioControlador{
     GridPane grillaDiario;
     @FXML
     ScrollPane scrollDiario;
+    @FXML
     ApiladorDeAsignables apiladorDeAsignables;
     @FXML
     StackPane container;
     @FXML
     private ColumnConstraints columnaHoras;
+    @FXML
+    private ColumnConstraints columnaAsignables;
     private Integer filaInicioDeArrastre;
     private Integer filaFinDeArrastre;
     private Apilable actualAgregando;
-    public CalendarioControlador(double ancho, double alto){
+    public CalendarioControlador(ReadOnlyDoubleProperty widthProperty,
+                                 ReadOnlyDoubleProperty heightProperty){
         cargarFXML();
-        scrollDiario.setPrefViewportHeight(alto-20);
-        scrollDiario.setPrefViewportWidth(ancho);
-        apiladorDeAsignables = new ApiladorDeAsignables(24,4);
-        container.getChildren().add(apiladorDeAsignables);
+        widthProperty.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                scrollDiario.setPrefWidth(t1.doubleValue()-250);
+                apiladorDeAsignables.setPrefWidth(t1.doubleValue()-337);
+                apiladorDeAsignables.setMaxWidth(t1.doubleValue()-337);
+            }
+        });
+        heightProperty.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                scrollDiario.setMaxHeight(t1.doubleValue());
+            }
+        });
+
+        grillaDiario.prefWidthProperty().bind(apiladorDeAsignables.prefWidthProperty().add(56));
+        grillaDiario.minWidthProperty().bind(apiladorDeAsignables.widthProperty().add(56));
         for (int i = 0; i < 24; i++) {
             var constraints = new RowConstraints();
             constraints.setMaxHeight(60);
@@ -109,16 +126,6 @@ public class CalendarioControlador{
             this.filaFinDeArrastre = null;
             this.actualAgregando = null;
         });
-        grillaDiario.setPrefHeight(alto);
-        grillaDiario.setPrefWidth(ancho-15);
-        apiladorDeAsignables.setPrefWidth(ancho - 71);
-        StackPane.setMargin(apiladorDeAsignables,new Insets(0,0,0,56));
-        apiladorDeAsignables.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                grillaDiario.setPrefWidth(t1.doubleValue() + 56);
-            }
-        });
     }
     private void agregarNuevo(String titulo){
         var nuevoAgregado= new Apilable(titulo, 15, filaInicioDeArrastre, filaInicioDeArrastre);
@@ -164,5 +171,4 @@ public class CalendarioControlador{
     public Parent getRoot(){
         return scrollDiario;
     }
-
 }

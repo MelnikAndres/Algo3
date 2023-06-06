@@ -19,16 +19,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Calendario");
-        Scene preScene = new Scene(new Pane());
-        stage.setScene(preScene);
-        stage.setMaximized(true);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.show();
-        var ancho = stage.getWidth();
-        var alto =  stage.getHeight();
-        var appControlador = new AppControlador(ancho,alto);
-        Scene mainScene = new Scene(appControlador.getRoot(),ancho,alto);
-        mainScene.setFill(Color.TRANSPARENT);
+        var appControlador = new AppControlador(stage.widthProperty());
+        Scene mainScene = new Scene(appControlador.getRoot(),900,600);
         stage.setScene(mainScene);
+        stage.show();
+        stage.setMaximized(true);
     }
 }
