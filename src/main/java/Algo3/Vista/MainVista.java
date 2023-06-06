@@ -36,6 +36,7 @@ public class MainVista extends HBox {
         HBox.setMargin(menu, new Insets(0,0,0,-1));
         Sombreador.sombrear(separator);
         hbox.getChildren().addAll(separator,menu);
+        menu.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         this.getChildren().add(hbox);
         this.getChildren().add(calendarioControlador.getRoot());
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/mainVista.css").toUri().toString());
