@@ -11,7 +11,9 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="250.0" minHeight="-Infinity" minWidth="250.0" prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #d2dde1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<?import Algo3.Componentes.*?>
+<fx:root type="VBox"
+          alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="250.0" minHeight="-Infinity" minWidth="250.0" prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #d2dde1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: #a2d6e7; -fx-blend-mode: DARKEN;">
          <children>
@@ -63,7 +65,6 @@
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <DatePicker fx:id="datePicker" maxHeight="0.0" maxWidth="0.0" prefHeight="0.0" prefWidth="0.0" />
-      <StackPane fx:id="datePickerPane" alignment="TOP_CENTER" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
+      <SelectorCalendario fx:id="selectorCalendario" alignment="TOP_CENTER" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
    </children>
-</VBox>
+</fx:root>

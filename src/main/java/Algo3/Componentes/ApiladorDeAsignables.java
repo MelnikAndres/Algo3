@@ -57,7 +57,7 @@ public class ApiladorDeAsignables extends AnchorPane {
         //mover todos los que estaban despues del que se borró
         moverSiguientes(apiladoAborrar,aMover);
     }
-    public void moverSiguientes(Apilable movidoAnterior, List<Apilable> aMover){
+    private void moverSiguientes(Apilable movidoAnterior, List<Apilable> aMover){
         List<Apilable> movidos = new ArrayList<>();
         List<Integer> ocupadas = movidoAnterior.filasOcupadas();
         //mover los apilables a mover, moviendo primero los más cercanos a la pared izquierda de la ventana
@@ -112,7 +112,7 @@ public class ApiladorDeAsignables extends AnchorPane {
             this.moverGrupo(movido, movidos);
         }
     }
-    public void moverGrupo(Apilable apiladoAmover, List<Apilable> yaMovidos){
+    private void moverGrupo(Apilable apiladoAmover, List<Apilable> yaMovidos){
         List<Apilable> aMover = new ArrayList<>();
         //buscar todos los elementos que están después del apilado a mover y en sus mismas filas
         for (int i = apilados.size()-1; i>=0; i--){
