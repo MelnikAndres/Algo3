@@ -3,8 +3,8 @@ package Algo3.Componentes;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,26 +33,30 @@ public class Apilable extends VBox {
         this.setPrefHeight(altura);
         this.setMaxHeight(-1);
         this.setMaxWidth(-1);
-        this.setMinHeight(18);
+        this.setMinHeight(15);
     }
 
     private void agregarEstilos(){
-        horario.setStyle("-fx-text-fill: #efefef");
-        tituloDeApilable.setStyle("-fx-font-weight: bold;-fx-text-fill: #efefef");
-        tituloDeApilable.setTextAlignment(TextAlignment.CENTER);
-        this.setStyle("-fx-background-color: #3bc4ee;-fx-border-color: #efefef;" +
-                "-fx-border-radius: 5 5 5 5;-fx-background-radius: 5 5 5 5");
-        this.setPadding(new Insets(0,10,0,10));
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/apilable.css").toUri().toString());
+        horario.getStyleClass().add("texto-blanco");
+        tituloDeApilable.getStyleClass().addAll("texto-blanco","titulo-apilable","alinear-centro");
+        VBox.setMargin(tituloDeApilable, new Insets(-3,0,3,0));
+        this.getStyleClass().addAll("fondo-primario","borde-secundario","contenedor-apilable");
     }
     public void setNuevaAltura(int altura) {
         this.setPrefHeight(altura);
         this.horario.setVisible(altura >= 45);
         this.tituloDeApilable.setText(altura<45?tituloDeAsignable+ " - "+ "12:00":tituloDeAsignable);
+        if(altura == 15){
+            VBox.setMargin(tituloDeApilable, new Insets(-3,0,3,0));
+        }else{
+            VBox.clearConstraints(tituloDeApilable);
+        }
     }
     public void setFilaFin(int filaFin) {
         this.filaFin = filaFin;
     }
-    public boolean verSuperposicion(Apilable otro){
+    public boolean haySuperposicion(Apilable otro){
         var estasOcupadas = this.filasOcupadas();
         var otrasOcupadas = otro.filasOcupadas();
         estasOcupadas.retainAll(otrasOcupadas);

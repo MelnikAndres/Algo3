@@ -1,0 +1,12 @@
+@import "../estilosComunes.css";
+@import"../constantes.css";
+
+.titulo-apilable{
+    -fx-font-weight: bold;
+    -fx-font-size: 12
+}
+.contenedor-apilable{
+    -fx-border-insets: 1 1 1 1;
+    -fx-border-width:1;
+    -fx-padding: 0 10 0 10;
+}

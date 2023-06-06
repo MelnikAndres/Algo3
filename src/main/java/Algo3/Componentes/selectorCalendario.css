@@ -1,0 +1,68 @@
+@import "../constantes.css";
+
+.raiz{
+    -fx-alignment: TOP_CENTER;
+    -fx-max-width: 250;
+    -fx-min-width: 250;
+    -fx-pref-width: 250;
+    -fx-border-color: -fx-color-primario;
+}
+.date-picker {
+    -fx-border-color: transparent;
+}
+.date-picker-popup .cell{
+    -fx-cursor: hand;
+}
+
+.date-picker-popup .cell:hover{
+    -fx-background-color: -fx-color-secundario;
+}
+.date-picker-popup .cell.selected{
+    -fx-background-color: -fx-color-primario, -fx-color-secundario, -fx-color-primario;
+    -fx-background-insets: 0,2,3;
+}
+.date-picker-popup .month-year-pane {
+    -fx-background-color: -fx-color-primario;
+    -fx-padding: 5 10 5 10;
+}
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: -fx-color-blanco;
+    -fx-min-width: 60;
+}
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: -fx-color-secundario;
+    -fx-cursor: default;
+}
+.date-picker-popup .day-name-cell{
+    -fx-cursor: default;
+}
+.date-picker-popup .week-number-cell:hover {
+    -fx-background-color: -fx-color-blanco;
+}
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+    -fx-background-color: -fx-color-blanco;
+    -fx-pref-height: 12;
+}
+.date-picker-popup .spinner .button .left-arrow{
+    -fx-translate-x: -1;
+}
+.date-picker-popup .spinner .button .right-arrow{
+    -fx-translate-x: 1;
+}
+.date-picker-popup .spinner .button{
+    -fx-background-color: -fx-color-primario;
+    -fx-min-width: 20;
+    -fx-padding: 0 0 4 0;
+    -fx-cursor: hand;
+}
+.date-picker-popup .spinner .button:hover{
+    -fx-background-color: derive(-fx-color-primario,30%);
+}
+.date-picker-popup .spinner{
+    -fx-font-size: 14;
+}
+.date-picker-popup {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}

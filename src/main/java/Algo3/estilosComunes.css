@@ -1,0 +1,13 @@
+.texto-blanco{
+    -fx-text-fill: -fx-color-blanco;
+}
+.fondo-primario{
+    -fx-background-color: -fx-color-primario;
+}
+.alinear-centro{
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;
+}
+.borde-secundario{
+    -fx-border-color: -fx-color-secundario;
+}

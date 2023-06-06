@@ -14,11 +14,18 @@ public class Menu extends VBox {
     private SelectorCalendario selectorCalendario;
     @FXML
     private Label fechaElegida;
+    @FXML
+    private VBox tituloContainer;
+    @FXML
+    private VBox selectorRango;
 
     public Menu(){
         cargarFXML();
         fechaElegida.setText(selectorCalendario.getFecha());
         selectorCalendario.setOnAction(actionEvent -> fechaElegida.setText(selectorCalendario.getFecha()));
+        Sombreador.sombrear(tituloContainer);
+        Sombreador.sombrear(selectorRango);
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/menu.css").toUri().toString());
     }
 
     private void cargarFXML(){

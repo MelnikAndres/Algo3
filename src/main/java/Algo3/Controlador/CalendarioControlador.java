@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -47,8 +48,8 @@ public class CalendarioControlador{
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 scrollDiario.setPrefWidth(t1.doubleValue()-250);
-                apiladorDeAsignables.setPrefWidth(t1.doubleValue()-337);
-                apiladorDeAsignables.setMaxWidth(t1.doubleValue()-337);
+                apiladorDeAsignables.setPrefWidth(t1.doubleValue()-341);
+                apiladorDeAsignables.setMaxWidth(t1.doubleValue()-341);
             }
         });
         heightProperty.addListener(new ChangeListener<Number>() {
@@ -58,8 +59,8 @@ public class CalendarioControlador{
             }
         });
 
-        grillaDiario.prefWidthProperty().bind(apiladorDeAsignables.prefWidthProperty().add(56));
-        grillaDiario.minWidthProperty().bind(apiladorDeAsignables.widthProperty().add(56));
+        grillaDiario.prefWidthProperty().bind(apiladorDeAsignables.prefWidthProperty().add(60));
+        grillaDiario.minWidthProperty().bind(apiladorDeAsignables.widthProperty().add(60));
         for (int i = 0; i < 24; i++) {
             var constraints = new RowConstraints();
             constraints.setMaxHeight(60);
@@ -68,8 +69,22 @@ public class CalendarioControlador{
             constraints.setValignment(VPos.TOP);
             grillaDiario.getRowConstraints().add(constraints);
             var horaLabel = new Label();
+            horaLabel.setStyle("-fx-text-fill: #725f66");
+            grillaDiario.getStylesheets().add(Path.of("src/main/java/Algo3/Controlador/separator.css").toUri().toString());
             var separator = new Separator(Orientation.HORIZONTAL);
+            separator.getStyleClass().add("horizontal");
             var separator2 = new Separator(Orientation.VERTICAL);
+            separator2.getStyleClass().add("horizontal");
+            var minutos = new VBox();
+            minutos.prefWidth(60);
+            minutos.setAlignment(Pos.TOP_RIGHT);
+            for(int j=0;j<4;j++){
+                var separator3 = new Separator(Orientation.HORIZONTAL);
+                separator3.getStyleClass().add("vertical");
+                separator3.setMaxWidth(10);
+                minutos.getChildren().add(separator3);
+                minutos.setSpacing(14);
+            }
             var pane = new StackPane();
             horaLabel.setPrefHeight(60);
             horaLabel.setPrefWidth(60);
@@ -83,6 +98,7 @@ public class CalendarioControlador{
             }
             pane.setAlignment(Pos.CENTER_RIGHT);
             pane.getChildren().add(separator2);
+            pane.getChildren().add(minutos);
             pane.getChildren().add(horaLabel);
             if(i>0){
                 grillaDiario.addRow(i, pane,separator);
@@ -101,7 +117,7 @@ public class CalendarioControlador{
             if (event.getButton().equals(MouseButton.SECONDARY)|| this.filaInicioDeArrastre == null){
                 return;
             }
-            var letras = List.of("A","b","c","d","e","f","g");
+            var letras = List.of("A","B","C","D","E","f","g");
             if(this.actualAgregando == null ){
                 var tituloText = "";
                 for(int i = 0; i<1+Math.floor(Math.random()*50);i++){

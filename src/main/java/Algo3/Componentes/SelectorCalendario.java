@@ -6,8 +6,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.skin.DatePickerSkin;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -19,15 +23,15 @@ public class SelectorCalendario extends StackPane {
         datePicker.setValue(LocalDate.now());
         DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
         Node popupContent = datePickerSkin.getPopupContent();
+        popupContent.setEffect(null);
         this.getChildren().add(popupContent);
         agregarEstilos();
 
     }
     private void agregarEstilos(){
-        this.setAlignment(Pos.TOP_CENTER);
-        this.maxWidth(230);
-        this.minWidth(230);
-        this.prefWidth(230);
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/selectorCalendario.css").toUri().toString());
+        this.getStyleClass().add("raiz");
+        Sombreador.sombrear(this);
     }
 
     public void setOnAction(EventHandler<ActionEvent> handler){

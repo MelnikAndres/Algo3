@@ -2,18 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import Algo3.Componentes.*?>
 
-<ScrollPane fx:id="scrollDiario" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane  fx:id="scrollDiario" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <StackPane fx:id="container" alignment="TOP_LEFT">
          <children>
-            <GridPane fx:id="grillaDiario" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+            <GridPane style="-fx-background-color: #eeeeee" fx:id="grillaDiario" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
                <columnConstraints>
                   <ColumnConstraints fx:id="columnaHoras" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
                   <ColumnConstraints fx:id="columnaAsignables" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="60.0" />
@@ -21,7 +19,7 @@
             </GridPane>
             <ApiladorDeAsignables fx:id="apiladorDeAsignables">
                <StackPane.margin>
-                  <Insets left="56.0" />
+                  <Insets left="60.0" />
                </StackPane.margin>
             </ApiladorDeAsignables>
          </children>

@@ -1,0 +1,42 @@
+@import "../constantes.css";
+@import "../estilosComunes.css";
+*{
+    -fx-menu-ancho:250;
+    -fx-menu-ancho-menor:210;
+}
+.raiz-menu{
+    -fx-background-color: -fx-color-fondo;
+    -fx-alignment: TOP_CENTER;
+}
+.fijar-ancho-entero{
+    -fx-min-width: -fx-menu-ancho;
+    -fx-pref-width: -fx-menu-ancho;
+    -fx-max-width: -fx-menu-ancho;
+}
+.fijar-ancho-menor{
+    -fx-min-width: -fx-menu-ancho-menor;
+    -fx-pref-width: -fx-menu-ancho-menor;
+    -fx-max-width: -fx-menu-ancho-menor;
+}
+
+.fondo-secundario{
+    -fx-background-color: -fx-color-secundario;
+}
+.fecha{
+    -fx-background-color: transparent;
+    -fx-border-style: solid none solid none;
+}
+
+.boton-rango {
+    -fx-border-color: -fx-color-secundario;
+    -fx-border-insets: 2,2,2,2;
+    -fx-border-radius: 0;
+    -fx-cursor: hand;
+}
+.boton-rango:hover{
+    -fx-background-color: derive(-fx-color-secundario,70%);
+    -fx-border-color: -fx-color-primario;
+    -fx-background-insets: 0 0 0 0, 0, 0, 0;
+    -fx-background-radius: 0,0,0,0;
+    -fx-text-fill: -fx-color-primario;
+}

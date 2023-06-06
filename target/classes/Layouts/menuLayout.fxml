@@ -2,22 +2,21 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <?import Algo3.Componentes.*?>
-<fx:root type="VBox"
-          alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="250.0" minHeight="-Infinity" minWidth="250.0" prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #d2dde1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.paint.Color?>
+<fx:root type="VBox" styleClass="raiz-menu, fijar-ancho-entero"
+         xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: #a2d6e7; -fx-blend-mode: DARKEN;">
+      <VBox fx:id="tituloContainer" styleClass="fondo-primario">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Calendario">
+            <Label styleClass="fijar-ancho-entero,texto-blanco,alinear-centro" text="Calendario">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -28,9 +27,10 @@
                   <Insets bottom="4.0" />
                </padding>
             </Label>
-            <StackPane maxWidth="250.0" minWidth="250.0" prefWidth="250.0">
+            <StackPane styleClass="fijar-ancho-entero">
                <children>
-                  <Label fx:id="fechaElegida" alignment="TOP_CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxWidth="210.0" minWidth="210.0" prefWidth="210.0" style="-fx-background-color: transparent; -fx-border-style: solid none solid none" text="Label">
+                  <Label fx:id="fechaElegida" styleClass="fijar-ancho-menor, alinear-centro, texto-blanco,fecha,borde-secundario"
+                         text="Label">
                      <font>
                         <Font name="System Italic" size="16.0" />
                      </font>
@@ -41,30 +41,38 @@
                </children>
             </StackPane>
          </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <effect>
-            <DropShadow blurType="ONE_PASS_BOX" height="19.53" offsetY="2.5" radius="4.3825" width="0.0">
-               <color>
-                  <Color red="0.3799999952316284" green="0.3799999952316284" blue="0.3799999952316284" opacity="0.885496199131012" />
-               </color>
-            </DropShadow>
-         </effect>
          <padding>
             <Insets bottom="10.0" top="5.0" />
          </padding>
       </VBox>
-      <HBox alignment="TOP_CENTER" maxWidth="250.0" minWidth="250.0" prefWidth="250.0">
-         <children>
-            <Button mnemonicParsing="false" text="Dia" />
-            <Button mnemonicParsing="false" text="Semana" />
-            <Button mnemonicParsing="false" text="Mes" />
-         </children>
+      <Label styleClass="fijar-ancho-entero,texto-blanco,alinear-centro,fondo-primario" text="Fecha">
+         <font>
+            <Font size="16.0" />
+         </font>
          <VBox.margin>
-            <Insets bottom="10.0" top="10.0" />
+            <Insets top="15.0" bottom="-5.0"/>
          </VBox.margin>
-      </HBox>
-      <SelectorCalendario fx:id="selectorCalendario" alignment="TOP_CENTER" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
+      </Label>
+      <SelectorCalendario fx:id="selectorCalendario" />
+      <VBox fx:id="selectorRango" styleClass="fondo-primario">
+         <Label styleClass="texto-blanco, alinear-centro, fijar-ancho-entero" text="Rango">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </Label>
+         <VBox styleClass="fijar-ancho-entero,alinear-centro">
+            <children>
+               <Button styleClass="fijar-ancho-menor,fondo-primario,boton-rango, texto-blanco" mnemonicParsing="false" text="Diario" />
+               <Button styleClass="fijar-ancho-menor,fondo-primario,boton-rango, texto-blanco" mnemonicParsing="false" text="Semanal" />
+               <Button styleClass="fijar-ancho-menor,fondo-primario,boton-rango, texto-blanco" mnemonicParsing="false" text="Mensual" />
+            </children>
+         </VBox>
+         <VBox.margin>
+            <Insets top="15.0"/>
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0"/>
+         </padding>
+      </VBox>
    </children>
 </fx:root>

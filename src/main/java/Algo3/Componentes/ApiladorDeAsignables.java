@@ -49,7 +49,7 @@ public class ApiladorDeAsignables extends AnchorPane {
                 this.getChildren().remove(apiladoAborrar);
                 break;
             }
-            var haySuperposicion = apiladoAborrar.verSuperposicion(apiladoActual);
+            var haySuperposicion = apiladoAborrar.haySuperposicion(apiladoActual);
             if(haySuperposicion){
                 aMover.add(apiladoActual);
             }
@@ -70,7 +70,7 @@ public class ApiladorDeAsignables extends AnchorPane {
             //buscar, en las filas que ocupa, el mayor ancho antes del apilable a mover
             for (int j = apilados.indexOf(movido)-1; j>=0; j--) {
                 var siguienteApilado = apilados.get(j);
-                boolean haySuperposicion = movido.verSuperposicion(siguienteApilado);
+                boolean haySuperposicion = movido.haySuperposicion(siguienteApilado);
                 if(haySuperposicion){
                     var anchoActual = AnchorPane.getLeftAnchor(siguienteApilado)+siguienteApilado.getWidth();
                     if(anchoActual > anchoMaximo){
@@ -120,7 +120,7 @@ public class ApiladorDeAsignables extends AnchorPane {
             if(apiladoActual==apiladoAmover){
                 break;
             }
-            var haySuperposicion = apiladoAmover.verSuperposicion(apiladoActual);
+            var haySuperposicion = apiladoAmover.haySuperposicion(apiladoActual);
             if(haySuperposicion && !yaMovidos.contains(apiladoActual)){
                 aMover.add(apiladoActual);
             }

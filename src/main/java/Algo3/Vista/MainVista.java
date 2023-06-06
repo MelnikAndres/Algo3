@@ -17,6 +17,7 @@ public class MainVista extends HBox {
         this.prefWidthProperty().bind(widthProperty);
         var calendarioControlador =  new CalendarioControlador(widthProperty,this.heightProperty());
         this.getChildren().add(calendarioControlador.getRoot());
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/mainVista.css").toUri().toString());
     }
     public void cargarFXML() {
         try {
