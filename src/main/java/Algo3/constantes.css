@@ -1,6 +1,6 @@
 *{
-    -fx-color-primario: #8a1a52;
-    -fx-color-secundario: #BDA5AD;
-    -fx-color-fondo: derive(-fx-color-secundario,-25%);
-    -fx-color-blanco: #eeeeee;
+    -fx-color-primario: #142131;
+    -fx-color-secundario: #5e6b83;
+    -fx-color-fondo: #A2ACBD;
+    -fx-color-blanco: #e9edf6;
 }

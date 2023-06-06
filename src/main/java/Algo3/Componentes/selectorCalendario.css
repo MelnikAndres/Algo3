@@ -60,7 +60,7 @@
     -fx-background-color: derive(-fx-color-primario,30%);
 }
 .date-picker-popup .spinner{
-    -fx-font-size: 14;
+    -fx-font-size: 16;
 }
 .date-picker-popup {
     -fx-background-color: transparent;

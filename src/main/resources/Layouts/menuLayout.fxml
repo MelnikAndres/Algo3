@@ -14,65 +14,46 @@
 <fx:root type="VBox" styleClass="raiz-menu, fijar-ancho-entero"
          xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="tituloContainer" styleClass="fondo-primario">
+      <VBox  fx:id="tituloContainer" styleClass="fondo-primario">
          <children>
-            <Label styleClass="fijar-ancho-entero,texto-blanco,alinear-centro" text="Calendario">
+            <Label styleClass="fijar-ancho-entero,texto-blanco,alinear-centro, fuente-L,padding-y-5" text="Calendario">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold"/>
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="4.0" />
-               </padding>
             </Label>
             <StackPane styleClass="fijar-ancho-entero">
                <children>
-                  <Label fx:id="fechaElegida" styleClass="fijar-ancho-menor, alinear-centro, texto-blanco,fecha,borde-secundario"
+                  <Label fx:id="fechaElegida" styleClass="fijar-ancho-menor, alinear-centro, texto-blanco,fecha,borde-secundario,fuente-M"
                          text="Label">
                      <font>
-                        <Font name="System Italic" size="16.0" />
+                        <Font name="System Italic"/>
                      </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
                   </Label>
                </children>
             </StackPane>
          </children>
          <padding>
-            <Insets bottom="10.0" top="5.0" />
+            <Insets bottom="15.0"/>
          </padding>
       </VBox>
-      <Label styleClass="fijar-ancho-entero,texto-blanco,alinear-centro,fondo-primario" text="Fecha">
-         <font>
-            <Font size="16.0" />
-         </font>
+      <Label styleClass="fijar-ancho-entero,texto-blanco,alinear-centro,fondo-primario, fuente-L, padding-y-5" text="Fecha">
          <VBox.margin>
-            <Insets top="15.0" bottom="-5.0"/>
+            <Insets top="15.0"/>
          </VBox.margin>
       </Label>
       <SelectorCalendario fx:id="selectorCalendario" />
       <VBox fx:id="selectorRango" styleClass="fondo-primario">
-         <Label styleClass="texto-blanco, alinear-centro, fijar-ancho-entero" text="Rango">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </Label>
+         <Label styleClass="texto-blanco, alinear-centro, fijar-ancho-entero, fuente-L,padding-y-5" text="Rango"/>
          <VBox styleClass="fijar-ancho-entero,alinear-centro">
             <children>
-               <Button styleClass="fijar-ancho-menor,fondo-primario,boton-rango, texto-blanco" mnemonicParsing="false" text="Diario" />
-               <Button styleClass="fijar-ancho-menor,fondo-primario,boton-rango, texto-blanco" mnemonicParsing="false" text="Semanal" />
-               <Button styleClass="fijar-ancho-menor,fondo-primario,boton-rango, texto-blanco" mnemonicParsing="false" text="Mensual" />
+               <Button styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" mnemonicParsing="false" text="Diario" />
+               <Button styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" mnemonicParsing="false" text="Semanal" />
+               <Button styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" mnemonicParsing="false" text="Mensual" />
             </children>
          </VBox>
          <VBox.margin>
             <Insets top="15.0"/>
          </VBox.margin>
-         <padding>
-            <Insets bottom="10.0"/>
-         </padding>
       </VBox>
    </children>
 </fx:root>

@@ -2,13 +2,13 @@ package Algo3.Controlador;
 
 import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
+import Algo3.Componentes.Sombreador;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -58,7 +58,6 @@ public class CalendarioControlador{
                 scrollDiario.setMaxHeight(t1.doubleValue());
             }
         });
-
         grillaDiario.prefWidthProperty().bind(apiladorDeAsignables.prefWidthProperty().add(60));
         grillaDiario.minWidthProperty().bind(apiladorDeAsignables.widthProperty().add(60));
         for (int i = 0; i < 24; i++) {
@@ -69,42 +68,31 @@ public class CalendarioControlador{
             constraints.setValignment(VPos.TOP);
             grillaDiario.getRowConstraints().add(constraints);
             var horaLabel = new Label();
-            horaLabel.setStyle("-fx-text-fill: #725f66");
             grillaDiario.getStylesheets().add(Path.of("src/main/java/Algo3/Controlador/separator.css").toUri().toString());
             var separator = new Separator(Orientation.HORIZONTAL);
-            separator.getStyleClass().add("horizontal");
-            var separator2 = new Separator(Orientation.VERTICAL);
-            separator2.getStyleClass().add("horizontal");
-            var minutos = new VBox();
-            minutos.prefWidth(60);
-            minutos.setAlignment(Pos.TOP_RIGHT);
-            for(int j=0;j<4;j++){
-                var separator3 = new Separator(Orientation.HORIZONTAL);
-                separator3.getStyleClass().add("vertical");
-                separator3.setMaxWidth(10);
-                minutos.getChildren().add(separator3);
-                minutos.setSpacing(14);
-            }
+            separator.getStyleClass().add("oscuro");
+            var separators = new VBox();
+            separators.getChildren().add(separator);
             var pane = new StackPane();
             horaLabel.setPrefHeight(60);
             horaLabel.setPrefWidth(60);
-            separator2.setPrefHeight(60);
             horaLabel.setTextAlignment(TextAlignment.CENTER);
             horaLabel.setAlignment(Pos.CENTER);
+            horaLabel.setStyle("-fx-background-color: #f1f1f5;-fx-text-fill: derive(#142131,45%)");
             if(i < 12){
                 horaLabel.setText((i==0?12:i) + " AM");
             }else{
                 horaLabel.setText((i==12?12:i-12) + " PM");
             }
             pane.setAlignment(Pos.CENTER_RIGHT);
-            pane.getChildren().add(separator2);
-            pane.getChildren().add(minutos);
             pane.getChildren().add(horaLabel);
-            if(i>0){
-                grillaDiario.addRow(i, pane,separator);
-            }else{
-                grillaDiario.addRow(i, pane);
+            for(int j=0;j<4;j++){
+                var separator3 = new Separator(Orientation.HORIZONTAL);
+                separator3.getStyleClass().add("claro");
+                separators.getChildren().add(separator3);
             }
+            separators.setSpacing(14);
+            grillaDiario.addRow(i, pane,separators);
         }
         apiladorDeAsignables.setOnMousePressed(event -> {
             if (event.getButton().equals(MouseButton.SECONDARY)){

@@ -4,8 +4,5 @@
 
 
 <?import Algo3.Componentes.*?>
-<fx:root type="HBox" fx:id="appPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-       <Menu/>
-   </children>
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
 </fx:root>

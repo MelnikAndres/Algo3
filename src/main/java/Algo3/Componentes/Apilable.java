@@ -33,7 +33,7 @@ public class Apilable extends VBox {
         this.setPrefHeight(altura);
         this.setMaxHeight(-1);
         this.setMaxWidth(-1);
-        this.setMinHeight(15);
+        this.setMinHeight(17);
     }
 
     private void agregarEstilos(){
@@ -47,7 +47,7 @@ public class Apilable extends VBox {
         this.setPrefHeight(altura);
         this.horario.setVisible(altura >= 45);
         this.tituloDeApilable.setText(altura<45?tituloDeAsignable+ " - "+ "12:00":tituloDeAsignable);
-        if(altura == 15){
+        if(altura < 18){
             VBox.setMargin(tituloDeApilable, new Insets(-3,0,3,0));
         }else{
             VBox.clearConstraints(tituloDeApilable);

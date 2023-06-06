@@ -5,7 +5,7 @@
     -fx-menu-ancho-menor:210;
 }
 .raiz-menu{
-    -fx-background-color: -fx-color-fondo;
+    -fx-background-color: transparent;
     -fx-alignment: TOP_CENTER;
 }
 .fijar-ancho-entero{
@@ -28,10 +28,18 @@
 }
 
 .boton-rango {
-    -fx-border-color: -fx-color-secundario;
-    -fx-border-insets: 2,2,2,2;
-    -fx-border-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0 0 0 0;
     -fx-cursor: hand;
+}
+.fuente-L{
+    -fx-font-size: 18;
+}
+.fuente-M{
+    -fx-font-size: 16;
+}
+.padding-y-5{
+    -fx-padding: 5 0 5 0;
 }
 .boton-rango:hover{
     -fx-background-color: derive(-fx-color-secundario,70%);

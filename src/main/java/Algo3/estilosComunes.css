@@ -11,3 +11,6 @@
 .borde-secundario{
     -fx-border-color: -fx-color-secundario;
 }
+.borde-blanco{
+    -fx-border-color: -fx-color-blanco;
+}
