@@ -1,4 +1,4 @@
-package Algo3.Componentes;
+package Algo3.Utilidad;
 
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;

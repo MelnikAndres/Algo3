@@ -1,15 +1,12 @@
 package Algo3.Componentes;
 
+import Algo3.Utilidad.Sombreador;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.skin.DatePickerSkin;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
 import java.time.LocalDate;

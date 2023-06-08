@@ -1,18 +1,14 @@
 package Algo3.Vista;
 
 import Algo3.Componentes.Menu;
-import Algo3.Componentes.Sombreador;
+import Algo3.Utilidad.Sombreador;
 import Algo3.Controlador.CalendarioControlador;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
-import javafx.geometry.Orientation;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-
 import java.io.IOException;
 import java.nio.file.Path;
 

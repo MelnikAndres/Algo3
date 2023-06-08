@@ -15,7 +15,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Calendario implements Serializable{
-
     private final HashMap<Integer, Asignable> asignables = new HashMap<>();
     @JsonProperty("idIncremental")
     private int idIncremental = 0;

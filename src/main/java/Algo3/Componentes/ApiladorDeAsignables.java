@@ -1,15 +1,19 @@
 package Algo3.Componentes;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class ApiladorDeAsignables extends AnchorPane {
     //Este componente se usa para apilar asignables en la vista diaria del calendario
     private final List<Apilable> apilados = new ArrayList<>();
     private final List<Double> anchosDeFilas = new ArrayList<>();
-
     public ApiladorDeAsignables(){
         this.setStyle("-fx-background-color: transparent");
         //iniciar los anchos de las filas en 0
@@ -19,8 +23,36 @@ public class ApiladorDeAsignables extends AnchorPane {
             }
         }
     }
+    public void agregarComportamiento(Apilable apilable){
+        apilable.addBorrarEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                getChildren().remove(apilable);
+                desapilar(apilable);
+            }
+        });
+        apilable.getReescalandoProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(!t1){
+                    reordenar();
+                }
+            }
+        });
+        apilable.addFinalEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                apilable.toBack();
+                desapilar(apilable);
+                apilar(apilable);
+            }
+        });
+    }
 
     public void apilar(Apilable nuevoApilado){
+        if(apilados.contains(nuevoApilado)){
+            return;
+        }
         double mayorAncho = 0;
         List<Integer> filasOcupadas = nuevoApilado.filasOcupadas();
         //buscar la fila ocupada por el nuevo apilable que tenga el mayor ancho
@@ -38,15 +70,30 @@ public class ApiladorDeAsignables extends AnchorPane {
             anchosDeFilas.set(fila,mayorAncho + nuevoApilado.getWidth());
         }
     }
-    public void borrar(Apilable apiladoAborrar){
+    public void reordenar(){
+        var apiladosCopy = new ArrayList<>(apilados);
+        apilados.clear();
+        anchosDeFilas.replaceAll(new UnaryOperator<Double>() {
+            @Override
+            public Double apply(Double aDouble) {
+                return 0.0;
+            }
+        });
+        for(Apilable apilable: apiladosCopy){
+            this.apilar(apilable);
+        }
+    }
+    public void desapilar(Apilable apiladoAborrar){
+        if(!apilados.contains(apiladoAborrar)){
+            return;
+        }
         List<Apilable> aMover = new ArrayList<>();
-        //buscar todos los elementos que están después del apilado a borrar y en sus mismas filas
+        //buscar todos los elementos que están después del apilado a desapilar y en sus mismas filas
         for (int i = apilados.size()-1; i>=0; i--){
             var apiladoActual = apilados.get(i);
             if(apiladoActual==apiladoAborrar){
-                //borrar el apilado correspondiente
+                //desapilar el apilado correspondiente
                 apilados.remove(apiladoAborrar);
-                this.getChildren().remove(apiladoAborrar);
                 break;
             }
             var haySuperposicion = apiladoAborrar.haySuperposicion(apiladoActual);
@@ -56,6 +103,8 @@ public class ApiladorDeAsignables extends AnchorPane {
         }
         //mover todos los que estaban despues del que se borró
         moverSiguientes(apiladoAborrar,aMover);
+        List<String> a = new ArrayList<>();
+        String pal = "hola";
     }
     private void moverSiguientes(Apilable movidoAnterior, List<Apilable> aMover){
         List<Apilable> movidos = new ArrayList<>();

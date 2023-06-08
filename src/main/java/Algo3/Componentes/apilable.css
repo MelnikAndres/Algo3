@@ -2,12 +2,21 @@
 @import"../constantes.css";
 
 .titulo-apilable{
-    -fx-font-weight: bold;
-    -fx-font-size: 12
+    -fx-font-size: 16
 }
 .contenedor-apilable{
     -fx-border-width:1;
     -fx-padding: 2 10 2 10;
     -fx-border-radius: 9;
     -fx-background-radius: 10;
+}
+.boton-apilable{
+    -fx-background-color: transparent;
+    -fx-cursor:hand;
+}
+.boton-apilable{
+    -fx-blend-mode: SOFT_LIGHT;
+}
+.boton-apilable:hover{
+    -fx-blend-mode: SRC_OVER;
 }
