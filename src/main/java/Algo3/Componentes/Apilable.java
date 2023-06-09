@@ -1,5 +1,7 @@
 package Algo3.Componentes;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
@@ -23,6 +25,8 @@ public class Apilable extends VBox {
     @FXML
     private Label titulo;
     @FXML
+    private Label horaInLine;
+    @FXML
     private Button botonBorrar;
     @FXML
     private Button botonEditar;
@@ -30,10 +34,8 @@ public class Apilable extends VBox {
     private Button botonFinal;
     private StringProperty tituloDeAsignable = new SimpleStringProperty("(Sin Titulo)");
     private String horarioInicio = "";
-    private StringProperty horarioFin = new SimpleStringProperty("");
-    private BooleanProperty isInline = new SimpleBooleanProperty(true);
+    private StringProperty horarioFin;
     private BooleanProperty reescalando = new SimpleBooleanProperty(false);
-
     private int filaInicio;
     private IntegerProperty filaFin;
     public Apilable(int filaInicio){
@@ -46,20 +48,59 @@ public class Apilable extends VBox {
         var hIn = filaInicio/4;
         var hQIn = filaInicio%4 * 15;
         horarioInicio = calcularHorario(hIn,hQIn);
-        StringBinding tituloAmostrar = new StringBinding() {
+        horarioFin = new SimpleStringProperty(horarioInicio);
+        titulo.textProperty().bind(tituloDeAsignable);
+        cambioSuaveDePadding();
+        horarioDinamico();
+    }
+    private void cambioSuaveDePadding(){
+        StringBinding paddingHorario = new StringBinding() {
             {
-                super.bind(isInline, tituloDeAsignable);
+                super.bind(prefHeightProperty());
             }
             @Override
             protected String computeValue() {
-                if(isInline.get()){
-                    return tituloDeAsignable.get() + " "+ horarioInicio;
+                if(prefHeightProperty().get() < 34){
+                    return "-fx-padding: -6 0 0 0";
                 }else{
-                    return tituloDeAsignable.get();
+                    return "-fx-padding: " + Math.min(prefHeightProperty().get()-39,3) + " 0 0 0";
                 }
             }
         };
-        titulo.textProperty().bind(tituloAmostrar);
+        horario.styleProperty().bind(paddingHorario);
+
+        StringBinding paddingTitulo = new StringBinding() {
+            {
+                super.bind(prefHeightProperty());
+            }
+            @Override
+            protected String computeValue() {
+                if(prefHeightProperty().get() < 45){
+                    return "-fx-padding: -6 0 0 0";
+                }else{
+                    return "-fx-padding: " + Math.min(prefHeightProperty().get()-50,0) + " 0 0 0";
+                }
+            }
+        };
+        titulo.styleProperty().bind(paddingTitulo);
+        StringBinding paddingBotones = new StringBinding() {
+            {
+                super.bind(prefHeightProperty());
+            }
+            @Override
+            protected String computeValue() {
+                if(prefHeightProperty().get() < 45){
+                    return "-fx-padding: -2 0 0 0";
+                }else{
+                    return "-fx-padding: " + Math.min(prefHeightProperty().get()-47,3) + " 0 0 0";
+                }
+            }
+        };
+        botonEditar.styleProperty().bind(paddingBotones);
+        botonBorrar.styleProperty().bind(paddingBotones);
+        botonFinal.styleProperty().bind(paddingBotones);
+    }
+    private void horarioDinamico(){
         StringBinding horarioAmostrar = new StringBinding() {
             {
                 super.bind(horarioFin);
@@ -69,21 +110,40 @@ public class Apilable extends VBox {
                 return horarioInicio+ " a " +horarioFin.get();
             }
         };
+
         horario.textProperty().bind(horarioAmostrar);
+
+        horaInLine.textProperty().bind(
+                Bindings.when(horaInLine.visibleProperty())
+                        .then(horario.textProperty())
+                        .otherwise(""));
+        horaInLine.visibleProperty().bind(horario.visibleProperty().not());
     }
     public void setTitulo(String tituloNuevo){
         tituloDeAsignable.setValue(tituloNuevo);
         titulo.setText(tituloNuevo);
     }
-    public void recalcularFilaFin(int nuevaAltura) {
-        filaFin.set(filaInicio  + (nuevaAltura/15)-1);
-        var hIn = filaFin.getValue()/4;
-        var hQIn = filaFin.getValue()%4 * 15;
+    public void setNuevaAltura(double altura) {
+        this.setPrefHeight(altura);
+        this.horario.setVisible(altura >= 30);
+        if(altura < 45){
+            botonesPadding(new Insets(-2,0,0,0));
+        }else{
+            botonesPadding(new Insets(3,0,0,0));
+        }
+        int alturaDiscreta = ((int)(altura+14)/15)*15;
+        filaFin.set(filaInicio  + (alturaDiscreta/15)-1);
+        reescribirHorario(altura);
+    }
+    public void reescribirHorario(double nuevaAltura) {
+        nuevaAltura += (filaInicio*15)%60;
+        var hIn = (int)nuevaAltura/60 + filaInicio/4;
+        var hQIn = (int)nuevaAltura%60;
         horarioFin.set(calcularHorario(hIn,hQIn));
     }
 
     private String calcularHorario(int hIn, int hQIn){
-        String hQtext = hQIn==0?"00":String.valueOf(hQIn);
+        String hQtext = hQIn<10?"0"+hQIn:String.valueOf(hQIn);
         if(hIn <12){
             if(hIn == 0){
                 return "12:"+hQtext+" AM";
@@ -110,6 +170,8 @@ public class Apilable extends VBox {
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/apilable.css").toUri().toString());
         horario.getStyleClass().add("texto-blanco");
         horario.setVisible(false);
+        horario.setPadding(new Insets(-6,0,0,0));
+        horaInLine.getStyleClass().add("texto-blanco");
         titulo.getStyleClass().addAll("texto-blanco","titulo-apilable","alinear-centro");
         titulo.setPadding(new Insets(-6, 0, 0, 0));
         this.getStyleClass().addAll("fondo-primario","borde-secundario","contenedor-apilable");
@@ -118,6 +180,12 @@ public class Apilable extends VBox {
         botonFinal.getStyleClass().add("boton-apilable");
         botonesPadding(new Insets(-2,0,0,0));
     }
+    private void botonesPadding(Insets insets){
+        botonBorrar.setPadding(insets);
+        botonEditar.setPadding(insets);
+        botonFinal.setPadding(insets);
+    }
+
     public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonBorrar.setOnAction(handler);
     }
@@ -130,25 +198,6 @@ public class Apilable extends VBox {
     public BooleanProperty getReescalandoProperty(){
         return reescalando;
     }
-    private void botonesPadding(Insets insets){
-        botonBorrar.setPadding(insets);
-        botonEditar.setPadding(insets);
-        botonFinal.setPadding(insets);
-    }
-    public void setNuevaAltura(int altura) {
-        this.setPrefHeight(altura);
-        this.horario.setVisible(altura >= 45);
-        isInline.setValue(altura < 45);
-        if(altura < 19){
-            titulo.setPadding(new Insets(-6, 0, 0, 0));
-            botonesPadding(new Insets(-2,0,0,0));
-        }else{
-            titulo.setPadding(new Insets(0, 0, 0, 0));
-            botonesPadding(new Insets(3,0,0,0));
-        }
-        recalcularFilaFin(altura);
-    }
-
     public boolean haySuperposicion(Apilable otro){
         var estasOcupadas = this.filasOcupadas();
         var otrasOcupadas = otro.filasOcupadas();
@@ -197,8 +246,8 @@ public class Apilable extends VBox {
             @Override
             public void handle(MouseEvent event) {
                 if(reescalando.get()){
-                    var nuevaAltura = (int)((valoresIniciales.alturaInicial + (event.getSceneY()- valoresIniciales.yInicial))/15)*15;
-                    setNuevaAltura(nuevaAltura);
+                    var nuevaAltura = (valoresIniciales.alturaInicial + (event.getSceneY()- valoresIniciales.yInicial));
+                    setNuevaAltura(Math.max(nuevaAltura,15));
                     event.consume();
                 }
             }

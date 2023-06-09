@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -13,10 +12,11 @@
    <children>
       <HBox spacing="2.0">
          <children>
-            <Label fx:id="titulo" contentDisplay="CENTER" text="(Sin titulo)">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
+            <Label fx:id="titulo" contentDisplay="CENTER" text="(Sin titulo)"/>
+            <Label fx:id="horaInLine" contentDisplay="CENTER" text="Sin Hora">
+               <padding>
+                  <Insets left="5.0" top="-1" />
+               </padding>
             </Label>
             <Button fx:id="botonBorrar" graphicTextGap="0.0" mnemonicParsing="false">
                <graphic>
@@ -26,6 +26,9 @@
                      </image>
                   </ImageView>
                </graphic>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
             </Button>
             <Button fx:id="botonEditar" mnemonicParsing="false">
                <graphic>
@@ -47,9 +50,6 @@
             </Button>
          </children>
       </HBox>
-      <Label fx:id="horario" text="12:00">
-         <effect>
-            <Blend />
-         </effect></Label>
+      <Label fx:id="horario" text="12:00"/>
    </children>
 </fx:root>

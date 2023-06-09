@@ -49,7 +49,7 @@ public class CalendarioControlador{
             if (event.getButton().equals(MouseButton.SECONDARY)){
                 return;
             }
-            this.filaInicioDeArrastre = obtenerPosicionEnCalendario(event.getY(), apiladorDeAsignables.getHeight());
+            this.filaInicioDeArrastre = obtenerPosicionEnCalendario(event.getY());
         });
         apiladorDeAsignables.setOnMouseDragged(event -> {
             if (event.getButton().equals(MouseButton.SECONDARY)|| this.filaInicioDeArrastre == null){
@@ -58,8 +58,7 @@ public class CalendarioControlador{
             if(this.actualAgregando == null ){
                 agregarNuevo();
             }
-            var filaFinDeArrastre = obtenerPosicionEnCalendario(event.getY()-15, apiladorDeAsignables.getHeight());
-            expandirNuevo(filaFinDeArrastre);
+            expandirNuevo(event.getY());
         });
         apiladorDeAsignables.setOnMouseReleased(event -> {
             if (!event.getButton().equals(MouseButton.PRIMARY)){
@@ -153,14 +152,14 @@ public class CalendarioControlador{
         apiladorDeAsignables.getChildren().add(actualAgregando);
         AnchorPane.setTopAnchor(actualAgregando,(double) this.filaInicioDeArrastre*15);
     }
-    private void expandirNuevo(int filaFinDeArrastre){
-        int altura = 1 + filaFinDeArrastre - this.filaInicioDeArrastre;
+    private void expandirNuevo(double yFinal){
+        double altura = yFinal - this.filaInicioDeArrastre*15;
         if(altura>0){
-            actualAgregando.setNuevaAltura(Math.max(altura*15, 15));
+            actualAgregando.setNuevaAltura(Math.max(altura,15));
         }
     }
-    private Integer obtenerPosicionEnCalendario(double y, double alto){
-        return (int) ((24*y*4)/alto);
+    private Integer obtenerPosicionEnCalendario(double y){
+        return (int) ((24*y*4)/apiladorDeAsignables.getHeight());
     }
     private void cargarFXML(){
         try {
