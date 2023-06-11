@@ -48,9 +48,9 @@ public class Apilable extends VBox {
         permitirReescalar();
         this.filaInicio = filaInicio;
         this.filaFin = new SimpleIntegerProperty(filaInicio);
-        var hIn = filaInicio/4;
-        var hQIn = filaInicio%4 * 15;
-        horarioInicio = calcularHorario(hIn,hQIn);
+        var horaEntera = filaInicio/4;
+        var minutos = filaInicio%4 * 15;
+        horarioInicio = calcularHorario(horaEntera,minutos);
         horarioFin = new SimpleStringProperty(horarioInicio);
         titulo.textProperty().bind(tituloDeAsignable);
         cambioSuaveDePadding();
@@ -140,24 +140,24 @@ public class Apilable extends VBox {
     }
     public void reescribirHorario(double nuevaAltura) {
         nuevaAltura += (filaInicio*15)%60;
-        var hIn = (int)nuevaAltura/60 + filaInicio/4;
-        var hQIn = (int)nuevaAltura%60;
-        horarioFin.set(calcularHorario(hIn,hQIn));
+        var horaEntera = (int)nuevaAltura/60 + filaInicio/4;
+        var minutos = (int)nuevaAltura%60;
+        horarioFin.set(calcularHorario(horaEntera,minutos));
     }
 
-    private String calcularHorario(int hIn, int hQIn){
-        String hQtext = hQIn<10?"0"+hQIn:String.valueOf(hQIn);
-        if(hIn <12){
-            if(hIn == 0){
-                return "12:"+hQtext+" AM";
+    private String calcularHorario(int horaEntera, int minutos){
+        String minutosTexto = minutos<10?"0"+minutos:String.valueOf(minutos);
+        if(horaEntera <12){
+            if(horaEntera == 0){
+                return "12:"+minutosTexto+" AM";
             }else{
-                return hIn+":"+hQtext+" AM";
+                return horaEntera+":"+minutosTexto+" AM";
             }
         }else{
-            if(hIn == 12){
-                return "12:"+hQtext+" PM";
+            if(horaEntera == 12){
+                return "12:"+minutosTexto+" PM";
             }else{
-                return hIn-12+":"+hQtext+" PM";
+                return horaEntera-12+":"+minutosTexto+" PM";
             }
         }
     }

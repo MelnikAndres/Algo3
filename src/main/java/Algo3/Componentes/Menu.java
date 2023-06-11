@@ -34,10 +34,14 @@ public class Menu extends VBox {
     private void asignarFecha(LocalDate fechaActual){
         String diaMayusculas =Dia.values()[fechaActual.getDayOfWeek().getValue()-1].name();
         String dia = diaMayusculas.charAt(0) + diaMayusculas.substring(1).toLowerCase();
+
         diaElegido.setText(dia + " " + fechaActual.getDayOfMonth());
+
         String mesMayusculas = Mes.values()[fechaActual.getMonth().getValue()-1].name();
         String mes = mesMayusculas.charAt(0) + mesMayusculas.substring(1).toLowerCase();
+
         mesElegido.setText(mes);
+
         anioElegido.setText(String.valueOf(fechaActual.getYear()));
     }
 

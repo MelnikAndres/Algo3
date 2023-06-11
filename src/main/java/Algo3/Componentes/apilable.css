@@ -8,7 +8,7 @@
     -fx-padding: 2 10 2 10;
     -fx-border-radius: 9;
     -fx-background-radius: 10;
-    -fx-background-color: derive(#d79701,40%),#d79701;
+    -fx-background-color: derive(-fx-color-accion,40%),-fx-color-accion;
     -fx-background-insets: 0,1;
 }
 .boton-apilable{

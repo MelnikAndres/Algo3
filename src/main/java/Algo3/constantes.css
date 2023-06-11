@@ -3,4 +3,6 @@
     -fx-color-secundario: #5e6b83;
     -fx-color-fondo: #A2ACBD;
     -fx-color-blanco: #e9edf6;
+    -fx-color-accion: rgb(215,151,0);
+    -fx-color-hover: rgba(94, 107, 131, 0.5);
 }

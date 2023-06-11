@@ -24,8 +24,8 @@
     -fx-padding: -1 0 0 -1;
 }
 .date-picker-popup > * > .today {
-    -fx-underline: true;
-    -fx-font-style: italic;
+    -fx-border-width: 1;
+
 }
 .date-picker-popup > * > .previous-month,
 .date-picker-popup > * > .next-month {
@@ -33,10 +33,10 @@
 }
 
 .date-picker-popup .cell:hover{
-    -fx-background-color: derive(-fx-color-primario,20%);
+    -fx-background-color: -fx-color-hover;
 }
 .date-picker-popup .cell.selected{
-    -fx-border-width: 1;
+    -fx-background-color: derive(-fx-color-accion,20%);
 }
 .date-picker-popup .month-year-pane {
     -fx-background-color: -fx-color-primario;
