@@ -5,10 +5,11 @@
     -fx-font-size: 16
 }
 .contenedor-apilable{
-    -fx-border-width:1;
     -fx-padding: 2 10 2 10;
     -fx-border-radius: 9;
     -fx-background-radius: 10;
+    -fx-background-color: derive(#d79701,40%),#d79701;
+    -fx-background-insets: 0,1;
 }
 .boton-apilable{
     -fx-background-color: transparent;

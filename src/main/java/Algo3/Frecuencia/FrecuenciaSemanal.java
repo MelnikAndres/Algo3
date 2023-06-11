@@ -9,45 +9,62 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class FrecuenciaSemanal implements Frecuencia {
 
-    private Integer intervalo;
-    public FrecuenciaSemanal(List<Dia> diasDeLaSemana){
-        int intervalo = 0;
+    private List<Integer> diasDeLaSemana;
+    public FrecuenciaSemanal(@JsonProperty("diasDeLaSemana")List<Dia> diasDeLaSemana){
+        List<Integer> diasComoValores = new ArrayList<>();
         for(Dia dia: diasDeLaSemana){
-            if((intervalo & dia.getValor()) != 0){
+            if(diasComoValores.contains(dia.ordinal())){
                 throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
             }
-            intervalo+=dia.getValor();
+            diasComoValores.add(dia.ordinal());
         }
-        if(intervalo == 0){
+        if(diasDeLaSemana.size()==0){
             throw new RuntimeException(ErrorTipo.INTERVALO_INVALIDO.toString());
         }
-        this.intervalo = intervalo;
-    }
-    @JsonCreator
-    FrecuenciaSemanal(@JsonProperty("intervalo")Integer intervalo){
-        this.intervalo = intervalo;
+        this.diasDeLaSemana = diasComoValores;
     }
 
     @Override
     public LocalDateTime obtenerSiguienteAparicion(LocalDateTime fechaActual){
-        int exponente = fechaActual.getDayOfWeek().getValue() - 1;
-        LocalDateTime diaSiguiente = fechaActual;
-        exponente = (exponente+1)%7;
-        diaSiguiente = diaSiguiente.plusDays(1);
-        if((intervalo & (1<<exponente)) == (1<<exponente)){
-            return diaSiguiente;
+        int dia = fechaActual.getDayOfWeek().getValue()-1;
+        int diaActual = diasDeLaSemana.indexOf(dia);
+        LocalDateTime diaSiguiente;
+        if(diaActual == -1){
+            int minimaDiferencia = 8;
+            for(int i = diasDeLaSemana.size()-1;i>=0;i--){
+                int differencia = Dia.differencia(
+                        Dia.values()[dia],
+                        Dia.values()[diasDeLaSemana.get(i)]);
+                if(differencia<minimaDiferencia){
+                    minimaDiferencia = differencia;
+                }
+            }
+            diaSiguiente = fechaActual.plusDays(minimaDiferencia);
+        }else if(diaActual == diasDeLaSemana.size()-1){
+            diaSiguiente = fechaActual.plusDays(
+                    Dia.differencia(
+                            Dia.values()[dia],
+                            Dia.values()[diasDeLaSemana.get(0)]));
+        }else{
+            diaSiguiente = fechaActual.plusDays(
+                    Dia.differencia(
+                            Dia.values()[dia],
+                            Dia.values()[diasDeLaSemana.get(diaActual+1)]));
         }
-        return obtenerSiguienteAparicion(diaSiguiente);
+        return diaSiguiente;
     }
     public FrecuenciaTipo getTipo(){
         return FrecuenciaTipo.SEMANAL;
     }
     public Parametros getParams() {
         Parametros parametros = new Parametros();
-        parametros.agregarParametro("Intervalo", ParametroTipo.DIASDESEMANA, intervalo.toString());
+        parametros.agregarParametro("Intervalo", ParametroTipo.DIASDESEMANA,
+                diasDeLaSemana.stream().map(String::valueOf).collect(Collectors.joining(", ")));
         return  parametros;
     }
 }

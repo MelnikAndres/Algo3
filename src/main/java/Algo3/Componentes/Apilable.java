@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Apilable extends VBox {
+    @FXML
+    private CheckBox checkBox;
     @FXML
     private Label horario;
     @FXML
@@ -174,7 +177,7 @@ public class Apilable extends VBox {
         horaInLine.getStyleClass().add("texto-blanco");
         titulo.getStyleClass().addAll("texto-blanco","titulo-apilable","alinear-centro");
         titulo.setPadding(new Insets(-6, 0, 0, 0));
-        this.getStyleClass().addAll("fondo-primario","borde-secundario","contenedor-apilable");
+        this.getStyleClass().addAll("contenedor-apilable");
         botonBorrar.getStyleClass().add("boton-apilable");
         botonEditar.getStyleClass().add("boton-apilable");
         botonFinal.getStyleClass().add("boton-apilable");

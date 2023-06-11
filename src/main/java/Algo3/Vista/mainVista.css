@@ -1,3 +1,5 @@
+@import "../constantes.css";
+@import "../estilosComunes.css";
 *:focused{
     -fx-background-color: transparent;
 }

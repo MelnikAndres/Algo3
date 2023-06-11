@@ -115,7 +115,7 @@ public class CalendarioControlador{
         horaLabel.setPrefWidth(60);
         horaLabel.setTextAlignment(TextAlignment.CENTER);
         horaLabel.setAlignment(Pos.CENTER);
-        horaLabel.setStyle("-fx-background-color: #f1f1f5;-fx-text-fill: derive(#142131,45%)");
+        horaLabel.setStyle("-fx-background-color: #142131;-fx-text-fill: #e9edf6");
         if(hora < 12){
             horaLabel.setText((hora==0?12:hora) + " AM");
         }else{

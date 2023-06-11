@@ -22,9 +22,17 @@
 .fondo-secundario{
     -fx-background-color: -fx-color-secundario;
 }
-.fecha{
+.fecha-tope{
     -fx-background-color: transparent;
-    -fx-border-style: solid none solid none;
+    -fx-border-style: solid hidden hidden hidden;
+}
+.fecha-base{
+    -fx-background-color: transparent;
+    -fx-border-style: hidden hidden solid hidden;
+}
+.fecha-medio{
+    -fx-background-color: transparent;
+    -fx-border-style: solid hidden solid hidden;
 }
 
 .boton-rango {
@@ -32,8 +40,11 @@
     -fx-border-radius: 0 0 0 0;
     -fx-cursor: hand;
 }
+.fuente-XL{
+    -fx-font-size: 24;
+}
 .fuente-L{
-    -fx-font-size: 18;
+    -fx-font-size: 20;
 }
 .fuente-M{
     -fx-font-size: 16;

@@ -291,14 +291,14 @@ public class EventoTest {
                 LocalDateTime.of(2022,5,4,12,45),
                 new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.MIERCOLES)),
                 new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.LUNES,Dia.MIERCOLES)), LocalDateTime.of(2022,5,4,6,3), 10));
-        Integer resultadoEsperado = 74;
         LocalDateTime ultimaRepeticionEsperada = LocalDateTime.of(2022, 5, 26, 6, 3);
         eventoDePrueba.editar("Prueba","Esto es una prueba",
                 LocalDateTime.of(2022,5,4,6,3),
                 LocalDateTime.of(2022,5,4,12,45),
                 new FrecuenciaSemanal(List.of(Dia.MARTES,Dia.JUEVES,Dia.DOMINGO)),
                 new RepeticionCantidadLimite(new FrecuenciaSemanal(List.of(Dia.MARTES,Dia.JUEVES,Dia.DOMINGO)), LocalDateTime.of(2022,5,4,6,3), 10));
-        Integer resultadoObtenido = Integer.parseInt(eventoDePrueba.getParametrosFrecuencia().getValor("Intervalo"));
+        String resultadoEsperado = "1, 3, 6";
+        String resultadoObtenido = eventoDePrueba.getParametrosFrecuencia().getValor("Intervalo");
         assertEquals(resultadoEsperado,resultadoObtenido);
         assertEquals(ultimaRepeticionEsperada, eventoDePrueba.getUltimoDiaDeRepeticion());
     }

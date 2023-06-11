@@ -3,26 +3,31 @@ package Algo3.Constantes;
 import java.time.LocalDateTime;
 
 public enum Dia{
-    LUNES(1),
-    MARTES(2),
-    MIERCOLES(4),
-    JUEVES(8),
-    VIERNES(16),
-    SABADO(32),
-    DOMINGO(64);
-    private final int valor;
-    public int getValor(){return valor;}
-    public static Dia parseDia(String numero){
-        int numeroValue = Integer.parseInt(numero);
-        for(Dia dia: Dia.values()){
-            if(dia.getValor() == numeroValue){
-                return dia;
-            }
+    LUNES,
+    MARTES,
+    MIERCOLES,
+    JUEVES,
+    VIERNES,
+    SABADO,
+    DOMINGO;
+
+    public Dia siguiente(Dia dia){
+        Integer diaSiguiente = dia.ordinal()+1;
+        if(diaSiguiente==7){
+            return LUNES;
         }
-        return LUNES;
+        return Dia.values()[diaSiguiente];
     }
-    Dia(int valor){
-        this.valor = valor;
+    public static int differencia(Dia diaInicial,Dia diaFinal ){
+        int ordinalInicial = diaInicial.ordinal();
+        int ordinalFinal = diaFinal.ordinal();
+        if(ordinalInicial<ordinalFinal){
+            return ordinalFinal - ordinalInicial;
+        }else if(ordinalFinal == ordinalInicial){
+            return 7;
+        }else{
+            return 7 - differencia(diaFinal,diaInicial);
+        }
     }
 }
 

@@ -4,5 +4,6 @@
 
 
 <?import Algo3.Componentes.*?>
-<fx:root type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="HBox" styleClass="fondo-primario" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <Menu/>
 </fx:root>
