@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Algo3.Controlador.CalendarioControlador"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<ScrollPane fx:id="scrollMensual" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <StackPane fx:id="contenedor" alignment="TOP_LEFT">
+         <children>
+            <GridPane fx:id="grillaMensual" minHeight="-Infinity" minWidth="-Infinity">
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </children>
+      </StackPane>
+   </content>
+</ScrollPane>
