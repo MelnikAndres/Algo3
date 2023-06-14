@@ -2,6 +2,7 @@ package Algo3.Componentes;
 
 import Algo3.Constantes.Dia;
 import Algo3.Constantes.Mes;
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -30,7 +31,9 @@ public class Menu extends VBox {
         selectorCalendario.setOnAction(actionEvent -> asignarFecha(selectorCalendario.getFecha()));
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/menu.css").toUri().toString());
     }
-
+    public ObjectProperty<LocalDate> getFechaProperty(){
+        return selectorCalendario.getPropertyFecha();
+    }
     private void asignarFecha(LocalDate fechaActual){
         String diaMayusculas =Dia.values()[fechaActual.getDayOfWeek().getValue()-1].name();
         String dia = diaMayusculas.charAt(0) + diaMayusculas.substring(1).toLowerCase();

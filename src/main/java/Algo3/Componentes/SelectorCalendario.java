@@ -1,5 +1,6 @@
 package Algo3.Componentes;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -27,7 +28,9 @@ public class SelectorCalendario extends StackPane {
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/selectorCalendario.css").toUri().toString());
         this.getStyleClass().add("raiz");
     }
-
+    public ObjectProperty<LocalDate> getPropertyFecha(){
+        return datePicker.valueProperty();
+    }
     public void setOnAction(EventHandler<ActionEvent> handler){
         datePicker.setOnAction(handler);
     }

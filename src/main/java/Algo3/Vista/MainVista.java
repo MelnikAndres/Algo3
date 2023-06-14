@@ -1,19 +1,27 @@
 package Algo3.Vista;
 
+import Algo3.Componentes.Menu;
 import Algo3.Controlador.CalendarioControlador;
+import Algo3.Controlador.MensualControlador;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 
 public class MainVista extends HBox {
 
-    public MainVista(ReadOnlyDoubleProperty widthProperty){
+    @FXML
+    private Menu menu;
+
+    public MainVista(ReadOnlyDoubleProperty widthProperty) throws MalformedURLException {
         cargarFXML();
         this.prefWidthProperty().bind(widthProperty);
-        var calendarioControlador =  new CalendarioControlador(widthProperty,this.heightProperty());
+        var calendarioControlador =  new MensualControlador(widthProperty,this.heightProperty(), menu.getFechaProperty());
         this.getChildren().add(calendarioControlador.getRoot());
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/mainVista.css").toUri().toString());
     }

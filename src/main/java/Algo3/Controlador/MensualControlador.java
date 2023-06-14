@@ -1,6 +1,7 @@
 package Algo3.Controlador;
 
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -68,11 +69,20 @@ public class MensualControlador{
         }
     }
 
+    private void agregarApilable(){}
+
     public void crearGrilla(LocalDate fecha){
         agregarColumnas();
-        agregarSeparadoresHorizontales();
-        grillaMensual.setStyle("-fx-background-color: -fx-color-fondo");
+        grillaMensual.setStyle("-fx-background-color: #142131");
         rellenarGrilla(fecha);
+        agregarSeparadoresHorizontales();
+        agregarSeparadoresVerticales();
+        agregarApilables();
+
+    }
+
+    private void agregarApilables(){
+
     }
 
     public void agregarColumnas(){
@@ -84,78 +94,101 @@ public class MensualControlador{
             constraints.setPrefWidth(200);
             constraints.setHalignment(HPos.RIGHT);
             grillaMensual.getColumnConstraints().add(constraints);
-            grillaMensual.addColumn(i, column, crearSeparadores());
+            grillaMensual.addColumn(i, column);
         }
     }
 
     private void cambiarGrilla(LocalDate fecha){
         grillaMensual.getChildren().clear();
+        grillaMensual.setStyle("-fx-background-color: #142131");
+        rellenarGrilla(fecha);
         agregarSeparadoresHorizontales();
         agregarSeparadoresVerticales();
-        grillaMensual.setStyle("-fx-background-color: -fx-color-fondo");
-        rellenarGrilla(fecha);
     }
     private void rellenarGrilla(LocalDate fecha){
         int year = fecha.getYear();
         LocalDate primerDiaMes = LocalDate.of(year, fecha.getMonth(), 1);
-        LocalDate ultimoDiaMes = LocalDate.of(year, fecha.getMonth().plus(1),1).minusDays(1);
         int ultimoDiaMesAnterior = primerDiaMes.minusDays(1).getDayOfMonth();
         int diaPrimerDia = primerDiaMes.getDayOfWeek().getValue();
         int contador = 0;
         int dias = 1;
         for(int i = 0; i < 7; i++){
             if(i<diaPrimerDia && diaPrimerDia != 7){
-                grillaMensual.add(diaParaGrillaMensual(ultimoDiaMesAnterior-(diaPrimerDia-i-1),contador),i,0);
+                grillaMensual.add(diaParaGrillaMensual(ultimoDiaMesAnterior-(diaPrimerDia-i-1),contador,false),i,0);
             }else {
-                grillaMensual.add(diaParaGrillaMensual(dias, contador), i, 0);
+                grillaMensual.add(diaParaGrillaMensual(dias, contador,true), i, 0);
                 dias += 1;
             }
             contador += 1;
         }
+        int fila = 0;
+        int columna = 0;
         for (int j = 1; j < 6; j++) {
+            if(dias > LocalDate.of(year,fecha.getMonth().plus(1),1).minusDays(1).getDayOfMonth()){
+                break;
+            }
             for (int k = 0; k < 7; k++) {
                 if(dias > LocalDate.of(year,fecha.getMonth().plus(1),1).minusDays(1).getDayOfMonth()){
                     break;
                 }
-                grillaMensual.add(diaParaGrillaMensual(dias, contador), k, j);
+                fila = j;
+                columna = k;
+                grillaMensual.add(diaParaGrillaMensual(dias, contador,true), k, j);
                 dias += 1;
 
             }
         }
-        /*int diasDelSiguienteMes = 1;
-        for(int t = 0; t< 7-diaUltimoDia-1;t++){
-            if(diaUltimoDia != 6){
-                grillaMensual.add(diaParaGrillaMensual(diasDelSiguienteMes, contador),diaUltimoDia+t+1,4);
-                diasDelSiguienteMes += 1;
+        dias = 1;
+        while(fila<6 && columna<7){
+            if(columna == 6){
+                fila++;
+                columna = 0;
+            }else{
+                columna++;
             }
+            if(fila == 6){
+                break;
+            }
+            grillaMensual.add(diaParaGrillaMensual(dias, contador,false),columna, fila);
+            dias++;
         }
-        //for(int w = 0; w<7)*/
-
-
     }
+
+
     //Contador lleva la cuenta de los primeros 7 dias para escribir los dias sobre el calendario.
-    private VBox diaParaGrillaMensual(int dia, int contador){
+    private VBox diaParaGrillaMensual(int dia, int contador, boolean correspondeAlMes){
         List<String> lista = List.of("Dom","Lun", "Mar", "Mier", "Jue", "Vie", "Sab");
         var vbox = new VBox();
         if(contador < 7){
             var labelDia = new Label (lista.get(contador));
             labelDia.setAlignment(Pos.TOP_CENTER);
-            labelDia.setStyle("-fx-text-fill: #778899");
+            labelDia.setStyle("-fx-text-fill: white");
             vbox.getChildren().add(labelDia);
         }
         var label = new Label(""+dia);
         label.setTextAlignment(TextAlignment.CENTER);
-        label.setAlignment(Pos.BASELINE_CENTER);
+        label.setStyle("-fx-text-fill: white");
         vbox.getChildren().add(label);
         vbox.setAlignment(Pos.TOP_CENTER);
+        if(!correspondeAlMes){
+            vbox.setStyle("-fx-background-color: derive(#142131, 70%)");
+            label.setStyle("-fx-opacity: 0.5");
+        }
         return vbox;
     }
     public void agregarSeparadoresHorizontales(){
         for(int i = 0; i<6; i++){
             for(int j = 0; j<7; j++){
                 grillaMensual.add(crearSeparadoresHorizontales(),j,i);
+                grillaMensual.add(crearSeparadores(),j,i);
+                grillaMensual.add(crearListaApilables(),j,i);
             }
         }
+    }
+    private VBox crearListaApilables(){
+        var vbox = new VBox();
+        vbox.setFillWidth(true);
+        return vbox;
     }
     public void agregarSeparadoresVerticales(){
         for(int i = 0; i<6; i++){
@@ -166,18 +199,14 @@ public class MensualControlador{
     }
     private HBox crearSeparadores(){
         var separador = new Separator(Orientation.VERTICAL);
-        separador.setMinHeight(1500);
-        separador.setMaxWidth(0.01);
+        separador.setMaxWidth(0.00001);
         separador.setHalignment(HPos.CENTER);
 
         return new HBox(separador);
     }
     private VBox crearSeparadoresHorizontales(){
         var separador = new Separator(Orientation.HORIZONTAL);
-        separador.setMinWidth(1500);
         separador.setValignment(VPos.CENTER);
-        var vbox = new VBox(separador);
-        vbox.setAlignment(Pos.BOTTOM_CENTER);
         return new VBox(separador);
     }
     private StackPane crearColumna(){
