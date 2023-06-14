@@ -5,21 +5,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<ScrollPane fx:id="scrollMensual" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <StackPane fx:id="contenedor" alignment="TOP_LEFT">
-         <children>
-            <GridPane fx:id="grillaMensual" minHeight="-Infinity" minWidth="-Infinity">
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-         </children>
-      </StackPane>
-   </content>
-</ScrollPane>
+<fx:root type="ScrollPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <StackPane fx:id="contenedor" alignment="TOP_LEFT">
+        <GridPane fx:id="grillaMensual" minHeight="-Infinity" minWidth="-Infinity">
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+        </GridPane>
+    </StackPane>
+</fx:root>

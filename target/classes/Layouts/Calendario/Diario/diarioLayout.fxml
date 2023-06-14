@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import Algo3.Componentes.*?>
 
-<ScrollPane fx:id="scrollDiario" style="-fx-background-color: #142131;" maxWidth="-Infinity"
+<fx:root type="ScrollPane" style="-fx-background-color: #142131;" maxWidth="-Infinity"
             xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <StackPane fx:id="container" alignment="TOP_LEFT">
       <GridPane style="-fx-background-color: #142131" fx:id="grillaDiario" alignment="BOTTOM_CENTER"
@@ -25,4 +25,4 @@
          </StackPane.margin>
       </ApiladorDeAsignables>
    </StackPane>
-</ScrollPane>
+</fx:root>

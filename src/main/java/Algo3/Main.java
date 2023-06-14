@@ -1,5 +1,6 @@
 package Algo3;
 
+import Algo3.Controlador.MainControlador;
 import Algo3.Vista.MainVista;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,8 +12,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Calendario");
-        var mainVista = new MainVista(stage.widthProperty());
-        Scene mainScene = new Scene(mainVista,900,600);
+        var mainControlador = new MainControlador(stage.widthProperty());
+        Scene mainScene = new Scene(mainControlador.getVista(),900,600);
         stage.setScene(mainScene);
         stage.show();
         stage.setMaximized(true);

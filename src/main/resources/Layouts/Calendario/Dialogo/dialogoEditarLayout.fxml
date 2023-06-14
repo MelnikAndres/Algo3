@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root type="DialogPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <header>
+      <Label alignment="CENTER" text="Editar" />
+   </header>
+   <content>
+      <VBox fx:id="contenedor" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Titulo" />
+            <TextField />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Descripcion" />
+            <TextArea prefColumnCount="3" prefHeight="200.0" prefRowCount="3" prefWidth="200.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Fecha Inicial" />
+            <DatePicker />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Fecha Final" />
+            <DatePicker />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Tipo" />
+            <ChoiceBox fx:id="selectorAsignableTipo" prefWidth="150.0" />
+         </children>
+      </VBox>
+   </content>
+</fx:root>

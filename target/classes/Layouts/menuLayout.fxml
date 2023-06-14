@@ -36,9 +36,9 @@
          <Label styleClass="texto-blanco, alinear-centro, fijar-ancho-entero, fuente-L,padding-y-5" text="Rango" />
          <VBox styleClass="fijar-ancho-entero,alinear-centro">
             <children>
-               <Button mnemonicParsing="false" styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" text="Diario" />
-               <Button mnemonicParsing="false" styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" text="Semanal" />
-               <Button mnemonicParsing="false" styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" text="Mensual" />
+               <Button fx:id="botonDiario" mnemonicParsing="false" styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" text="Diario" />
+               <Button fx:id="botonSemanal" mnemonicParsing="false" styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" text="Semanal" />
+               <Button fx:id="botonMensual" mnemonicParsing="false" styleClass="fijar-ancho-entero,fondo-primario,boton-rango, texto-blanco, fuente-M" text="Mensual" />
             </children>
          </VBox>
          <VBox.margin>

@@ -2,6 +2,7 @@ package Algo3.Modelo;
 
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
+import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
@@ -124,17 +125,18 @@ public class Evento extends Asignable {
         //se pueden fusionar los while anteriores,pero la condicion que queda es horrible
         return  fechaDeAparicion;
     }
-    protected String getData(){
-        String data = "";
+    @Override
+    public String toString(){
+        String data = super.toString();
+        data = data.concat(", " + ultimoDiaDeRepeticion.toString());
         Parametros frecuenciaData = getParametrosFrecuencia();
         for(String name : frecuenciaData.getNombres()){
-            data = data.concat(frecuenciaData.getValor(name));
+            data = data.concat(", "+frecuenciaData.getValor(name));
         }
         Parametros repeticionData = getParametrosRepeticion();
         for(String name : repeticionData.getNombres()){
-            data = data.concat(repeticionData.getValor(name));
+            data = data.concat(", "+repeticionData.getValor(name));
         }
-        data = data.concat(ultimoDiaDeRepeticion.toString());
         return data;
     }
 

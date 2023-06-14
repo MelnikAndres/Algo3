@@ -1,5 +1,5 @@
 package Algo3.Constantes;
 
 public enum ParametroTipo {
-    FECHA, ENTERO, DIASDESEMANA
+    FECHA, ENTERO, DIASDESEMANA,FRECUENCIA,REPETICION
 }

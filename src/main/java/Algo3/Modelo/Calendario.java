@@ -2,8 +2,14 @@ package Algo3.Modelo;
 
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import Algo3.Frecuencia.FrecuenciaDiaria;
+import Algo3.Repeticion.RepeticionCantidadLimite;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,9 +25,18 @@ public class Calendario implements Serializable{
     @JsonProperty("idIncremental")
     private int idIncremental = 0;
 
+    public Calendario(){
+        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(61),
+                new FrecuenciaDiaria(1),
+                new RepeticionCantidadLimite(new FrecuenciaDiaria(1), LocalDateTime.now(), 10));
+       this.agregar(eventoDePrueba);
+    }
     public int getIdIncremental() {
         return idIncremental;
     }
+
 
     public Asignable obtenerAsignablePorId(Integer id){
         return asignables.get(id);
@@ -59,6 +74,15 @@ public class Calendario implements Serializable{
         objectWriter.writeValue(os, this);
 
     }
+
+    public Map<Asignable, List<LocalDateTime>> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio){
+        HashMap<Asignable,List<LocalDateTime>> repeticiones = new HashMap<>();
+        for(Asignable asignable: asignables.values()){
+            repeticiones.put(asignable,asignable.obtenerAparicionesEnMesyAnio(numeroDeMes,anio));
+        }
+        return repeticiones;
+    }
+
 
     public static Calendario deserializar(InputStream is) throws IOException{
         ObjectMapper objectMapper = new JsonMapper();

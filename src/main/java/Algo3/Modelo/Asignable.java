@@ -2,6 +2,7 @@ package Algo3.Modelo;
 
 
 import Algo3.Constantes.ErrorTipo;
+import Algo3.Constantes.ParametroTipo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -80,31 +81,16 @@ public abstract class Asignable implements Serializable {
     }
 
     public abstract List<LocalDateTime> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio);
-
-    @JsonIgnore
-    protected abstract String getData();
-
+    @Override
+    public String toString(){
+        String data = titulo +", "+descripcion+", "+fechaInicio.toString()+
+                ", "+fechaFinal.toString();
+        for (Alarma alarma: alarmas) {
+            data =data.concat(", "+alarma.toString());
+        }
+        return data;
+    }
     public boolean comparar(Asignable asignable) {
-        if (!asignable.titulo.equals(this.titulo)) {
-            return false;
-        }
-        if (!asignable.descripcion.equals(this.descripcion)) {
-            return false;
-        }
-        if (!asignable.fechaInicio.equals(this.fechaInicio)) {
-            return false;
-        }
-        if (!asignable.fechaFinal.equals(this.fechaFinal)) {
-            return false;
-        }
-        if (this.alarmas.size() != asignable.alarmas.size()) {
-            return false;
-        }
-        for (int i = 0; i < this.alarmas.size(); i++) {
-            if (!this.alarmas.get(i).comparar(asignable.alarmas.get(i))) {
-                return false;
-            }
-        }
-        return this.getData().equals(asignable.getData());
+        return this.toString().equals(asignable.toString());
     }
 }

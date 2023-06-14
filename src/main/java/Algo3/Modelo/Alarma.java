@@ -38,21 +38,12 @@ public class Alarma implements Serializable {
         return this.disparador.getTipoDisparador();
     }
 
+    @Override
+    public String toString(){
+        return fecha.toString() + ", "+ tiempoAntes.toString()+ ", "+ disparador.getTipoDisparador();
+    }
     public void disparar(){
        this.disparador.disparar();
-    }
-
-    public boolean comparar(Alarma alarma){
-        if(!this.fecha.toString().equals(alarma.fecha.toString())){
-            return false;
-        }
-        if(!this.tiempoAntes.toString().equals(alarma.tiempoAntes.toString())){
-            return false;
-        }
-        if(!this.getTipo().toString().equals(alarma.getTipo().toString())){
-            return false;
-        }
-        return true;
     }
     
 }

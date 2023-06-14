@@ -1,10 +1,12 @@
 package Algo3.Componentes;
 
+import Algo3.Vista.DialogoEditarControlador;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,12 @@ public class ApiladorDeAsignables extends AnchorPane {
                 apilar(apilable);
             }
         });
+        apilable.addEditarEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DialogoEditarControlador controlador = new DialogoEditarControlador((Stage)getScene().getWindow());
+            }
+        });
     }
 
     public void apilar(Apilable nuevoApilado){
@@ -73,15 +81,16 @@ public class ApiladorDeAsignables extends AnchorPane {
     public void reordenar(){
         var apiladosCopy = new ArrayList<>(apilados);
         apilados.clear();
-        anchosDeFilas.replaceAll(new UnaryOperator<Double>() {
-            @Override
-            public Double apply(Double aDouble) {
-                return 0.0;
-            }
-        });
+        anchosDeFilas.replaceAll((valor) -> 0.0);
         for(Apilable apilable: apiladosCopy){
             this.apilar(apilable);
         }
+    }
+
+    public void desapilarTodo(){
+        getChildren().clear();
+        apilados.clear();
+        anchosDeFilas.replaceAll(ancho->0.0);
     }
     public void desapilar(Apilable apiladoAborrar){
         if(!apilados.contains(apiladoAborrar)){

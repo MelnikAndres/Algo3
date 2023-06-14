@@ -1,5 +1,6 @@
 package Algo3.Modelo;
 
+import Algo3.Constantes.ParametroTipo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class Tarea extends Asignable {
         this.esCompletada = !this.esCompletada;
     }
     @Override
-    protected String getData() {
-        return esCompletada?"esCompletada":"noEsCompletada";
+    public String toString() {
+        return super.toString()+", "+(esCompletada?"esCompletada":"noEsCompletada");
     }
 }

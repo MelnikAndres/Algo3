@@ -1,7 +1,6 @@
 package Algo3.Componentes;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
@@ -10,19 +9,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Apilable extends VBox {
-    @FXML
-    private CheckBox checkBox;
     @FXML
     private Label horario;
     @FXML
@@ -35,26 +33,58 @@ public class Apilable extends VBox {
     private Button botonEditar;
     @FXML
     private Button botonFinal;
-    private StringProperty tituloDeAsignable = new SimpleStringProperty("(Sin Titulo)");
+    private StringProperty tituloDeAsignable ;
     private String horarioInicio = "";
     private StringProperty horarioFin;
     private BooleanProperty reescalando = new SimpleBooleanProperty(false);
     private int filaInicio;
+    private int offsetInicio;
+
     private IntegerProperty filaFin;
-    public Apilable(int filaInicio){
+    public Apilable(int filaInicio){//constructor desde arrastre
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
         permitirReescalar();
-        this.filaInicio = filaInicio;
-        this.filaFin = new SimpleIntegerProperty(filaInicio);
-        var horaEntera = filaInicio/4;
-        var minutos = filaInicio%4 * 15;
-        horarioInicio = calcularHorario(horaEntera,minutos);
-        horarioFin = new SimpleStringProperty(horarioInicio);
-        titulo.textProperty().bind(tituloDeAsignable);
         cambioSuaveDePadding();
+
+        tituloDeAsignable = new SimpleStringProperty("(Sin Titulo)");
+        titulo.textProperty().bind(tituloDeAsignable);
+
+        this.filaInicio = filaInicio;
+        this.offsetInicio = 0;
+        this.filaFin = new SimpleIntegerProperty(filaInicio);
+        AnchorPane.setTopAnchor(this,(double) this.filaInicio*15);
+
+        //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
+        horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15);
+        horarioFin = new SimpleStringProperty(horarioInicio);
         horarioDinamico();
+
+
+    }
+    public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin){
+        cargarFXML();
+        agregarEstilos();
+        limitarTamanio();
+        permitirReescalar();
+        cambioSuaveDePadding();
+        this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
+        titulo.textProperty().bind(this.tituloDeAsignable);
+
+        this.filaInicio = fechaInicio.getHour()*4 + fechaInicio.getMinute()/15;
+        this.offsetInicio = fechaInicio.getMinute()%15;
+        this.filaFin = new SimpleIntegerProperty(fechaFin.getHour()*4+ fechaFin.getMinute()/15);
+        AnchorPane.setTopAnchor(this,(double) filaInicio*15 + offsetInicio);
+
+        //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
+        horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15 + offsetInicio);
+        horarioFin = new SimpleStringProperty(calcularHorario(filaFin.get()/4,filaFin.get()%4 * 15));
+        horarioDinamico();
+
+        double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
+                (fechaInicio.getHour()*60 + fechaInicio.getMinute());
+        setNuevaAltura(altura);
     }
     private void cambioSuaveDePadding(){
         StringBinding paddingHorario = new StringBinding() {
@@ -127,6 +157,7 @@ public class Apilable extends VBox {
         titulo.setText(tituloNuevo);
     }
     public void setNuevaAltura(double altura) {
+        filaFin.set(filaInicio  + ((int)(altura+14+offsetInicio)/15)-1);
         this.setPrefHeight(altura);
         this.horario.setVisible(altura >= 30);
         if(altura < 45){
@@ -134,17 +165,14 @@ public class Apilable extends VBox {
         }else{
             botonesPadding(new Insets(3,0,0,0));
         }
-        int alturaDiscreta = ((int)(altura+14)/15)*15;
-        filaFin.set(filaInicio  + (alturaDiscreta/15)-1);
         reescribirHorario(altura);
     }
     public void reescribirHorario(double nuevaAltura) {
-        nuevaAltura += (filaInicio*15)%60;
+        nuevaAltura += (filaInicio*15)%60 + offsetInicio;
         var horaEntera = (int)nuevaAltura/60 + filaInicio/4;
         var minutos = (int)nuevaAltura%60;
         horarioFin.set(calcularHorario(horaEntera,minutos));
     }
-
     private String calcularHorario(int horaEntera, int minutos){
         String minutosTexto = minutos<10?"0"+minutos:String.valueOf(minutos);
         if(horaEntera <12){
@@ -188,7 +216,6 @@ public class Apilable extends VBox {
         botonEditar.setPadding(insets);
         botonFinal.setPadding(insets);
     }
-
     public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonBorrar.setOnAction(handler);
     }
@@ -201,36 +228,12 @@ public class Apilable extends VBox {
     public BooleanProperty getReescalandoProperty(){
         return reescalando;
     }
-    public boolean haySuperposicion(Apilable otro){
-        var estasOcupadas = this.filasOcupadas();
-        var otrasOcupadas = otro.filasOcupadas();
-        estasOcupadas.retainAll(otrasOcupadas);
-        return estasOcupadas.size()>0;
-    }
-
-    public List<Integer> filasOcupadas(){
-        List<Integer> ocupadas = new ArrayList<>();
-        for(int i = filaInicio; i<=filaFin.getValue();i++){
-            ocupadas.add(i);
-        }
-        return ocupadas;
-    }
-    private void cargarFXML(){
-        try {
-            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Diario/apilableLayout.fxml").toUri().toURL());
-            loader.setController(this);
-            loader.setRoot(this);
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
     private void permitirReescalar() {
         var valoresIniciales = new Object(){
             private double yInicial;
             private double alturaInicial;
         };
-        var eventHandler = new EventHandler<MouseEvent>() {
+        addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
@@ -243,8 +246,7 @@ public class Apilable extends VBox {
                     event.consume();
                 }
             }
-        };
-        addEventHandler(MouseEvent.MOUSE_PRESSED,eventHandler);
+        });
         addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -273,6 +275,31 @@ public class Apilable extends VBox {
                 }
             }
         });
+    }
+
+    public boolean haySuperposicion(Apilable otro){
+        var estasOcupadas = this.filasOcupadas();
+        var otrasOcupadas = otro.filasOcupadas();
+        estasOcupadas.retainAll(otrasOcupadas);
+        return estasOcupadas.size()>0;
+    }
+
+    public List<Integer> filasOcupadas(){
+        List<Integer> ocupadas = new ArrayList<>();
+        for(int i = filaInicio; i<=filaFin.getValue();i++){
+            ocupadas.add(i);
+        }
+        return ocupadas;
+    }
+    private void cargarFXML(){
+        try {
+            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Diario/apilableLayout.fxml").toUri().toURL());
+            loader.setController(this);
+            loader.setRoot(this);
+            loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

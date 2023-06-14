@@ -22,15 +22,15 @@ public class SelectorCalendario extends StackPane {
         popupContent.setEffect(null);
         this.getChildren().add(popupContent);
         agregarEstilos();
-
+    }
+    public ObjectProperty<LocalDate> getFechaActualProperty(){
+        return datePicker.valueProperty();
     }
     private void agregarEstilos(){
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/selectorCalendario.css").toUri().toString());
         this.getStyleClass().add("raiz");
     }
-    public ObjectProperty<LocalDate> getPropertyFecha(){
-        return datePicker.valueProperty();
-    }
+
     public void setOnAction(EventHandler<ActionEvent> handler){
         datePicker.setOnAction(handler);
     }

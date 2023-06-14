@@ -1,6 +1,7 @@
-package Algo3.Controlador;
+package Algo3.Vista.Calendario;
 
 
+import Algo3.Modelo.Asignable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -22,47 +23,27 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
 import javafx.scene.control.Label;
 import javafx.scene.text.TextAlignment;
 
-public class MensualControlador{
+public class CalendarioMensualVista{
     @FXML
     StackPane contenedor;
     @FXML
-    ScrollPane scrollMensual;
-    @FXML
     GridPane grillaMensual;
 
-    public MensualControlador(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty, ObjectProperty<LocalDate> dateValue) throws MalformedURLException {
+    public CalendarioMensualVista( ){
         cargarFXML();
-        crearGrilla(dateValue.get());
-
-        widthProperty.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                scrollMensual.setPrefWidth(t1.doubleValue()-250);
-
-            }
-        });
-        heightProperty.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                scrollMensual.setPrefHeight(t1.doubleValue());
-
-            }
-        });
-        dateValue.addListener(new ChangeListener<LocalDate>() {
-            @Override
-            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
-                cambiarGrilla(t1);
-            }
-        });
     }
-    public void cargarFXML() {
+    private void cargarFXML() {
         try {
             FXMLLoader loader = new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/mensualLayout.fxml").toUri().toURL());
             loader.setController(this);
+            loader.setRoot(this);
             loader.load();
         }catch(IOException e){
             throw new RuntimeException(e);
@@ -71,7 +52,7 @@ public class MensualControlador{
 
     private void agregarApilable(){}
 
-    public void crearGrilla(LocalDate fecha){
+    private void crearGrilla(LocalDate fecha){
         agregarColumnas();
         grillaMensual.setStyle("-fx-background-color: #142131");
         rellenarGrilla(fecha);
@@ -85,9 +66,9 @@ public class MensualControlador{
 
     }
 
-    public void agregarColumnas(){
+    private void agregarColumnas(){
         for(int i = 0;i<7;i++){
-            var column = crearColumna();
+            var column = new StackPane();
             var constraints = new ColumnConstraints();
             constraints.setMinWidth(200);
             constraints.setMaxWidth(200);
@@ -176,7 +157,7 @@ public class MensualControlador{
         }
         return vbox;
     }
-    public void agregarSeparadoresHorizontales(){
+    private void agregarSeparadoresHorizontales(){
         for(int i = 0; i<6; i++){
             for(int j = 0; j<7; j++){
                 grillaMensual.add(crearSeparadoresHorizontales(),j,i);
@@ -190,7 +171,7 @@ public class MensualControlador{
         vbox.setFillWidth(true);
         return vbox;
     }
-    public void agregarSeparadoresVerticales(){
+    private void agregarSeparadoresVerticales(){
         for(int i = 0; i<6; i++){
             for(int j = 0; j<7; j++){
                 grillaMensual.add(crearSeparadores(),j,i);
@@ -209,11 +190,15 @@ public class MensualControlador{
         separador.setValignment(VPos.CENTER);
         return new VBox(separador);
     }
-    private StackPane crearColumna(){
-        var columnaDia = new StackPane();
-        return columnaDia;
+
+    public void montarVista(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,ObjectProperty<LocalDate> dateValue) {
+        crearGrilla(dateValue.get());
+        dateValue.addListener(new ChangeListener<LocalDate>() {
+            @Override
+            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
+                cambiarGrilla(t1);
+            }
+        });
     }
 
-
-    public Parent getRoot(){return scrollMensual;}
 }
