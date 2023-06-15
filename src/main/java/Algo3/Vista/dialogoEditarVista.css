@@ -1,0 +1,6 @@
+@import "../constantes.css";
+@import "../estilosComunes.css";
+.dialog-pane {
+    -fx-background-color: -fx-color-primario;
+    -fx-padding: 0;
+}

@@ -1,5 +1,6 @@
 @import "../constantes.css";
 @import "../estilosComunes.css";
+@import "../scrollBar.css";
 *:focused{
     -fx-background-color: transparent;
 }

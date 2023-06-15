@@ -4,26 +4,27 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class ExtraIntervalo extends VBox {
+public class ExtraEntero extends VBox {
     @FXML
-    private TextField intervaloInput ;
+    private TextField enteroInput;
+    @FXML
+    private Label titulo;
 
-    ExtraIntervalo(){
+    ExtraEntero(String titulo){
         cargarFXML();
-        intervaloInput.textProperty().addListener(new ChangeListener<String>() {
+        this.titulo.setText(titulo);
+        enteroInput.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 if (!t1.matches("\\d*")) {
-                    intervaloInput.setText(t1.replaceAll("[^\\d]", ""));
+                    enteroInput.setText(t1.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -31,7 +32,7 @@ public class ExtraIntervalo extends VBox {
 
     private void cargarFXML(){
         try {
-            FXMLLoader loader = new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Dialogo/extrasIntervaloLayout.fxml").toUri().toURL());
+            FXMLLoader loader = new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Dialogo/extrasEnteroLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();

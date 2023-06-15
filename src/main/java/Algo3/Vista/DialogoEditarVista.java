@@ -6,12 +6,16 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -27,6 +31,7 @@ public class DialogoEditarVista extends DialogPane {
         cargarFXML();
         ObservableList<String> tipos = FXCollections.observableArrayList("Evento","Tarea");
         selectorAsignableTipo.setItems(tipos);
+        contenedor.setSpacing(10);
         selectorAsignableTipo.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -38,10 +43,8 @@ public class DialogoEditarVista extends DialogPane {
             }
         });
         ((VBox)getContent()).getChildren().add(opcionesExtra);
-    }
-
-    public ReadOnlyDoubleProperty getAlturaContenedor(){
-        return contenedor.heightProperty();
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/dialogoEditarVista.css").toUri().toString());
+        getStyleClass().add("contenedor");
     }
 
     public void cargarFXML() {

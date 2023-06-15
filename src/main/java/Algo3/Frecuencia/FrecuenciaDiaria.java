@@ -31,7 +31,7 @@ public class FrecuenciaDiaria implements Frecuencia {
     @Override
     public Parametros getParams() {
         Parametros parametros = new Parametros();
-        parametros.agregarParametro("Intervalo", ParametroTipo.ENTERO, intervalo.toString());
+        parametros.agregarParametro("Intervalo", ParametroTipo.INTERVALO, intervalo.toString());
         return parametros;
     }
 

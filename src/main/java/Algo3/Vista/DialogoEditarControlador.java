@@ -24,14 +24,7 @@ public class DialogoEditarControlador extends Dialog<ButtonType> {
     public DialogoEditarControlador(Stage stage){
         initModality(Modality.WINDOW_MODAL);
         initOwner(stage);
-        getDialogPane().setContent(dialogoEditarVista);
-        dialogoEditarVista.getAlturaContenedor().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                //141 es la altura del footer con los botones
-                setHeight(t1.doubleValue()+141);
-            }
-        });
+        setDialogPane(dialogoEditarVista);
         setTitle("Editar");
         var botonAceptar = new ButtonType("Aceptar", ButtonType.APPLY.getButtonData());
         var botonSalir = new ButtonType("Cancelar", ButtonType.CLOSE.getButtonData());
@@ -40,9 +33,9 @@ public class DialogoEditarControlador extends Dialog<ButtonType> {
         Optional<ButtonType> result = showAndWait();
         if(result.isPresent()){
             var resultadoTipo = result.get();
-            if(resultadoTipo == botonSalir){
+            if(resultadoTipo == ButtonType.CLOSE){
                 System.out.println("closed");
-            }else if(resultadoTipo == botonAceptar){
+            }else if(resultadoTipo == ButtonType.APPLY){
                 System.out.println("aceptado");
             }
         }

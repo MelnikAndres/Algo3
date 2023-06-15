@@ -35,9 +35,9 @@ public class ExtraFrecuencia extends VBox {
             @Override
             public void changed(ObservableValue<? extends FrecuenciaTipo> observableValue, FrecuenciaTipo frecuenciaTipo, FrecuenciaTipo t1) {
                 switch (t1){
-                    case DIARIA -> opcionesExtra.setExtra(ParametroTipo.ENTERO);
+                    case DIARIA -> opcionesExtra.setExtra(ParametroTipo.INTERVALO);
                     case SEMANAL -> opcionesExtra.setExtra(ParametroTipo.DIASDESEMANA);
-                    case MENSUAL, ANUAL -> opcionesExtra.setExtra();
+                    case MENSUAL, ANUAL, NULA -> opcionesExtra.setExtra();
                 }
             }
         });

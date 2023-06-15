@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <DatePicker maxWidth="-Infinity" prefWidth="100.0">
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </DatePicker>
+      <ScrollPane fx:id="horaScroll" fitToWidth="true" hbarPolicy="NEVER" prefHeight="50.0" prefWidth="45.0" vbarPolicy="ALWAYS">
+         <content>
+            <VBox fx:id="horasContainer" alignment="CENTER" maxWidth="1.7976931348623157E308" />
+         </content>
+      </ScrollPane>
+      <Label style="-fx-text-fill: white" maxHeight="1.7976931348623157E308" text=" : " />
+      <ScrollPane fx:id="minutoScroll" fitToWidth="true" hbarPolicy="NEVER" prefHeight="50.0" prefWidth="45.0" vbarPolicy="ALWAYS">
+         <content>
+            <VBox fx:id="minutosContainer" alignment="CENTER" maxWidth="1.7976931348623157E308" />
+         </content>
+      </ScrollPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" top="10.0" />
+   </padding>
+</fx:root>
