@@ -1,0 +1,18 @@
+@import "../../constantes.css";
+
+.boton-dia{
+    -fx-background-color: -fx-color-primario,white,-fx-color-primario;
+    -fx-border-width: 0;
+    -fx-text-fill: white;
+    -fx-background-insets: 0,1,2;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-cursor: hand;
+}
+
+.boton-dia:selected{
+    -fx-background-color: -fx-color-accion,white,-fx-color-accion;
+}
+.boton-dia:hover{
+    -fx-effect: innershadow( gaussian , rgba(94, 107, 131, 0.5), 15 , 1 , 0 , 0 )
+}

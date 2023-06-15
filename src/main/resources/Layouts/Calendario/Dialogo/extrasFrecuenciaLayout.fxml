@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root type="VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Frecuencia" />
-      <ChoiceBox fx:id="opciones" prefWidth="150.0" />
+      <Label alignment="CENTER" style="-fx-text-fill: white" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Frecuencia" />
+      <ChoiceBox fx:id="opciones" maxWidth="1.7976931348623157E308" />
    </children>
 </fx:root>

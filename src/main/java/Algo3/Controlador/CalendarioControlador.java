@@ -10,7 +10,6 @@ import java.util.Map;
 public abstract class CalendarioControlador {
 
     public abstract void cargarAsignables(Map<Asignable, List<LocalDateTime>> repeticiones);
-
     public abstract Node getVista();
 
 }

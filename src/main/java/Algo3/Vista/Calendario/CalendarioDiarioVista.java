@@ -52,8 +52,8 @@ public class CalendarioDiarioVista extends ScrollPane {
     public void montarVista(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty) {
         prefWidthProperty().bind(widthProperty.subtract(250));
         maxHeightProperty().bind(heightProperty);
-        apiladorDeAsignables.prefWidthProperty().bind(widthProperty.subtract(341));
-        apiladorDeAsignables.maxWidthProperty().bind(widthProperty.subtract(341));
+        apiladorDeAsignables.prefWidthProperty().bind(widthProperty.subtract(338));
+        apiladorDeAsignables.maxWidthProperty().bind(widthProperty.subtract(338));
         grillaDiario.prefWidthProperty().bind(apiladorDeAsignables.prefWidthProperty().add(60));
         grillaDiario.minWidthProperty().bind(apiladorDeAsignables.widthProperty().add(60));
     }

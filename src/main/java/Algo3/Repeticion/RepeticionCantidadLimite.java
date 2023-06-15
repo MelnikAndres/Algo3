@@ -46,8 +46,7 @@ public class RepeticionCantidadLimite implements Repeticion{
 
     public Parametros getParams() {
         Parametros parametros = new Parametros();
-        parametros.agregarParametro("Fecha Inicial", ParametroTipo.FECHA,fechaInicio.toString());
-        parametros.agregarParametro("Repeticiones",ParametroTipo.ENTERO, cantidadDeRepeticiones.toString());
+        parametros.agregarParametro("Repeticiones",ParametroTipo.CANTIDAD, cantidadDeRepeticiones.toString());
         return parametros;
     }
 

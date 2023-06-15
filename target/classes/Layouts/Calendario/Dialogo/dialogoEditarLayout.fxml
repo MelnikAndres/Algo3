@@ -1,30 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<fx:root type="DialogPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <header>
-      <Label alignment="CENTER" text="Editar" />
-   </header>
+<?import Algo3.Componentes.OpcionesExtra.*?>
+<fx:root minWidth="520.0" type="DialogPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <VBox fx:id="contenedor" prefHeight="200.0" prefWidth="100.0">
+      <VBox fx:id="contenedor" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="520.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Titulo" />
-            <TextField />
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Descripcion" />
-            <TextArea prefColumnCount="3" prefHeight="200.0" prefRowCount="3" prefWidth="200.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Fecha Inicial" />
-            <DatePicker />
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Fecha Final" />
-            <DatePicker />
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Tipo" />
-            <ChoiceBox fx:id="selectorAsignableTipo" prefWidth="150.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Titulo" />
+            <TextField maxWidth="1.7976931348623157E308" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Descripcion" />
+            <TextArea maxWidth="1.7976931348623157E308" prefRowCount="2" VBox.vgrow="SOMETIMES" />
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="20.0" styleClass="texto-blanco" text="Dia completo" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ToggleButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
+                           <font>
+                              <Font size="6.0" />
+                           </font></ToggleButton>
+                     </graphic>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" spacing="10" VBox.vgrow="NEVER">
+               <children>
+                  <VBox maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Fecha y Hora Inicial" />
+                        <ExtraFechaHora />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Fecha y Hora Final" />
+                        <ExtraFechaHora />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Tipo" />
+            <ChoiceBox fx:id="selectorAsignableTipo" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
          </children>
       </VBox>
    </content>

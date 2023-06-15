@@ -1,0 +1,26 @@
+@import "../../scrollBar.css";
+@import "../../estilosComunes.css";
+@import "../../constantes.css";
+.boton-hora{
+    -fx-background-color: -fx-color-primario,white,-fx-color-primario;
+    -fx-border-width: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+    -fx-background-insets: 0,1,2;
+    -fx-cursor: hand;
+}
+
+.boton-hora:selected{
+    -fx-background-color: -fx-color-accion,white,-fx-color-accion;
+    -fx-text-fill: white;
+}
+.boton-hora:hover{
+    -fx-effect: innershadow( gaussian , rgba(94, 107, 131, 0.5), 15 , 1 , 0 , 0 )
+}
+
+.borde-Y{
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-width: 1px;
+    -fx-border-color: derive(-fx-color-primario,65%);
+}
