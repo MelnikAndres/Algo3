@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
 
 <?import Algo3.Componentes.*?>
-<fx:root type="HBox" styleClass="fondo-primario" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-    <Menu fx:id="menu"/>
+<?import javafx.scene.layout.HBox?>
+<fx:root type="StackPane"  xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <HBox fx:id="contenido" styleClass="fondo-primario">
+        <Menu fx:id="menu"/>
+    </HBox>
 </fx:root>

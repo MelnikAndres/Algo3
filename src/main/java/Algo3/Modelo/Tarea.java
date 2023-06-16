@@ -1,12 +1,12 @@
 package Algo3.Modelo;
 
 import Algo3.Constantes.ParametroTipo;
-import Algo3.Utilidad.Editor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Tarea extends Asignable {
     private boolean esCompletada;
@@ -35,7 +35,9 @@ public class Tarea extends Asignable {
         return super.toString()+", "+(esCompletada?"esCompletada":"noEsCompletada");
     }
     @Override
-    public void aceptarEdicion(Editor editor){
-        editor.editar(this);
+    public Map<ParametroTipo,String> obtenerParametros(){
+        var parametros = super.obtenerParametros();
+        parametros.put(ParametroTipo.TIPO,"Tarea");
+        return parametros;
     }
 }

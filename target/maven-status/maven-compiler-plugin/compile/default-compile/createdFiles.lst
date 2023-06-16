@@ -3,6 +3,7 @@ Algo3\Componentes\Menu$2.class
 Algo3\Disparador\Notificacion.class
 Algo3\Repeticion\RepeticionCantidadLimite.class
 Algo3\Componentes\OpcionesExtra\ExtraFechaHora.class
+Algo3\Controlador\CalendarioMensualControlador.class
 Algo3\Componentes\OpcionesExtra\ExtraEntero.class
 Algo3\Componentes\Apilable$7.class
 Algo3\Componentes\OpcionesExtra\ExtraEvento.class
@@ -60,7 +61,6 @@ Algo3\Componentes\Apilable.class
 Algo3\Frecuencia\FrecuenciaSemanal.class
 Algo3\Componentes\OpcionesExtra\ExtraDiaDeSemana.class
 Algo3\Componentes\SelectorCalendario.class
-Algo3\Utilidad\Editor.class
 Algo3\Componentes\Apilable$5.class
 Algo3\Disparador\Disparador.class
 Algo3\Modelo\Tarea.class
@@ -69,6 +69,7 @@ Algo3\Componentes\ApiladorDeAsignables$3.class
 Algo3\Disparador\Mail.class
 Algo3\Controlador\CalendarioControlador.class
 Algo3\Modelo\Calendario.class
+Algo3\Componentes\Casilla.class
 Algo3\Modelo\Alarma.class
 Algo3\Vista\DialogoEditarVista$2.class
 Algo3\Frecuencia\FrecuenciaDiaria.class

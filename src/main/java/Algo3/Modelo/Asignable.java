@@ -3,8 +3,6 @@ package Algo3.Modelo;
 
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
-import Algo3.Utilidad.Editor;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
@@ -106,5 +104,4 @@ public abstract class Asignable implements Serializable {
         return this.toString().equals(asignable.toString());
     }
 
-    public abstract void aceptarEdicion(Editor editor);
 }

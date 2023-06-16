@@ -63,8 +63,6 @@ public class CalendarioSemanalVista extends VBox {
     private List<String> dias = List.of("Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
     private List<VBox> containers;
     private List<Label> labels;
-    private DoubleProperty maxHeight;
-
 
     public CalendarioSemanalVista(){
         cargarFXML();
@@ -82,10 +80,9 @@ public class CalendarioSemanalVista extends VBox {
 
     public void montarVista(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty, ObjectProperty<LocalDate> fechaActiva) {
         labelsContainer.prefWidthProperty().bind(widthProperty.subtract(278));
-        scrollContainer.maxHeightProperty().bind(heightProperty.subtract(labelsContainer.heightProperty()));
-        scrollContainer.prefViewportHeightProperty().bind(heightProperty);
+        scrollContainer.prefViewportHeightProperty().bind(heightProperty.subtract(labelsContainer.heightProperty()));
         scrollContainer.prefViewportWidthProperty().bind(widthProperty.subtract(278));
-        contenedor.minHeightProperty().bind(heightProperty);
+        contenedor.minHeightProperty().bind(heightProperty.subtract(labelsContainer.heightProperty()));
         contenedor.prefWidthProperty().bind(labelsContainer.widthProperty());
         fechaActiva.addListener(new ChangeListener<LocalDate>() {
             @Override

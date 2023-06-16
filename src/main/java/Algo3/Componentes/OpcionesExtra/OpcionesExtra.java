@@ -48,6 +48,7 @@ public class OpcionesExtra extends VBox implements OpcionExtra {
                 extra = nuevoExtra;
             }
         }
+        getScene().getWindow().sizeToScene();
     }
 
     @Override
