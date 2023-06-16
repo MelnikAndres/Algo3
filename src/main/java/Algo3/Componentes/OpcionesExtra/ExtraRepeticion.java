@@ -60,6 +60,7 @@ public class ExtraRepeticion extends VBox implements OpcionExtra {
     }
     public void setValor(String valor){
         String[] valorSplit = valor.split(";");
+        System.out.println(valor);
         opciones.setValue(RepeticionTipo.valueOf(valorSplit[0]));
         opcionesExtra.setValor(valorSplit[1]);
     }

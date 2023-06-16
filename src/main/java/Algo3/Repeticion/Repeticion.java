@@ -28,7 +28,7 @@ public interface Repeticion extends Serializable {
     RepeticionTipo getTipo();
 
     @JsonIgnore
-    default String getParams(){return "";}
+    default String getParams(){return "null";}
 
     public static Repeticion desdeString(String datosJuntos){
         var datosSeparados = datosJuntos.split(";");

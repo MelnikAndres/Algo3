@@ -20,6 +20,7 @@ public class ExtraEvento extends VBox implements OpcionExtra {
 
     @Override
     public void setValor(String valor) {
+        System.out.println(valor);
         String[] valorSplit = valor.split("R:F");
         extraFrecuencia.setValor(valorSplit[1]);
         extraRepeticion.setValor(valorSplit[0]);

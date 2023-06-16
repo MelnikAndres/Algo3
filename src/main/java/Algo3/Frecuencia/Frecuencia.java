@@ -22,7 +22,7 @@ public interface Frecuencia {
     @JsonIgnore
     FrecuenciaTipo getTipo();
     @JsonIgnore
-    default String getParams(){return  "";}
+    default String getParams(){return  "null";}
     public static Frecuencia desdeString(String datosJuntos){
         var datosSeparados = datosJuntos.split(";");
         var tipo = FrecuenciaTipo.valueOf(datosSeparados[0]);
