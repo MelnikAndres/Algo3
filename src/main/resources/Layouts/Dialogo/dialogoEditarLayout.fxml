@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import Algo3.Componentes.OpcionesExtra.*?>
+<fx:root minWidth="520.0" type="DialogPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox fx:id="contenedor" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="520.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Titulo" />
+            <TextField fx:id="tituloField" maxWidth="1.7976931348623157E308" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Descripcion" />
+            <TextArea wrapText="true" fx:id="descripcionArea" maxWidth="1.7976931348623157E308" prefRowCount="2" VBox.vgrow="SOMETIMES" />
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="20.0" styleClass="texto-blanco" text="Dia completo" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ToggleButton fx:id="diaCompletoToggle" styleClass="boton-dia-completo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
+                           <font>
+                              <Font size="6.0" />
+                           </font></ToggleButton>
+                     </graphic>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="fechasContainer" alignment="TOP_CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" spacing="10" VBox.vgrow="NEVER">
+               <children>
+                  <VBox maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Fecha y Hora Inicial" />
+                        <ExtraFechaHora fx:id="fechaInicial"  />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Fecha y Hora Final" />
+                        <ExtraFechaHora fx:id="fechaFinal" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label styleClass="texto-chico" text="¡Si las fechas son identicas se tomará como dia completo!">
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto-blanco" text="Tipo" />
+            <ChoiceBox fx:id="selectorAsignableTipo" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
+         </children>
+      </VBox>
+   </content>
+</fx:root>

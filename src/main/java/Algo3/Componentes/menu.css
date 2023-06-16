@@ -40,6 +40,22 @@
     -fx-border-radius: 0 0 0 0;
     -fx-cursor: hand;
 }
+.boton-rango:hover{
+    -fx-background-color: derive(-fx-color-hover,15%);
+    -fx-border-color: -fx-color-primario;
+    -fx-background-insets: 0 0 0 0, 0, 0, 0;
+    -fx-background-radius: 0,0,0,0;
+}
+.boton-agregar{
+    -fx-background-color: -fx-color-accion;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0 0 0 0;
+    -fx-cursor: hand;
+}
+.boton-agregar:hover{
+    -fx-background-color: derive(-fx-color-accion,50%);
+}
 .fuente-XL{
     -fx-font-size: 24;
 }
@@ -51,10 +67,4 @@
 }
 .padding-y-5{
     -fx-padding: 5 0 5 0;
-}
-.boton-rango:hover{
-    -fx-background-color: derive(-fx-color-hover,15%);
-    -fx-border-color: -fx-color-primario;
-    -fx-background-insets: 0 0 0 0, 0, 0, 0;
-    -fx-background-radius: 0,0,0,0;
 }

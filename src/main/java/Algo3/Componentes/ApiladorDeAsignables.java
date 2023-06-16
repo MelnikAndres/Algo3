@@ -49,12 +49,6 @@ public class ApiladorDeAsignables extends AnchorPane {
                 apilar(apilable);
             }
         });
-        apilable.addEditarEvent(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                DialogoEditarControlador controlador = new DialogoEditarControlador((Stage)getScene().getWindow());
-            }
-        });
     }
 
     public void apilar(Apilable nuevoApilado){

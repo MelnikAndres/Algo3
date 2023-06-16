@@ -4,10 +4,11 @@ import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Constantes.RepeticionTipo;
-import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class RepeticionCantidadLimite implements Repeticion{
 
@@ -44,12 +45,9 @@ public class RepeticionCantidadLimite implements Repeticion{
         return RepeticionTipo.CANTIDAD_LIMITE;
     }
 
-    public Parametros getParams() {
-        Parametros parametros = new Parametros();
-        parametros.agregarParametro("Repeticiones",ParametroTipo.CANTIDAD, cantidadDeRepeticiones.toString());
-        return parametros;
+    public String getParams() {
+        return cantidadDeRepeticiones.toString();
     }
-
 }
 
 

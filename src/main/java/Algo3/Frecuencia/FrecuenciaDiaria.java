@@ -3,10 +3,12 @@ package Algo3.Frecuencia;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.ParametroTipo;
-import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class FrecuenciaDiaria implements Frecuencia {
 
@@ -29,10 +31,8 @@ public class FrecuenciaDiaria implements Frecuencia {
     }
 
     @Override
-    public Parametros getParams() {
-        Parametros parametros = new Parametros();
-        parametros.agregarParametro("Intervalo", ParametroTipo.INTERVALO, intervalo.toString());
-        return parametros;
+    public String getParams() {
+        return String.valueOf(intervalo);
     }
 
 }

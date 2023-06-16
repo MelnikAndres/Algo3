@@ -2,35 +2,64 @@ package Algo3.Componentes.OpcionesExtra;
 
 import Algo3.Constantes.ParametroTipo;
 
-import javafx.scene.Node;
-
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.List;
+public class OpcionesExtra extends VBox implements OpcionExtra {
 
-public class OpcionesExtra extends VBox {
+    private OpcionExtra extra;
 
     public OpcionesExtra(){
         setMinWidth(USE_COMPUTED_SIZE);
         setPrefWidth(USE_COMPUTED_SIZE);
         setSpacing(10);
     }
-    public void setExtra(ParametroTipo... opciones){
 
+    public void addExtra(){
         getChildren().clear();
-        List<Node> extras= new ArrayList<>();
-        for(ParametroTipo opcion: opciones){
-            switch (opcion){
-                case FECHA -> extras.add(new ExtraFechaHora());
-                case INTERVALO -> extras.add(new ExtraEntero("Intervalo"));
-                case CANTIDAD -> extras.add(new ExtraEntero("Repeticiones"));
-                case DIASDESEMANA -> extras.add(new ExtraDiaDeSemana());
-                case FRECUENCIA -> extras.add(new ExtraFrecuencia());
-                case REPETICION -> extras.add(new ExtraRepeticion());
+        extra = null;
+        getScene().getWindow().sizeToScene();
+    }
+    public void addExtra(ParametroTipo opcionTipo){
+        getChildren().clear();
+        switch (opcionTipo){
+            case FECHA -> {
+                ExtraFechaHora nuevoExtra= new ExtraFechaHora();
+                getChildren().add(nuevoExtra);
+                extra = nuevoExtra;
+            }
+            case INTERVALO -> {
+                ExtraEntero nuevoExtra= new ExtraEntero("Intervalo");
+                getChildren().add(nuevoExtra);
+                extra = nuevoExtra;
+            }
+            case CANTIDAD -> {
+                ExtraEntero nuevoExtra= new ExtraEntero("Repeticiones");
+                getChildren().add(nuevoExtra);
+                extra = nuevoExtra;
+            }
+            case DIASDESEMANA -> {
+                ExtraDiaDeSemana nuevoExtra= new ExtraDiaDeSemana();
+                getChildren().add(nuevoExtra);
+                extra = nuevoExtra;
+            }
+            case REPETICION_FRECUENCIA -> {
+                ExtraEvento nuevoExtra= new ExtraEvento();
+                getChildren().add(nuevoExtra);
+                extra = nuevoExtra;
             }
         }
-        getChildren().addAll(extras);
-        getScene().getWindow().sizeToScene();
+    }
+
+    @Override
+    public String getValor() {
+        if(extra!= null){
+            return extra.getValor();
+        }
+        return "";
+    }
+
+    @Override
+    public void setValor(String valor) {
+        extra.setValor(valor);
     }
 }

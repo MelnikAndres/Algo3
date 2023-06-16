@@ -3,6 +3,7 @@ package Algo3.Componentes;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.*;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,8 +61,6 @@ public class Apilable extends VBox {
         horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15);
         horarioFin = new SimpleStringProperty(horarioInicio);
         horarioDinamico();
-
-
     }
     public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin){
         cargarFXML();
@@ -152,10 +151,6 @@ public class Apilable extends VBox {
                         .otherwise(""));
         horaInLine.visibleProperty().bind(horario.visibleProperty().not());
     }
-    public void setTitulo(String tituloNuevo){
-        tituloDeAsignable.setValue(tituloNuevo);
-        titulo.setText(tituloNuevo);
-    }
     public void setNuevaAltura(double altura) {
         filaFin.set(filaInicio  + ((int)(altura+14+offsetInicio)/15)-1);
         this.setPrefHeight(altura);
@@ -198,17 +193,14 @@ public class Apilable extends VBox {
     }
 
     private void agregarEstilos(){
-        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/apilable.css").toUri().toString());
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/celda.css").toUri().toString());
         horario.getStyleClass().add("texto-blanco");
         horario.setVisible(false);
         horario.setPadding(new Insets(-6,0,0,0));
         horaInLine.getStyleClass().add("texto-blanco");
-        titulo.getStyleClass().addAll("texto-blanco","titulo-apilable","alinear-centro");
+        titulo.getStyleClass().addAll("texto-blanco","titulo","alinear-centro");
         titulo.setPadding(new Insets(-6, 0, 0, 0));
-        this.getStyleClass().addAll("contenedor-apilable");
-        botonBorrar.getStyleClass().add("boton-apilable");
-        botonEditar.getStyleClass().add("boton-apilable");
-        botonFinal.getStyleClass().add("boton-apilable");
+        this.getStyleClass().addAll("contenedor");
         botonesPadding(new Insets(-2,0,0,0));
     }
     private void botonesPadding(Insets insets){
@@ -217,13 +209,13 @@ public class Apilable extends VBox {
         botonFinal.setPadding(insets);
     }
     public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonBorrar.setOnAction(handler);
+        botonBorrar.addEventHandler(ActionEvent.ACTION,handler);
     }
     public void addEditarEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonEditar.setOnAction(handler);
+        botonEditar.addEventHandler(ActionEvent.ACTION,handler);
     }
     public void addFinalEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonFinal.setOnAction(handler);
+        botonFinal.addEventHandler(ActionEvent.ACTION,handler);
     }
     public BooleanProperty getReescalandoProperty(){
         return reescalando;
@@ -293,7 +285,8 @@ public class Apilable extends VBox {
     }
     private void cargarFXML(){
         try {
-            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Diario/apilableLayout.fxml").toUri().toURL());
+            FXMLLoader loader =  new FXMLLoader(
+                    Path.of("src/main/resources/Layouts/Componente/apilableLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
@@ -302,4 +295,23 @@ public class Apilable extends VBox {
         }
     }
 
+
+    public void editar(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
+        titulo.textProperty().bind(this.tituloDeAsignable);
+
+        this.filaInicio = fechaInicio.getHour()*4 + fechaInicio.getMinute()/15;
+        this.offsetInicio = fechaInicio.getMinute()%15;
+        this.filaFin = new SimpleIntegerProperty(fechaFin.getHour()*4+ fechaFin.getMinute()/15);
+        AnchorPane.setTopAnchor(this,(double) filaInicio*15 + offsetInicio);
+
+        //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
+        horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15 + offsetInicio);
+        horarioFin = new SimpleStringProperty(calcularHorario(filaFin.get()/4,filaFin.get()%4 * 15));
+        horarioDinamico();
+
+        double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
+                (fechaInicio.getHour()*60 + fechaInicio.getMinute());
+        setNuevaAltura(altura);
+    }
 }

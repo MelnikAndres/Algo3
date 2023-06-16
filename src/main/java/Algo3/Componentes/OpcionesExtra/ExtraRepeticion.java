@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class ExtraRepeticion extends VBox {
+public class ExtraRepeticion extends VBox implements OpcionExtra {
     @FXML
     private ChoiceBox<RepeticionTipo> opciones;
     private OpcionesExtra opcionesExtra = new OpcionesExtra();
@@ -35,16 +35,17 @@ public class ExtraRepeticion extends VBox {
             @Override
             public void changed(ObservableValue<? extends RepeticionTipo> observableValue, RepeticionTipo repeticionTipo, RepeticionTipo t1) {
                 switch (t1){
-                    case FECHA_LIMITE -> opcionesExtra.setExtra(ParametroTipo.FECHA);
-                    case CANTIDAD_LIMITE -> opcionesExtra.setExtra(ParametroTipo.CANTIDAD);
-                    case INFINITO -> opcionesExtra.setExtra();
+                    case FECHA_LIMITE -> opcionesExtra.addExtra(ParametroTipo.FECHA);
+                    case CANTIDAD_LIMITE -> opcionesExtra.addExtra(ParametroTipo.CANTIDAD);
+                    case INFINITO -> opcionesExtra.addExtra();
                 }
             }
         });
     }
     private void cargarFXML(){
         try {
-            FXMLLoader loader = new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Dialogo/extrasRepeticionLayout.fxml").toUri().toURL());
+            FXMLLoader loader = new FXMLLoader(
+                    Path.of("src/main/resources/Layouts/Dialogo/extrasRepeticionLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
@@ -52,5 +53,14 @@ public class ExtraRepeticion extends VBox {
                 IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    public String getValor() {
+        return opciones.getValue().name() + ";"+opcionesExtra.getValor();
+    }
+    public void setValor(String valor){
+        String[] valorSplit = valor.split(";");
+        opciones.setValue(RepeticionTipo.valueOf(valorSplit[0]));
+        opcionesExtra.setValor(valorSplit[1]);
     }
 }

@@ -3,6 +3,7 @@ package Algo3.Modelo;
 
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
+import Algo3.Utilidad.Editor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -10,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@type")
 public abstract class Asignable implements Serializable {
@@ -90,7 +93,18 @@ public abstract class Asignable implements Serializable {
         }
         return data;
     }
+    public Map<ParametroTipo,String> obtenerParametros(){
+        HashMap<ParametroTipo,String> parametros = new HashMap<>();
+        parametros.put(ParametroTipo.TITULO,titulo);
+        parametros.put(ParametroTipo.DESCRIPCION,descripcion);
+        parametros.put(ParametroTipo.DIACOMPLETO,fechaFinal.equals(fechaInicio)?"1":"");
+        parametros.put(ParametroTipo.FECHAINICIAL,fechaInicio.toString());
+        parametros.put(ParametroTipo.FECHAFINAL, fechaFinal.toString());
+        return parametros;
+    }
     public boolean comparar(Asignable asignable) {
         return this.toString().equals(asignable.toString());
     }
+
+    public abstract void aceptarEdicion(Editor editor);
 }

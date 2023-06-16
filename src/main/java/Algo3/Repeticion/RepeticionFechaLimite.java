@@ -3,10 +3,11 @@ package Algo3.Repeticion;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
-import Algo3.Modelo.Parametros;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class RepeticionFechaLimite implements Repeticion {
 
@@ -27,9 +28,7 @@ public class RepeticionFechaLimite implements Repeticion {
         return RepeticionTipo.FECHA_LIMITE;
     }
 
-    public Parametros getParams() {
-        Parametros parametros = new Parametros();
-        parametros.agregarParametro("Fecha Limite", ParametroTipo.FECHA, fechaLimite.toString());
-        return  parametros;
+    public String getParams() {
+        return  fechaLimite.toString();
     }
 }

@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import Algo3.Constantes.Dia;
 import Algo3.Frecuencia.FrecuenciaDiaria;
+import Algo3.Frecuencia.FrecuenciaSemanal;
 import Algo3.Repeticion.RepeticionCantidadLimite;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,12 +28,14 @@ public class Calendario implements Serializable{
     private int idIncremental = 0;
 
     public Calendario(){
-        var eventoDePrueba = new Evento("Prueba","Esto es una prueba",
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(61),
-                new FrecuenciaDiaria(1),
-                new RepeticionCantidadLimite(new FrecuenciaDiaria(1), LocalDateTime.now(), 10));
-       this.agregar(eventoDePrueba);
+        for(int i=0;i<10;i++){
+            var eventoDePrueba = new Evento("Prueba222222222222 2222","Esto es una prueba",
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    new FrecuenciaSemanal(List.of(Dia.JUEVES)),
+                    new RepeticionCantidadLimite( new FrecuenciaSemanal(List.of(Dia.JUEVES)), LocalDateTime.now(), 10));
+            this.agregar(eventoDePrueba);
+        }
     }
     public int getIdIncremental() {
         return idIncremental;
@@ -75,10 +79,10 @@ public class Calendario implements Serializable{
 
     }
 
-    public Map<Asignable, List<LocalDateTime>> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio){
-        HashMap<Asignable,List<LocalDateTime>> repeticiones = new HashMap<>();
-        for(Asignable asignable: asignables.values()){
-            repeticiones.put(asignable,asignable.obtenerAparicionesEnMesyAnio(numeroDeMes,anio));
+    public Map<Integer, List<LocalDateTime>> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio){
+        HashMap<Integer,List<LocalDateTime>> repeticiones = new HashMap<>();
+        for(Integer asignableId: asignables.keySet()){
+            repeticiones.put(asignableId,obtenerAsignablePorId(asignableId).obtenerAparicionesEnMesyAnio(numeroDeMes,anio));
         }
         return repeticiones;
     }

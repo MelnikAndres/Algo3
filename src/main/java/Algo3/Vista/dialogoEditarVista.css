@@ -4,3 +4,65 @@
     -fx-background-color: -fx-color-primario;
     -fx-padding: 0;
 }
+.choice-box{
+    -fx-background-color: -fx-color-primario;
+    -fx-border-color: -fx-color-blanco;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-mark-color: -fx-color-blanco;
+    -fx-cursor: hand;
+}
+.choice-box:hover{
+    -fx-effect: innershadow( gaussian ,-fx-color-hover, 15 , 1 , 0 , 0 )
+}
+.choice-box > .label {
+    -fx-text-fill: -fx-color-blanco;
+}
+
+.text-field, .text-area{
+    -fx-background-color: derive(-fx-color-primario,7%);
+    -fx-border-color: -fx-color-blanco;
+    -fx-text-fill: -fx-color-blanco;
+}
+.text-area .content{
+    -fx-background-color: derive(-fx-color-primario,7%);
+}
+.boton-dia-completo{
+    -fx-background-color: -fx-color-primario;
+    -fx-border-color: -fx-color-blanco;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-cursor: hand;
+}
+.boton-dia-completo:selected{
+    -fx-background-color: -fx-color-primario, -fx-color-accion;
+    -fx-background-insets: 0,6;
+}
+.dialog-pane > .button-bar > .container > .button {
+    -fx-background-color: -fx-color-primario;
+    -fx-border-color: -fx-color-blanco;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-cursor: hand;
+}
+.boton-dia-completo:hover, .dialog-pane > .button-bar > .container > .button:hover{
+    -fx-effect: innershadow( gaussian , rgba(94, 107, 131, 0.5), 15 , 1 , 0 , 0 )
+}
+.date-picker .arrow-button {
+    -fx-background-color: -fx-color-blanco;
+    -fx-border-color: -fx-color-blanco;
+    -fx-cursor: hand;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-effect: innershadow( gaussian , rgba(94, 107, 131, 0.5), 15 , 1 , 0 , 0 )
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: -fx-color-primario;
+    -fx-min-height: 13;
+    -fx-min-width: 13;
+}
+
+.texto-chico{
+    -fx-text-fill: derive(-fx-color-primario,90%);
+    -fx-font-size: 11;
+}

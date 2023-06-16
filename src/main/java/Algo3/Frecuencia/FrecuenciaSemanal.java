@@ -4,8 +4,6 @@ import Algo3.Constantes.Dia;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.FrecuenciaTipo;
 import Algo3.Constantes.ParametroTipo;
-import Algo3.Modelo.Parametros;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -61,10 +59,7 @@ public class FrecuenciaSemanal implements Frecuencia {
     public FrecuenciaTipo getTipo(){
         return FrecuenciaTipo.SEMANAL;
     }
-    public Parametros getParams() {
-        Parametros parametros = new Parametros();
-        parametros.agregarParametro("Intervalo", ParametroTipo.DIASDESEMANA,
-                diasDeLaSemana.stream().map(String::valueOf).collect(Collectors.joining(", ")));
-        return  parametros;
+    public String getParams() {
+        return  diasDeLaSemana.stream().map(ordinal->Dia.values()[ordinal].name()).collect(Collectors.joining(","));
     }
 }

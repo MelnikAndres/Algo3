@@ -9,7 +9,7 @@
 
 <fx:root alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <DatePicker maxWidth="-Infinity" prefWidth="100.0">
+      <DatePicker fx:id="fechaActual" maxWidth="-Infinity" prefWidth="100.0">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>

@@ -113,7 +113,7 @@ public class CalendarioDiarioVista extends ScrollPane {
 
     private void cargarFXML(){
         try {
-            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Diario/diarioLayout.fxml").toUri().toURL());
+            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/diarioLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();

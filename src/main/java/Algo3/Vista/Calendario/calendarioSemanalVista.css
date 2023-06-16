@@ -1,0 +1,25 @@
+@import "../../constantes.css";
+.label{
+    -fx-text-fill: -fx-color-blanco;
+}
+.contenedor,.root{
+    -fx-background-color: -fx-color-primario;
+    -fx-border-width: 0;
+}
+.scroll-pane{
+    -fx-background-color: derive(-fx-color-primario,35%),-fx-color-primario;
+    -fx-background-insets: 0,0 1 0 1;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+.vbox{
+    -fx-border-width: 0;
+    -fx-background-color: derive(-fx-color-primario,35%),-fx-color-primario;
+    -fx-background-insets: 0,0 1 0 1;
+}
+
+.dia-label{
+    -fx-border-width: 0;
+    -fx-background-color: derive(-fx-color-primario,35%),-fx-color-primario;
+    -fx-background-insets: 0,1;
+}

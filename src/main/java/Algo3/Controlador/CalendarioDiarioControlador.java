@@ -5,12 +5,16 @@ import Algo3.Componentes.ApiladorDeAsignables;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
 import Algo3.Vista.Calendario.CalendarioDiarioVista;
+import Algo3.Vista.DialogoEditarControlador;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,17 +27,17 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
     private ObjectProperty<LocalDate> fechaActual;
     private CalendarioDiarioVista  vista;
     private ApiladorDeAsignables apiladorDeAsignables;
+    private Calendario calendario;
 
-    CalendarioDiarioControlador(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,
+    CalendarioDiarioControlador(Calendario calendario, ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,
                                 ObjectProperty<LocalDate> dateValue){
         fechaActual = dateValue;
 
         vista = new CalendarioDiarioVista();
         vista.montarVista(widthProperty,heightProperty);
-
+        this.calendario = calendario;
         apiladorDeAsignables = vista.getApiladorDeAsignables();
         agregarEventosDelApilador();
-
     }
 
     private void agregarEventosDelApilador() {
@@ -66,6 +70,32 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
             this.actualAgregando = null;
         });
     }
+    private void agregarAcciones(Apilable apilable, Integer id){
+        apilable.addBorrarEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                calendario.eliminar(id);
+            }
+        });
+        apilable.addEditarEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Asignable asignable = calendario.obtenerAsignablePorId(id);
+                DialogoEditarControlador controlador = new DialogoEditarControlador((Stage)vista.getScene().getWindow());
+                controlador.cargarValores(asignable.obtenerParametros());
+                controlador.abrirYeditar(asignable);
+                apilable.editar(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
+                var listener = new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                        apiladorDeAsignables.reordenar();
+                        apilable.widthProperty().removeListener(this);
+                    }
+                };
+                apilable.widthProperty().addListener(listener);
+            }
+        });
+    }
     private void agregarNuevo(){
         actualAgregando = new Apilable(filaInicioDeArrastre);
         apiladorDeAsignables.getChildren().add(actualAgregando);
@@ -80,14 +110,16 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
         return (int) ((24*y*4)/apiladorDeAsignables.getHeight());
     }
 
-    public void cargarAsignables(Map<Asignable, List<LocalDateTime>> repeticiones){
+    public void cargarAsignables(Map<Integer, List<LocalDateTime>> repeticiones){
         apiladorDeAsignables.desapilarTodo();
-        for(Asignable asignable: repeticiones.keySet()){
-            for(LocalDateTime fecha: repeticiones.get(asignable)){
+        for(Integer asignableID: repeticiones.keySet()){
+            for(LocalDateTime fecha: repeticiones.get(asignableID)){
                 if(fecha.toLocalDate().equals(fechaActual.get())){
+                    Asignable asignable = calendario.obtenerAsignablePorId(asignableID);
                     var nuevoApilable = new Apilable(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
                     apiladorDeAsignables.getChildren().add(nuevoApilable);
                     apiladorDeAsignables.agregarComportamiento(nuevoApilable);
+                    agregarAcciones(nuevoApilable, asignableID);
                     var listener = new ChangeListener<Number>() {
                         @Override
                         public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {

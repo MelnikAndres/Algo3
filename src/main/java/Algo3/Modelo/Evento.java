@@ -6,10 +6,12 @@ import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
+import Algo3.Utilidad.Editor;
 import com.fasterxml.jackson.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Evento extends Asignable {
@@ -40,11 +42,11 @@ public class Evento extends Asignable {
         return repeticion.getTipo();
     }
     @JsonIgnore
-    public Parametros getParametrosFrecuencia() {
+    public String getParametrosFrecuencia() {
         return frecuencia.getParams();
     }
     @JsonIgnore
-    public Parametros getParametrosRepeticion() {
+    public String getParametrosRepeticion() {
         return repeticion.getParams();
     }
     public LocalDateTime getUltimoDiaDeRepeticion(){return ultimoDiaDeRepeticion;}
@@ -129,15 +131,24 @@ public class Evento extends Asignable {
     public String toString(){
         String data = super.toString();
         data = data.concat(", " + ultimoDiaDeRepeticion.toString());
-        Parametros frecuenciaData = getParametrosFrecuencia();
-        for(String name : frecuenciaData.getNombres()){
-            data = data.concat(", "+frecuenciaData.getValor(name));
-        }
-        Parametros repeticionData = getParametrosRepeticion();
-        for(String name : repeticionData.getNombres()){
-            data = data.concat(", "+repeticionData.getValor(name));
-        }
+        data = data.concat(", "+getParametrosFrecuencia());
+        data = data.concat(", "+getParametrosRepeticion());
         return data;
     }
+    @Override
+    public Map<ParametroTipo,String> obtenerParametros(){
+        var parametros = super.obtenerParametros();
+        parametros.put(ParametroTipo.TIPO,"Evento");
+        var repeticionFrecuencia =
+                getRepeticionTipo().name()+";"+getParametrosRepeticion()+
+                "R:F"+
+                getFrecuenciaTipo().name()+";"+getParametrosFrecuencia();
+        parametros.put(ParametroTipo.REPETICION_FRECUENCIA,repeticionFrecuencia);
+        return parametros;
+    }
+    @Override
+    public void aceptarEdicion(Editor editor){
+        editor.editar(this);
+    }
 
-}
+    }

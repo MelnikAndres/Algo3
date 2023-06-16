@@ -36,6 +36,8 @@ public class Menu extends VBox {
     private Button botonSemanal;
     @FXML
     private Button botonMensual;
+    @FXML
+    private Button botonAgregar;
     public Menu(){
         cargarFXML();
         agregarListeners();
@@ -73,6 +75,10 @@ public class Menu extends VBox {
         });
     }
 
+    public void addAgregarListener(EventHandler<ActionEvent> handler){
+        botonAgregar.setOnAction(handler);
+    }
+
     private void asignarFecha(LocalDate fechaActual){
         String diaMayusculas =Dia.values()[fechaActual.getDayOfWeek().getValue()-1].name();
         String dia = diaMayusculas.charAt(0) + diaMayusculas.substring(1).toLowerCase();
@@ -89,7 +95,7 @@ public class Menu extends VBox {
 
     private void cargarFXML(){
         try {
-            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/menuLayout.fxml").toUri().toURL());
+            FXMLLoader loader =  new FXMLLoader(Path.of("src/main/resources/Layouts/Componente/menuLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();

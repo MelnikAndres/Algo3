@@ -41,7 +41,8 @@ public class CalendarioMensualVista{
     }
     private void cargarFXML() {
         try {
-            FXMLLoader loader = new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/mensualLayout.fxml").toUri().toURL());
+            FXMLLoader loader = new FXMLLoader(
+                    Path.of("src/main/resources/Layouts/Calendario/mensualLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();

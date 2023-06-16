@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class ExtraEntero extends VBox {
+public class ExtraEntero extends VBox implements OpcionExtra {
     @FXML
     private TextField enteroInput;
     @FXML
@@ -32,7 +32,8 @@ public class ExtraEntero extends VBox {
 
     private void cargarFXML(){
         try {
-            FXMLLoader loader = new FXMLLoader(Path.of("src/main/resources/Layouts/Calendario/Dialogo/extrasEnteroLayout.fxml").toUri().toURL());
+            FXMLLoader loader = new FXMLLoader(
+                    Path.of("src/main/resources/Layouts/Dialogo/extrasEnteroLayout.fxml").toUri().toURL());
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
@@ -40,5 +41,14 @@ public class ExtraEntero extends VBox {
                 IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getValor() {
+        return enteroInput.getText();
+    }
+    @Override
+    public void setValor(String valor) {
+        enteroInput.setText(valor);
     }
 }

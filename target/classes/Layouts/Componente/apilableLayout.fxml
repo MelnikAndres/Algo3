@@ -23,7 +23,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Imagenes/borrar.png" />
+                        <Image url="@../../Imagenes/borrar.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -35,7 +35,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Imagenes/edit.png" />
+                        <Image url="@../../Imagenes/edit.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -44,7 +44,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Imagenes/end.png" />
+                        <Image url="@../../Imagenes/end.png" />
                      </image>
                   </ImageView>
                </graphic>

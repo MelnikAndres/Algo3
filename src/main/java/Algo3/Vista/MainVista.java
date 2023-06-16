@@ -3,6 +3,8 @@ package Algo3.Vista;
 import Algo3.Componentes.Menu;
 import Algo3.Constantes.VistaTipo;
 import javafx.beans.property.ObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
@@ -18,6 +20,7 @@ public class MainVista extends HBox {
     public MainVista(){
         cargarFXML();
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/mainVista.css").toUri().toString());
+        getStyleClass().add("fondo-primario");
     }
 
     public ObjectProperty<VistaTipo> getVistaActualProperty(){
@@ -37,4 +40,7 @@ public class MainVista extends HBox {
         }
     }
 
+    public void addAgregarListener(EventHandler<ActionEvent> handler) {
+        menu.addAgregarListener(handler);
+    }
 }

@@ -57,6 +57,9 @@
     -fx-border-color: transparent;
     -fx-cursor: default;
 }
+.date-picker-popup .week-number-cell{
+    -fx-text-fill: derive(-fx-color-accion,-55%);
+}
 .date-picker-popup .spinner .button .left-arrow,
 .date-picker-popup .spinner .button .right-arrow {
     -fx-background-color: -fx-color-blanco;
