@@ -3,6 +3,8 @@ package Algo3.Componentes;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -27,27 +30,29 @@ public class Apilable extends VBox {
     @FXML
     private Label titulo;
     @FXML
+    private CheckBox completada;
+    @FXML
     private Label horaInLine;
     @FXML
     private Button botonBorrar;
     @FXML
     private Button botonEditar;
     @FXML
-    private Button botonFinal;
+    private Button botonAlarma;
     private StringProperty tituloDeAsignable ;
     private String horarioInicio = "";
     private StringProperty horarioFin;
     private BooleanProperty reescalando = new SimpleBooleanProperty(false);
     private int filaInicio;
     private int offsetInicio;
-
     private IntegerProperty filaFin;
+    private BooleanProperty esTarea = new SimpleBooleanProperty(false);
     public Apilable(int filaInicio){//constructor desde arrastre
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
-        permitirReescalar();
         cambioSuaveDePadding();
+        listenerCompletado();
 
         tituloDeAsignable = new SimpleStringProperty("(Sin Titulo)");
         titulo.textProperty().bind(tituloDeAsignable);
@@ -61,13 +66,15 @@ public class Apilable extends VBox {
         horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15);
         horarioFin = new SimpleStringProperty(horarioInicio);
         horarioDinamico();
+        completada.visibleProperty().bind(esTarea);
     }
+
     public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin){
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
-        permitirReescalar();
         cambioSuaveDePadding();
+        listenerCompletado();
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
         titulo.textProperty().bind(this.tituloDeAsignable);
 
@@ -84,6 +91,7 @@ public class Apilable extends VBox {
         double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
                 (fechaInicio.getHour()*60 + fechaInicio.getMinute());
         setNuevaAltura(altura);
+        completada.visibleProperty().bind(esTarea);
     }
     private void cambioSuaveDePadding(){
         StringBinding paddingHorario = new StringBinding() {
@@ -115,6 +123,7 @@ public class Apilable extends VBox {
             }
         };
         titulo.styleProperty().bind(paddingTitulo);
+        completada.styleProperty().bind(paddingTitulo);
         StringBinding paddingBotones = new StringBinding() {
             {
                 super.bind(prefHeightProperty());
@@ -130,7 +139,21 @@ public class Apilable extends VBox {
         };
         botonEditar.styleProperty().bind(paddingBotones);
         botonBorrar.styleProperty().bind(paddingBotones);
-        botonFinal.styleProperty().bind(paddingBotones);
+        botonAlarma.styleProperty().bind(paddingBotones);
+    }
+    private void listenerCompletado(){
+        completada.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(t1){
+                    getStyleClass().clear();
+                    getStyleClass().add("contenedor-completado");
+                }else{
+                    getStyleClass().clear();
+                    getStyleClass().add("contenedor");
+                }
+            }
+        });
     }
     private void horarioDinamico(){
         StringBinding horarioAmostrar = new StringBinding() {
@@ -139,6 +162,9 @@ public class Apilable extends VBox {
             }
             @Override
             protected String computeValue() {
+                if(horarioInicio.equals(horarioFin.get())){
+                    return "Dia Completo";
+                }
                 return horarioInicio+ " a " +horarioFin.get();
             }
         };
@@ -184,14 +210,12 @@ public class Apilable extends VBox {
             }
         }
     }
-
     private void limitarTamanio() {
         this.setPrefHeight(18);
         this.setMaxHeight(-1);
         this.setMaxWidth(-1);
         this.setMinHeight(18);
     }
-
     private void agregarEstilos(){
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/celda.css").toUri().toString());
         horario.getStyleClass().add("texto-blanco");
@@ -200,13 +224,13 @@ public class Apilable extends VBox {
         horaInLine.getStyleClass().add("texto-blanco");
         titulo.getStyleClass().addAll("texto-blanco","titulo","alinear-centro");
         titulo.setPadding(new Insets(-6, 0, 0, 0));
-        this.getStyleClass().addAll("contenedor");
+        this.getStyleClass().add("contenedor");
         botonesPadding(new Insets(-2,0,0,0));
     }
     private void botonesPadding(Insets insets){
         botonBorrar.setPadding(insets);
         botonEditar.setPadding(insets);
-        botonFinal.setPadding(insets);
+        botonAlarma.setPadding(insets);
     }
     public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonBorrar.addEventHandler(ActionEvent.ACTION,handler);
@@ -214,68 +238,26 @@ public class Apilable extends VBox {
     public void addEditarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonEditar.addEventHandler(ActionEvent.ACTION,handler);
     }
-    public void addFinalEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonFinal.addEventHandler(ActionEvent.ACTION,handler);
-    }
-    public BooleanProperty getReescalandoProperty(){
-        return reescalando;
-    }
-    private void permitirReescalar() {
-        var valoresIniciales = new Object(){
-            private double yInicial;
-            private double alturaInicial;
-        };
-        addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                var y = event.getY();
-                var height = getHeight()-3;
-                if(height - y<=6){
-                    valoresIniciales.yInicial = event.getSceneY();
-                    valoresIniciales.alturaInicial = height;
-                    reescalando.set(true);
-                    event.consume();
-                }
-            }
-        });
-        addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if(reescalando.get()){
-                    var nuevaAltura = (valoresIniciales.alturaInicial + (event.getSceneY()- valoresIniciales.yInicial));
-                    setNuevaAltura(Math.max(nuevaAltura,15));
-                    event.consume();
-                }
-            }
-        });
-        addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                reescalando.setValue(false);
-            }
-        });
-        setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                var y = event.getY();
-                var height = getHeight()-3;
-                if(height - y<=6){
-                    setCursor(Cursor.V_RESIZE);
-                }else{
-                    setCursor(Cursor.DEFAULT);
-                }
-            }
-        });
+    public void addAlarmaEvent(EventHandler<javafx.event.ActionEvent> handler){
+        botonAlarma.addEventHandler(ActionEvent.ACTION,handler);
     }
 
+    public void addCheckBoxListener(ChangeListener<Boolean> listener){
+        completada.selectedProperty().addListener(listener);
+    }
+
+    public void setEsTarea(boolean esTarea){
+        this.esTarea.set(esTarea);
+    }
+    public void setCheckBoxEstado(boolean nuevoEstado){
+        completada.setSelected(nuevoEstado);
+    }
     public boolean haySuperposicion(Apilable otro){
         var estasOcupadas = this.filasOcupadas();
         var otrasOcupadas = otro.filasOcupadas();
         estasOcupadas.retainAll(otrasOcupadas);
         return estasOcupadas.size()>0;
     }
-
     public List<Integer> filasOcupadas(){
         List<Integer> ocupadas = new ArrayList<>();
         for(int i = filaInicio; i<=filaFin.getValue();i++){
@@ -294,8 +276,6 @@ public class Apilable extends VBox {
             throw new RuntimeException(e);
         }
     }
-
-
     public void editar(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
         titulo.textProperty().bind(this.tituloDeAsignable);

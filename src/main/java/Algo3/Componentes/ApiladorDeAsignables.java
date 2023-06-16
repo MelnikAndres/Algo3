@@ -1,16 +1,12 @@
 package Algo3.Componentes;
 
-import Algo3.Vista.DialogoEditarControlador;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 public class ApiladorDeAsignables extends AnchorPane {
     //Este componente se usa para apilar asignables en la vista diaria del calendario
@@ -31,22 +27,6 @@ public class ApiladorDeAsignables extends AnchorPane {
             public void handle(ActionEvent actionEvent) {
                 getChildren().remove(apilable);
                 desapilar(apilable);
-            }
-        });
-        apilable.getReescalandoProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if(!t1){
-                    reordenar();
-                }
-            }
-        });
-        apilable.addFinalEvent(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                apilable.toBack();
-                desapilar(apilable);
-                apilar(apilable);
             }
         });
     }
@@ -72,19 +52,11 @@ public class ApiladorDeAsignables extends AnchorPane {
             anchosDeFilas.set(fila,mayorAncho + nuevoApilado.getWidth());
         }
     }
-    public void reordenar(){
-        var apiladosCopy = new ArrayList<>(apilados);
-        apilados.clear();
-        anchosDeFilas.replaceAll((valor) -> 0.0);
-        for(Apilable apilable: apiladosCopy){
-            this.apilar(apilable);
-        }
-    }
 
     public void desapilarTodo(){
         getChildren().clear();
         apilados.clear();
-        anchosDeFilas.replaceAll(ancho->0.0);
+        Collections.fill(anchosDeFilas, 0.0);
     }
     public void desapilar(Apilable apiladoAborrar){
         if(!apilados.contains(apiladoAborrar)){

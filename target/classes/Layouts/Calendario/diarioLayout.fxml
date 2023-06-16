@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import Algo3.Componentes.*?>
+<?import javafx.scene.layout.VBox?>
 
-<fx:root type="ScrollPane" style="-fx-background-color: #142131;" maxWidth="-Infinity"
-            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <StackPane fx:id="container" alignment="TOP_LEFT">
-      <GridPane style="-fx-background-color: #142131" fx:id="grillaDiario" alignment="BOTTOM_CENTER"
-                maxHeight="-Infinity" maxWidth="-Infinity">
-         <columnConstraints>
-            <ColumnConstraints fx:id="columnaHoras" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0"
-                               prefWidth="60.0"/>
-            <ColumnConstraints fx:id="columnaAsignables" hgrow="ALWAYS" maxWidth="1.7976931348623157E308"
-                               minWidth="60.0"/>
-         </columnConstraints>
-      </GridPane>
-      <ApiladorDeAsignables fx:id="apiladorDeAsignables">
-         <StackPane.margin>
-            <Insets left="60.0"/>
-         </StackPane.margin>
-      </ApiladorDeAsignables>
-   </StackPane>
+<?import Algo3.Componentes.*?>
+<?import javafx.geometry.Insets?>
+<fx:root maxWidth="-Infinity" style="-fx-background-color: #142131;" type="ScrollPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox>
+      <HBox fx:id="containerDiaCompleto" maxHeight="18" minHeight="18" style="-fx-background-color: #142131;">
+         <children>
+            <Label fx:id="diaCompletoText" style="-fx-text-fill: white" alignment="CENTER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="DC" />
+         </children></HBox>
+      <StackPane fx:id="container" alignment="TOP_LEFT">
+         <GridPane fx:id="grillaDiario" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: #142131">
+            <columnConstraints>
+               <ColumnConstraints fx:id="columnaHoras" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+               <ColumnConstraints fx:id="columnaAsignables" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="60.0" />
+            </columnConstraints>
+         </GridPane>
+         <ApiladorDeAsignables fx:id="apiladorDeAsignables">
+            <StackPane.margin>
+               <Insets left="60.0"/>
+            </StackPane.margin>
+         </ApiladorDeAsignables>
+      </StackPane>
+   </VBox>
 </fx:root>

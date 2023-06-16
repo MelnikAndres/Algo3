@@ -4,8 +4,9 @@ import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
+import Algo3.Modelo.Tarea;
+import Algo3.Utilidad.Completador;
 import Algo3.Vista.Calendario.CalendarioDiarioVista;
-import Algo3.Vista.DialogoEditarControlador;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -66,21 +68,31 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
             }
             apiladorDeAsignables.agregarComportamiento(actualAgregando);
             apiladorDeAsignables.apilar(actualAgregando);
+            LocalTime tiempoInicial = LocalTime.of(filaInicioDeArrastre/4,filaInicioDeArrastre%4 * 15,0);
+            LocalDateTime fechaInicial = LocalDateTime.of(fechaActual.get(),tiempoInicial);
+            LocalTime tiempoFinal = LocalTime.of((int) (actualAgregando.getHeight()/60 + filaInicioDeArrastre/4), (int) (actualAgregando.getHeight()%60),0);
+            LocalDateTime fechaFinal = LocalDateTime.of(fechaActual.get(),tiempoFinal);
+            Asignable nuevoAsignable = new Tarea("(Sin Titulo)","(Sin Descripcion)",fechaInicial,fechaFinal);
+            calendario.agregar(nuevoAsignable);
+            var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
+            cargarAsignables(aparicionesActuales);
             this.filaInicioDeArrastre = null;
             this.actualAgregando = null;
         });
     }
     private void agregarAcciones(Apilable apilable, Integer id){
+        Asignable asignable = calendario.obtenerAsignablePorId(id);
         apilable.addBorrarEvent(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 calendario.eliminar(id);
+                var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
+                cargarAsignables(aparicionesActuales);
             }
         });
         apilable.addEditarEvent(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Asignable asignable = calendario.obtenerAsignablePorId(id);
                 DialogoEditarControlador controlador = new DialogoEditarControlador((Stage)vista.getScene().getWindow());
                 controlador.cargarValores(asignable.obtenerParametros());
                 Asignable resultado = controlador.abrirYeditar();
@@ -88,17 +100,34 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
                     return;
                 }
                 calendario.editar(id, resultado);
-                apilable.editar(resultado.getTitulo(), resultado.getFechaInicio(),resultado.getFechaFinal());
-                var listener = new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                        apiladorDeAsignables.reordenar();
-                        apilable.widthProperty().removeListener(this);
-                    }
-                };
-                apilable.widthProperty().addListener(listener);
+                var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
+                cargarAsignables(aparicionesActuales);
             }
         });
+        apilable.addAlarmaEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DialogoAlarmaControlador dialogoAlarmaControlador = new DialogoAlarmaControlador((Stage)vista.getScene().getWindow());
+                dialogoAlarmaControlador.abrirYcrear(asignable.getFechaInicio());
+            }
+        });
+        probarEsCompletable(asignable, apilable);
+    }
+
+    private void probarEsCompletable(Asignable asignable, Apilable apilable){
+        Completador completador = new Completador(false);
+        if(completador.esRecibido(asignable)){
+            apilable.setEsTarea(true);
+            apilable.addCheckBoxListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                    asignable.recibirCompletador(new Completador(t1));
+                }
+            });
+            apilable.setCheckBoxEstado(completador.estadoCompletar(asignable));
+        }else{
+            apilable.setEsTarea(false);
+        }
     }
     private void agregarNuevo(){
         actualAgregando = new Apilable(filaInicioDeArrastre);
@@ -116,24 +145,29 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
 
     public void cargarAsignables(Map<Integer, List<LocalDateTime>> repeticiones){
         apiladorDeAsignables.desapilarTodo();
+        vista.limpiarDiaCompleto();
         for(Integer asignableID: repeticiones.keySet()){
             for(LocalDateTime fecha: repeticiones.get(asignableID)){
                 if(fecha.toLocalDate().equals(fechaActual.get())){
                     Asignable asignable = calendario.obtenerAsignablePorId(asignableID);
                     var nuevoApilable = new Apilable(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
-                    apiladorDeAsignables.getChildren().add(nuevoApilable);
-                    apiladorDeAsignables.agregarComportamiento(nuevoApilable);
-                    agregarAcciones(nuevoApilable, asignableID);
-                    var listener = new ChangeListener<Number>() {
-                        @Override
-                        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                            if(t1.doubleValue()>0){
-                                apiladorDeAsignables.apilar(nuevoApilable);
-                                nuevoApilable.widthProperty().removeListener(this);
+                    if(asignable.getFechaInicio().equals(asignable.getFechaFinal())){
+                        vista.agregarDiaCompleto(nuevoApilable);
+                    }else{
+                        apiladorDeAsignables.getChildren().add(nuevoApilable);
+                        apiladorDeAsignables.agregarComportamiento(nuevoApilable);
+                        var listener = new ChangeListener<Number>() {
+                            @Override
+                            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                                if(t1.doubleValue()>0){
+                                    apiladorDeAsignables.apilar(nuevoApilable);
+                                    nuevoApilable.widthProperty().removeListener(this);
+                                }
                             }
-                        }
-                    };
-                    nuevoApilable.widthProperty().addListener(listener);
+                        };
+                        nuevoApilable.widthProperty().addListener(listener);
+                    }
+                    agregarAcciones(nuevoApilable, asignableID);
                 }
             }
         }

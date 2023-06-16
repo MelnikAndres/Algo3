@@ -56,11 +56,13 @@ public class OpcionesExtra extends VBox implements OpcionExtra {
         if(extra!= null){
             return extra.getValor();
         }
-        return "";
+        return "null";
     }
 
     @Override
     public void setValor(String valor) {
-        extra.setValor(valor);
+        if(extra!= null){
+            extra.setValor(valor);
+        }
     }
 }

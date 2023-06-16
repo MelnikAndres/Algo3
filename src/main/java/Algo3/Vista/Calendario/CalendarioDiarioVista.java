@@ -32,6 +32,10 @@ public class CalendarioDiarioVista extends ScrollPane {
     @FXML
     GridPane grillaDiario;
     @FXML
+    HBox containerDiaCompleto;
+    @FXML
+    Label diaCompletoText;
+    @FXML
     ApiladorDeAsignables apiladorDeAsignables;
     @FXML
     StackPane container;
@@ -47,6 +51,10 @@ public class CalendarioDiarioVista extends ScrollPane {
 
     public ApiladorDeAsignables getApiladorDeAsignables(){
         return  apiladorDeAsignables;
+    }
+
+    public HBox getContainerDiaCompleto() {
+        return containerDiaCompleto;
     }
 
     public void montarVista(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty) {
@@ -120,5 +128,14 @@ public class CalendarioDiarioVista extends ScrollPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void limpiarDiaCompleto() {
+        containerDiaCompleto.getChildren().clear();
+        containerDiaCompleto.getChildren().add(diaCompletoText);
+    }
+
+    public void agregarDiaCompleto(Apilable nuevoApilable) {
+        containerDiaCompleto.getChildren().add(nuevoApilable);
     }
 }

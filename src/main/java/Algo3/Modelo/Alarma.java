@@ -16,12 +16,12 @@ public class Alarma implements Serializable {
     /* tiempoAntes marca cuanto tiempo antes del evento/tarea debe sonar la alarma.
     Si la alarma es absoluta, es 0. */
     private LocalDateTime fecha;
-    private Duration tiempoAntes;
+    private LocalDateTime tiempoAntes;
     private Disparador disparador;
 
 
 
-    public Alarma(@JsonProperty("fecha") LocalDateTime fecha, @JsonProperty("tiempoAntes") Duration tiempoAntes, @JsonProperty("disparador") Disparador disparador) {
+    public Alarma(@JsonProperty("fecha") LocalDateTime fecha, @JsonProperty("tiempoAntes") LocalDateTime tiempoAntes, @JsonProperty("disparador") Disparador disparador) {
         if (fecha == null) {
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }

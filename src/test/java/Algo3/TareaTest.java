@@ -29,7 +29,7 @@ public class TareaTest {
         var tarea = new Tarea("Tarea", "Descripcion",
                 LocalDateTime.of(2022, 3, 3, 0, 0),
                 LocalDateTime.of(2022, 3, 3, 12, 0));
-        tarea.cambiarEstadoCompletada();
+        tarea.setCompletada(true);
         assertTrue(tarea.getEsCompletada());
     }
     @Test
