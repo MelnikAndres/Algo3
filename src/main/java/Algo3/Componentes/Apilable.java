@@ -161,6 +161,9 @@ public class Apilable extends VBox {
             }
             @Override
             protected String computeValue() {
+                if(horarioInicio.equals(horarioFin.get())){
+                    return "Dia Completo";
+                }
                 return horarioInicio+ " a " +horarioFin.get();
             }
         };
