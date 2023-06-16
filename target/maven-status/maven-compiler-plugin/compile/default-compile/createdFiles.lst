@@ -5,7 +5,6 @@ Algo3\Repeticion\RepeticionCantidadLimite.class
 Algo3\Componentes\OpcionesExtra\ExtraFechaHora.class
 Algo3\Controlador\CalendarioMensualControlador.class
 Algo3\Componentes\OpcionesExtra\ExtraEntero.class
-Algo3\Componentes\Apilable$7.class
 Algo3\Componentes\OpcionesExtra\ExtraEvento.class
 Algo3\Controlador\MainControlador$1.class
 Algo3\Componentes\CeldaSemanal.class
@@ -22,9 +21,7 @@ Algo3\Componentes\ApiladorDeAsignables$1.class
 Algo3\Componentes\OpcionesExtra\ExtraFrecuencia.class
 Algo3\Modelo\Evento.class
 Algo3\Frecuencia\FrecuenciaMensual.class
-Algo3\Componentes\Apilable$9.class
 Algo3\Repeticion\Repeticion$1.class
-Algo3\Componentes\Apilable$10.class
 Algo3\Controlador\CalendarioDiarioControlador$4.class
 Algo3\Constantes\VistaTipo.class
 Algo3\Componentes\Apilable$2.class
@@ -41,7 +38,6 @@ Algo3\Constantes\Mes.class
 Algo3\Utilidad\FechaParser.class
 Algo3\Utilidad\Completador.class
 Algo3\Controlador\CalendarioDiarioControlador$2.class
-Algo3\Componentes\ApiladorDeAsignables$2.class
 Algo3\Componentes\OpcionesExtra\ExtraFrecuencia$1.class
 Algo3\Componentes\OpcionesExtra\ExtraEntero$1.class
 Algo3\Repeticion\RepeticionFechaLimite.class
@@ -51,7 +47,6 @@ Algo3\Controlador\CalendarioSemanalControlador.class
 Algo3\Componentes\OpcionesExtra\ExtraRepeticion$2.class
 Algo3\Vista\DialogoEditarVista.class
 Algo3\Vista\MainVista.class
-Algo3\Componentes\Apilable$8.class
 Algo3\Disparador\Sonido.class
 Algo3\Componentes\Menu.class
 Algo3\Vista\Calendario\CalendarioSemanalVista.class
@@ -75,6 +70,5 @@ Algo3\Modelo\Alarma.class
 Algo3\Vista\DialogoEditarVista$2.class
 Algo3\Frecuencia\FrecuenciaDiaria.class
 Algo3\Controlador\MainControlador.class
-Algo3\Componentes\Apilable$6.class
 Algo3\Main.class
 Algo3\Modelo\Asignable.class

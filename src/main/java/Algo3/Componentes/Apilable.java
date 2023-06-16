@@ -49,7 +49,6 @@ public class Apilable extends VBox {
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
-        permitirReescalar();
         cambioSuaveDePadding();
         listenerCompletado();
 
@@ -72,7 +71,6 @@ public class Apilable extends VBox {
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
-        permitirReescalar();
         cambioSuaveDePadding();
         listenerCompletado();
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
@@ -249,58 +247,6 @@ public class Apilable extends VBox {
     public void setCheckBoxEstado(boolean nuevoEstado){
         completada.setSelected(nuevoEstado);
     }
-    public BooleanProperty getReescalandoProperty(){
-        return reescalando;
-    }
-    private void permitirReescalar() {
-        var valoresIniciales = new Object(){
-            private double yInicial;
-            private double alturaInicial;
-        };
-        addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                var y = event.getY();
-                var height = getHeight()-3;
-                if(height - y<=6){
-                    valoresIniciales.yInicial = event.getSceneY();
-                    valoresIniciales.alturaInicial = height;
-                    reescalando.set(true);
-                    event.consume();
-                }
-            }
-        });
-        addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if(reescalando.get()){
-                    var nuevaAltura = (valoresIniciales.alturaInicial + (event.getSceneY()- valoresIniciales.yInicial));
-                    setNuevaAltura(Math.max(nuevaAltura,15));
-                    event.consume();
-                }
-            }
-        });
-        addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                reescalando.setValue(false);
-            }
-        });
-        setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                var y = event.getY();
-                var height = getHeight()-3;
-                if(height - y<=6){
-                    setCursor(Cursor.V_RESIZE);
-                }else{
-                    setCursor(Cursor.DEFAULT);
-                }
-            }
-        });
-    }
-
     public boolean haySuperposicion(Apilable otro){
         var estasOcupadas = this.filasOcupadas();
         var otrasOcupadas = otro.filasOcupadas();
@@ -326,7 +272,6 @@ public class Apilable extends VBox {
             throw new RuntimeException(e);
         }
     }
-
 
     public void editar(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
