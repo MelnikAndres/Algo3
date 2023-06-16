@@ -1,21 +1,27 @@
 package Algo3.Vista.Calendario;
 
 
+import Algo3.Componentes.Casilla;
 import Algo3.Modelo.Asignable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 
@@ -24,17 +30,21 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class CalendarioMensualVista{
+import static java.awt.Color.white;
+import static java.lang.Double.MAX_VALUE;
+
+public class CalendarioMensualVista extends ScrollPane{
     @FXML
     StackPane contenedor;
     @FXML
     GridPane grillaMensual;
+
+    private HashMap<LocalDate, Casilla> casillas = new HashMap<LocalDate, Casilla>();
 
     public CalendarioMensualVista( ){
         cargarFXML();
@@ -51,21 +61,16 @@ public class CalendarioMensualVista{
         }
     }
 
-    private void agregarApilable(){}
 
     private void crearGrilla(LocalDate fecha){
         agregarColumnas();
         grillaMensual.setStyle("-fx-background-color: #142131");
+        grillaMensual.setGridLinesVisible(true);
         rellenarGrilla(fecha);
-        agregarSeparadoresHorizontales();
-        agregarSeparadoresVerticales();
-        agregarApilables();
+        //agregarSeparadores();
 
     }
 
-    private void agregarApilables(){
-
-    }
 
     private void agregarColumnas(){
         for(int i = 0;i<7;i++){
@@ -83,9 +88,9 @@ public class CalendarioMensualVista{
     private void cambiarGrilla(LocalDate fecha){
         grillaMensual.getChildren().clear();
         grillaMensual.setStyle("-fx-background-color: #142131");
+
         rellenarGrilla(fecha);
-        agregarSeparadoresHorizontales();
-        agregarSeparadoresVerticales();
+        agregarSeparadores();
     }
     private void rellenarGrilla(LocalDate fecha){
         int year = fecha.getYear();
@@ -96,9 +101,11 @@ public class CalendarioMensualVista{
         int dias = 1;
         for(int i = 0; i < 7; i++){
             if(i<diaPrimerDia && diaPrimerDia != 7){
-                grillaMensual.add(diaParaGrillaMensual(ultimoDiaMesAnterior-(diaPrimerDia-i-1),contador,false),i,0);
+                int o = ultimoDiaMesAnterior-(diaPrimerDia-i-1);
+                System.out.println(""+ o);
+                grillaMensual.add(diaParaGrillaMensual(o,fecha.minusMonths(1).getMonthValue(),fecha.minusMonths(1).getYear(), contador,false).getBase(),i,0);
             }else {
-                grillaMensual.add(diaParaGrillaMensual(dias, contador,true), i, 0);
+                grillaMensual.add(diaParaGrillaMensual(dias,fecha.getMonthValue(), fecha.getYear(), contador,true).getBase(), i, 0);
                 dias += 1;
             }
             contador += 1;
@@ -115,7 +122,7 @@ public class CalendarioMensualVista{
                 }
                 fila = j;
                 columna = k;
-                grillaMensual.add(diaParaGrillaMensual(dias, contador,true), k, j);
+                grillaMensual.add(diaParaGrillaMensual(dias, fecha.getMonthValue(), fecha.getYear(), contador,true).getBase(), k, j);
                 dias += 1;
 
             }
@@ -131,54 +138,67 @@ public class CalendarioMensualVista{
             if(fila == 6){
                 break;
             }
-            grillaMensual.add(diaParaGrillaMensual(dias, contador,false),columna, fila);
+            grillaMensual.add(diaParaGrillaMensual(dias, fecha.plusMonths(1).getMonthValue(), fecha.plusMonths(1).getYear(), contador,false).getBase(),columna, fila);
             dias++;
         }
     }
 
 
     //Contador lleva la cuenta de los primeros 7 dias para escribir los dias sobre el calendario.
-    private VBox diaParaGrillaMensual(int dia, int contador, boolean correspondeAlMes){
+    private Casilla diaParaGrillaMensual(int dia, int mes,int anio, int contador, boolean correspondeAlMes){
         List<String> lista = List.of("Dom","Lun", "Mar", "Mier", "Jue", "Vie", "Sab");
-        var vbox = new VBox();
+        var casilla = new Casilla(LocalDate.of(anio,mes, dia));
         if(contador < 7){
             var labelDia = new Label (lista.get(contador));
             labelDia.setAlignment(Pos.TOP_CENTER);
             labelDia.setStyle("-fx-text-fill: white");
-            vbox.getChildren().add(labelDia);
+            casilla.getBase().getChildren().add(labelDia);
         }
         var label = new Label(""+dia);
         label.setTextAlignment(TextAlignment.CENTER);
         label.setStyle("-fx-text-fill: white");
-        vbox.getChildren().add(label);
-        vbox.setAlignment(Pos.TOP_CENTER);
+        casilla.getBase().getChildren().add(label);
+        casilla.getBase().setAlignment(Pos.TOP_CENTER);
+        casilla.getBase().setStyle("-fx-border-color: white");
         if(!correspondeAlMes){
-            vbox.setStyle("-fx-background-color: derive(#142131, 70%)");
+            casilla.getBase().setStyle("-fx-border-color: white; -fx-background-color: derive(#142131, 70%)");
             label.setStyle("-fx-opacity: 0.5");
         }
-        return vbox;
+        casillas.put(LocalDate.of(anio,mes,dia), casilla);
+        return casilla;
     }
-    private void agregarSeparadoresHorizontales(){
+    private void agregarSeparadores(){
         for(int i = 0; i<6; i++){
             for(int j = 0; j<7; j++){
                 grillaMensual.add(crearSeparadoresHorizontales(),j,i);
                 grillaMensual.add(crearSeparadores(),j,i);
-                grillaMensual.add(crearListaApilables(),j,i);
             }
         }
     }
-    private VBox crearListaApilables(){
+
+    public HBox crearAsignable(Asignable asignable){
         var vbox = new VBox();
-        vbox.setFillWidth(true);
-        return vbox;
+        var hbox = new HBox();
+        var button = new Button();
+        var label = new Label(asignable.getTitulo());
+
+        button.setMaxHeight(10);
+        button.setMinHeight(10);
+        button.setPrefHeight(10);
+
+        hbox.getChildren().addAll(label,button);
+        HBox.setHgrow(label, Priority.ALWAYS);
+
+        label.setAlignment(Pos.CENTER);
+        button.setAlignment(Pos.TOP_RIGHT);
+        hbox.setSpacing(100);
+        hbox.setMaxWidth(200);
+        hbox.setPrefWidth(200);
+        hbox.setMinWidth(200);
+
+        return hbox;
     }
-    private void agregarSeparadoresVerticales(){
-        for(int i = 0; i<6; i++){
-            for(int j = 0; j<7; j++){
-                grillaMensual.add(crearSeparadores(),j,i);
-            }
-        }
-    }
+
     private HBox crearSeparadores(){
         var separador = new Separator(Orientation.VERTICAL);
         separador.setMaxWidth(0.00001);
@@ -202,4 +222,7 @@ public class CalendarioMensualVista{
         });
     }
 
+    public HashMap<LocalDate, Casilla> getCasillas() {
+        return casillas;
+    }
 }
