@@ -6,6 +6,7 @@ import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
+import Algo3.Utilidad.Completador;
 import com.fasterxml.jackson.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -145,4 +146,4 @@ public class Evento extends Asignable {
         parametros.put(ParametroTipo.REPETICION_FRECUENCIA,repeticionFrecuencia);
         return parametros;
     }
-    }
+}

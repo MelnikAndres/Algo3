@@ -1,6 +1,7 @@
 package Algo3.Modelo;
 
 import Algo3.Constantes.ParametroTipo;
+import Algo3.Utilidad.Completador;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -27,8 +28,8 @@ public class Tarea extends Asignable {
         return aparicion;
     }
 
-    public void cambiarEstadoCompletada(){
-        this.esCompletada = !this.esCompletada;
+    public void setCompletada(boolean esCompletada){
+        this.esCompletada = esCompletada;
     }
     @Override
     public String toString() {
@@ -39,5 +40,10 @@ public class Tarea extends Asignable {
         var parametros = super.obtenerParametros();
         parametros.put(ParametroTipo.TIPO,"Tarea");
         return parametros;
+    }
+    @Override
+    public boolean recibirCompletador(Completador completador){
+        completador.trabajar(this);
+        return true;
     }
 }

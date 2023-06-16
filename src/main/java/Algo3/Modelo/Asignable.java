@@ -3,6 +3,7 @@ package Algo3.Modelo;
 
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
+import Algo3.Utilidad.Completador;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
@@ -103,5 +104,8 @@ public abstract class Asignable implements Serializable {
     public boolean comparar(Asignable asignable) {
         return this.toString().equals(asignable.toString());
     }
-
+    public boolean recibirCompletador(Completador completador){
+        //retorna true si el completador fue recibido, false si fue rechazado
+        return false;
+    }
 }

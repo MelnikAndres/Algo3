@@ -4,6 +4,7 @@ import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
+import Algo3.Utilidad.Completador;
 import Algo3.Vista.Calendario.CalendarioDiarioVista;
 import Algo3.Vista.DialogoEditarControlador;
 import javafx.beans.property.ObjectProperty;
@@ -14,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -71,16 +73,18 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
         });
     }
     private void agregarAcciones(Apilable apilable, Integer id){
+        Asignable asignable = calendario.obtenerAsignablePorId(id);
         apilable.addBorrarEvent(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 calendario.eliminar(id);
+                var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
+                cargarAsignables(aparicionesActuales);
             }
         });
         apilable.addEditarEvent(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Asignable asignable = calendario.obtenerAsignablePorId(id);
                 DialogoEditarControlador controlador = new DialogoEditarControlador((Stage)vista.getScene().getWindow());
                 controlador.cargarValores(asignable.obtenerParametros());
                 Asignable resultado = controlador.abrirYeditar();
@@ -88,17 +92,27 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
                     return;
                 }
                 calendario.editar(id, resultado);
-                apilable.editar(resultado.getTitulo(), resultado.getFechaInicio(),resultado.getFechaFinal());
-                var listener = new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                        apiladorDeAsignables.reordenar();
-                        apilable.widthProperty().removeListener(this);
-                    }
-                };
-                apilable.widthProperty().addListener(listener);
+                var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
+                cargarAsignables(aparicionesActuales);
             }
         });
+        probarEsCompletable(asignable, apilable);
+    }
+
+    private void probarEsCompletable(Asignable asignable, Apilable apilable){
+        Completador completador = new Completador(false);
+        if(completador.esRecibido(asignable)){
+            apilable.setEsTarea(true);
+            apilable.addCheckBoxListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                    asignable.recibirCompletador(new Completador(t1));
+                }
+            });
+            apilable.setCheckBoxEstado(completador.estadoCompletar(asignable));
+        }else{
+            apilable.setEsTarea(false);
+        }
     }
     private void agregarNuevo(){
         actualAgregando = new Apilable(filaInicioDeArrastre);
@@ -116,24 +130,29 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
 
     public void cargarAsignables(Map<Integer, List<LocalDateTime>> repeticiones){
         apiladorDeAsignables.desapilarTodo();
+        vista.limpiarDiaCompleto();
         for(Integer asignableID: repeticiones.keySet()){
             for(LocalDateTime fecha: repeticiones.get(asignableID)){
                 if(fecha.toLocalDate().equals(fechaActual.get())){
                     Asignable asignable = calendario.obtenerAsignablePorId(asignableID);
                     var nuevoApilable = new Apilable(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
-                    apiladorDeAsignables.getChildren().add(nuevoApilable);
-                    apiladorDeAsignables.agregarComportamiento(nuevoApilable);
-                    agregarAcciones(nuevoApilable, asignableID);
-                    var listener = new ChangeListener<Number>() {
-                        @Override
-                        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                            if(t1.doubleValue()>0){
-                                apiladorDeAsignables.apilar(nuevoApilable);
-                                nuevoApilable.widthProperty().removeListener(this);
+                    if(asignable.getFechaInicio().equals(asignable.getFechaFinal())){
+                        vista.agregarDiaCompleto(nuevoApilable);
+                    }else{
+                        apiladorDeAsignables.getChildren().add(nuevoApilable);
+                        apiladorDeAsignables.agregarComportamiento(nuevoApilable);
+                        var listener = new ChangeListener<Number>() {
+                            @Override
+                            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                                if(t1.doubleValue()>0){
+                                    apiladorDeAsignables.apilar(nuevoApilable);
+                                    nuevoApilable.widthProperty().removeListener(this);
+                                }
                             }
-                        }
-                    };
-                    nuevoApilable.widthProperty().addListener(listener);
+                        };
+                        nuevoApilable.widthProperty().addListener(listener);
+                    }
+                    agregarAcciones(nuevoApilable, asignableID);
                 }
             }
         }

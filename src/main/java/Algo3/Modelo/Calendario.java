@@ -28,13 +28,11 @@ public class Calendario implements Serializable{
     private int idIncremental = 0;
 
     public Calendario(){
-        for(int i=0;i<10;i++){
-            var eventoDePrueba = new Evento("Prueba222222222222 2222","Esto es una prueba",
+        for(int i=0;i<2;i++){
+            var tareaDePrueba = new Tarea("Prueba222222222222 2222","Esto es una prueba",
                     LocalDateTime.now(),
-                    LocalDateTime.now(),
-                    new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)),
-                    new RepeticionCantidadLimite( new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)), LocalDateTime.now(), 10));
-            this.agregar(eventoDePrueba);
+                    LocalDateTime.now());
+            this.agregar(tareaDePrueba);
         }
     }
     public int getIdIncremental() {

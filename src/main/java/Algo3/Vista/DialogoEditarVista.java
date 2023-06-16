@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,9 @@ public class DialogoEditarVista extends DialogPane {
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/dialogoEditarVista.css").toUri().toString());
         getStyleClass().add("contenedor");
         bindDiaCompleto();
+        fechaInicial.setValor(LocalDateTime.now().toString());
+        fechaFinal.setValor(LocalDateTime.now().toString());
+        diaCompletoToggle.setSelected(true);
     }
 
     private void bindDiaCompleto(){

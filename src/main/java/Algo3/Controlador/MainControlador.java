@@ -47,6 +47,7 @@ public class MainControlador {
                 Asignable resultado = controlador.abrirYeditar();
                 if(resultado!=null){
                     calendario.agregar(resultado);
+                    cargarApariciones(mainVista.getFechaActualProperty().get());
                 }
             }
         };

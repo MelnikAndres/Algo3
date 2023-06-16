@@ -4,12 +4,18 @@
 .titulo{
     -fx-font-size: 16
 }
-.contenedor{
+.contenedor,.contenedor-completado{
     -fx-padding: 2 10 2 10;
     -fx-border-radius: 9;
     -fx-background-radius: 10;
-    -fx-background-color: derive(-fx-color-accion,40%),-fx-color-accion;
     -fx-background-insets: 0,1;
+}
+.contenedor{
+    -fx-background-color: derive(-fx-color-accion,40%),-fx-color-accion;
+
+}
+.contenedor-completado{
+    -fx-background-color: derive(-fx-color-accion,40%),derive(-fx-color-accion,-40%);
 }
 .button{
     -fx-background-color: transparent;

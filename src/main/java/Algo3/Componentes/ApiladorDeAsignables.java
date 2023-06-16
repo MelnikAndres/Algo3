@@ -41,14 +41,6 @@ public class ApiladorDeAsignables extends AnchorPane {
                 }
             }
         });
-        apilable.addFinalEvent(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                apilable.toBack();
-                desapilar(apilable);
-                apilar(apilable);
-            }
-        });
     }
 
     public void apilar(Apilable nuevoApilado){

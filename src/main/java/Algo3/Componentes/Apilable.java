@@ -3,6 +3,8 @@ package Algo3.Componentes;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -27,27 +30,28 @@ public class Apilable extends VBox {
     @FXML
     private Label titulo;
     @FXML
+    private CheckBox completada;
+    @FXML
     private Label horaInLine;
     @FXML
     private Button botonBorrar;
     @FXML
     private Button botonEditar;
-    @FXML
-    private Button botonFinal;
     private StringProperty tituloDeAsignable ;
     private String horarioInicio = "";
     private StringProperty horarioFin;
     private BooleanProperty reescalando = new SimpleBooleanProperty(false);
     private int filaInicio;
     private int offsetInicio;
-
     private IntegerProperty filaFin;
+    private BooleanProperty esTarea = new SimpleBooleanProperty(false);
     public Apilable(int filaInicio){//constructor desde arrastre
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
         permitirReescalar();
         cambioSuaveDePadding();
+        listenerCompletado();
 
         tituloDeAsignable = new SimpleStringProperty("(Sin Titulo)");
         titulo.textProperty().bind(tituloDeAsignable);
@@ -61,13 +65,16 @@ public class Apilable extends VBox {
         horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15);
         horarioFin = new SimpleStringProperty(horarioInicio);
         horarioDinamico();
+        completada.visibleProperty().bind(esTarea);
     }
+
     public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin){
         cargarFXML();
         agregarEstilos();
         limitarTamanio();
         permitirReescalar();
         cambioSuaveDePadding();
+        listenerCompletado();
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
         titulo.textProperty().bind(this.tituloDeAsignable);
 
@@ -84,6 +91,7 @@ public class Apilable extends VBox {
         double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
                 (fechaInicio.getHour()*60 + fechaInicio.getMinute());
         setNuevaAltura(altura);
+        completada.visibleProperty().bind(esTarea);
     }
     private void cambioSuaveDePadding(){
         StringBinding paddingHorario = new StringBinding() {
@@ -115,6 +123,7 @@ public class Apilable extends VBox {
             }
         };
         titulo.styleProperty().bind(paddingTitulo);
+        completada.styleProperty().bind(paddingTitulo);
         StringBinding paddingBotones = new StringBinding() {
             {
                 super.bind(prefHeightProperty());
@@ -130,7 +139,20 @@ public class Apilable extends VBox {
         };
         botonEditar.styleProperty().bind(paddingBotones);
         botonBorrar.styleProperty().bind(paddingBotones);
-        botonFinal.styleProperty().bind(paddingBotones);
+    }
+    private void listenerCompletado(){
+        completada.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(t1){
+                    getStyleClass().clear();
+                    getStyleClass().add("contenedor-completado");
+                }else{
+                    getStyleClass().clear();
+                    getStyleClass().add("contenedor");
+                }
+            }
+        });
     }
     private void horarioDinamico(){
         StringBinding horarioAmostrar = new StringBinding() {
@@ -200,13 +222,12 @@ public class Apilable extends VBox {
         horaInLine.getStyleClass().add("texto-blanco");
         titulo.getStyleClass().addAll("texto-blanco","titulo","alinear-centro");
         titulo.setPadding(new Insets(-6, 0, 0, 0));
-        this.getStyleClass().addAll("contenedor");
+        this.getStyleClass().add("contenedor");
         botonesPadding(new Insets(-2,0,0,0));
     }
     private void botonesPadding(Insets insets){
         botonBorrar.setPadding(insets);
         botonEditar.setPadding(insets);
-        botonFinal.setPadding(insets);
     }
     public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonBorrar.addEventHandler(ActionEvent.ACTION,handler);
@@ -214,8 +235,16 @@ public class Apilable extends VBox {
     public void addEditarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonEditar.addEventHandler(ActionEvent.ACTION,handler);
     }
-    public void addFinalEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonFinal.addEventHandler(ActionEvent.ACTION,handler);
+
+    public void addCheckBoxListener(ChangeListener<Boolean> listener){
+        completada.selectedProperty().addListener(listener);
+    }
+
+    public void setEsTarea(boolean esTarea){
+        this.esTarea.set(esTarea);
+    }
+    public void setCheckBoxEstado(boolean nuevoEstado){
+        completada.setSelected(nuevoEstado);
     }
     public BooleanProperty getReescalandoProperty(){
         return reescalando;
