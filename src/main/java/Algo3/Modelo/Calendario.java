@@ -32,8 +32,8 @@ public class Calendario implements Serializable{
             var eventoDePrueba = new Evento("Prueba222222222222 2222","Esto es una prueba",
                     LocalDateTime.now(),
                     LocalDateTime.now(),
-                    new FrecuenciaSemanal(List.of(Dia.JUEVES)),
-                    new RepeticionCantidadLimite( new FrecuenciaSemanal(List.of(Dia.JUEVES)), LocalDateTime.now(), 10));
+                    new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)),
+                    new RepeticionCantidadLimite( new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)), LocalDateTime.now(), 10));
             this.agregar(eventoDePrueba);
         }
     }

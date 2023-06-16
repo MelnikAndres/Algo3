@@ -2,6 +2,7 @@ package Algo3.Controlador;
 
 import Algo3.Componentes.Casilla;
 import Algo3.Modelo.Asignable;
+import Algo3.Modelo.Calendario;
 import Algo3.Vista.Calendario.CalendarioMensualVista;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -19,19 +20,21 @@ public class CalendarioMensualControlador extends CalendarioControlador{
     private HashMap<LocalDate, Casilla> casillas;
     private ObjectProperty<LocalDate> fecha;
     private CalendarioMensualVista vista;
-    CalendarioMensualControlador(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,
+    private Calendario calendario;
+    CalendarioMensualControlador(Calendario calendario, ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,
                                  ObjectProperty<LocalDate> dateValue){
         this.vista = new CalendarioMensualVista();
         vista.montarVista(widthProperty, heightProperty, dateValue);
         this.casillas = vista.getCasillas();
-
+        this.calendario = calendario;
 
     }
-    public void cargarAsignables(Map<Asignable, List<LocalDateTime>> repeticiones){
-        if(repeticiones.isEmpty()) return;
-        for(Asignable asignable: repeticiones.keySet()){
-            for(LocalDateTime fecha: repeticiones.get(asignable)){
-                casillas.get(fecha.toLocalDate()).getBase().getChildren().add(vista.crearAsignable(asignable));
+
+    @Override
+    public void cargarAsignables(Map<Integer, List<LocalDateTime>> repeticiones) {
+        for(Integer asidnableId: repeticiones.keySet()){
+            for(LocalDateTime fecha: repeticiones.get(asidnableId)){
+                casillas.get(fecha.toLocalDate()).getBase().getChildren().add(vista.crearAsignable(calendario.obtenerAsignablePorId(asidnableId)));
             }
         }
     }

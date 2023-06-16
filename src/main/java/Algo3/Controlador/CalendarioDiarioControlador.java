@@ -83,8 +83,12 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
                 Asignable asignable = calendario.obtenerAsignablePorId(id);
                 DialogoEditarControlador controlador = new DialogoEditarControlador((Stage)vista.getScene().getWindow());
                 controlador.cargarValores(asignable.obtenerParametros());
-                controlador.abrirYeditar(asignable);
-                apilable.editar(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
+                Asignable resultado = controlador.abrirYeditar();
+                if(resultado == null){
+                    return;
+                }
+                calendario.editar(id, resultado);
+                apilable.editar(resultado.getTitulo(), resultado.getFechaInicio(),resultado.getFechaFinal());
                 var listener = new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {

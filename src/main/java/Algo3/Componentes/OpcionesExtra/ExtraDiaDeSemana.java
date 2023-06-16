@@ -60,7 +60,7 @@ public class ExtraDiaDeSemana extends VBox implements OpcionExtra {
                 diasDeLaSemana.add(todosLosDias.get(i));
             }
         }
-        return diasDeLaSemana.stream().map(String::valueOf).collect(Collectors.joining(", "));
+        return diasDeLaSemana.stream().map(String::valueOf).collect(Collectors.joining(","));
     }
     public void setValor(String valor){
         List<String> diasSplit= List.of(valor.split(","));

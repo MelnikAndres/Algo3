@@ -22,63 +22,50 @@ import java.util.*;
 
 public class MainControlador {
 
-    private MainVista mainVista= new MainVista();
+    private MainVista mainVista;
     private Calendario calendario = new Calendario();
     private CalendarioControlador calendarioControlador;
 
     //{anio --> mes -->apariciones}
-    private ObservableMap<Integer,HashMap<Integer, Map<Integer, List<LocalDateTime>>>> aparicionesPrevias = FXCollections.observableHashMap();
     public MainControlador(ReadOnlyDoubleProperty widthProperty){
-        mainVista.prefWidthProperty().bind(widthProperty);
+        mainVista = new MainVista(widthProperty);
         calendarioControlador = new CalendarioDiarioControlador(calendario,mainVista.prefWidthProperty(),mainVista.heightProperty(),mainVista.getFechaActualProperty());
-        mainVista.getChildren().add(calendarioControlador.getVista());
+        mainVista.getContenido().getChildren().add(calendarioControlador.getVista());
         agregarListeners();
-        agregarApariciones(mainVista.getFechaActualProperty().get());
         cargarApariciones(mainVista.getFechaActualProperty().get());
     }
     private void agregarListeners(){
         mainVista.getVistaActualProperty().addListener((__,___,nuevoTipo) -> cambiarVistaActual(nuevoTipo));
 
         mainVista.getFechaActualProperty().addListener((__,___,fechaElegida) -> {
-            if(!(aparicionesPrevias.containsKey(fechaElegida.getYear()) &&
-                    aparicionesPrevias.get(fechaElegida.getYear()).containsKey(fechaElegida.getMonthValue()))){
-                agregarApariciones(fechaElegida);
-            }
             cargarApariciones(fechaElegida);
         });
         EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Asignable asignable = new Tarea("(Sin Titulo)", "(Sin Descripcion)", LocalDateTime.now(), LocalDateTime.now());
                 DialogoEditarControlador controlador = new DialogoEditarControlador((Stage) getVista().getScene().getWindow());
-                controlador.cargarValores(asignable.obtenerParametros());
-                boolean fueAgregado = controlador.abrirYeditar(asignable);
-                if(fueAgregado){
-                    calendario.agregar(asignable);
+                Asignable resultado = controlador.abrirYeditar();
+                if(resultado!=null){
+                    calendario.agregar(resultado);
                 }
             }
         };
         mainVista.addAgregarListener(handler);
     }
     private void cargarApariciones(LocalDate fechaElegida){
-        var aparicionesEnMes = aparicionesPrevias.get(fechaElegida.getYear()).get(fechaElegida.getMonthValue());
-        calendarioControlador.cargarAsignables(aparicionesEnMes);
-    }
-    private void agregarApariciones(LocalDate fechaElegida){
         var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaElegida.getMonthValue(), fechaElegida.getYear());
-        HashMap<Integer, Map<Integer, List<LocalDateTime>>> aparicionesEnMes = new HashMap<>();
-        aparicionesEnMes.put(fechaElegida.getMonthValue(),aparicionesActuales);
-        aparicionesPrevias.put(fechaElegida.getYear(),aparicionesEnMes);
+        calendarioControlador.cargarAsignables(aparicionesActuales);
     }
 
     private void cambiarVistaActual(VistaTipo nuevoTipo){
-        mainVista.getChildren().remove(calendarioControlador.getVista());
+        mainVista.getContenido().getChildren().remove(calendarioControlador.getVista());
         switch (nuevoTipo){
             case DIARIA -> calendarioControlador = new CalendarioDiarioControlador(calendario, mainVista.prefWidthProperty(),mainVista.heightProperty(),mainVista.getFechaActualProperty());
-            case MENSUAL -> System.out.println("SEMANAL");
+            case MENSUAL -> calendarioControlador = new CalendarioMensualControlador(calendario, mainVista.prefWidthProperty(),mainVista.heightProperty(),mainVista.getFechaActualProperty());
             case SEMANAL -> calendarioControlador = new CalendarioSemanalControlador(calendario, mainVista.prefWidthProperty(),mainVista.heightProperty(),mainVista.getFechaActualProperty());
         }
-        mainVista.getChildren().add(calendarioControlador.getVista());
+        mainVista.getContenido().getChildren().add(calendarioControlador.getVista());
+        cargarApariciones(mainVista.getFechaActualProperty().get());
     }
 
     public MainVista getVista(){

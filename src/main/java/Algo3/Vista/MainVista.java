@@ -3,24 +3,33 @@ package Algo3.Vista;
 import Algo3.Componentes.Menu;
 import Algo3.Constantes.VistaTipo;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 
-public class MainVista extends HBox {
+public class MainVista extends StackPane {
+    @FXML
+    private HBox contenido;
     @FXML
     private Menu menu;
 
-    public MainVista(){
+    public MainVista(ReadOnlyDoubleProperty widthProperty){
         cargarFXML();
+        contenido.prefWidthProperty().bind(widthProperty);
+        prefWidthProperty().bind(widthProperty);
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/mainVista.css").toUri().toString());
-        getStyleClass().add("fondo-primario");
+    }
+
+    public HBox getContenido(){
+        return contenido;
     }
 
     public ObjectProperty<VistaTipo> getVistaActualProperty(){
