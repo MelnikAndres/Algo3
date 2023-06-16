@@ -2,13 +2,17 @@ package Algo3.Modelo;
 
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import Algo3.Constantes.Dia;
+import Algo3.Disparador.Notificacion;
 import Algo3.Frecuencia.FrecuenciaDiaria;
 import Algo3.Frecuencia.FrecuenciaSemanal;
 import Algo3.Repeticion.RepeticionCantidadLimite;
@@ -24,6 +28,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Calendario implements Serializable{
     private final HashMap<Integer, Asignable> asignables = new HashMap<>();
+
     @JsonProperty("idIncremental")
     private int idIncremental = 0;
 
@@ -34,7 +39,11 @@ public class Calendario implements Serializable{
                     LocalDateTime.now(),
                     new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)),
                     new RepeticionCantidadLimite( new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)), LocalDateTime.now(), 10));
+            if(i == 2 || i == 5){
+                eventoDePrueba.agregarAlarma(new Alarma(LocalDateTime.now().plusSeconds(i + 5), Duration.ZERO, new Notificacion()));
+            }
             this.agregar(eventoDePrueba);
+
         }
     }
     public int getIdIncremental() {
@@ -77,6 +86,35 @@ public class Calendario implements Serializable{
         ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
         objectWriter.writeValue(os, this);
 
+    }
+    public Alarma proximaAlarma(){
+        LocalDateTime fechaComparacion = LocalDateTime.MAX;
+        Alarma proximaAlarma = null;
+        for(Asignable asignable: asignables.values()){
+            for(Alarma alarma: asignable.getAlarmas()){
+                if(alarma.getFecha().minus(alarma.getTiempoAntes()).isBefore(fechaComparacion)){
+                    proximaAlarma = alarma;
+                    fechaComparacion = alarma.getFecha().minus(alarma.getTiempoAntes());
+                }
+            }
+        }
+        return proximaAlarma;
+    }
+
+
+
+    public Asignable asignableConProximaAlarma(){
+        LocalDateTime fechaComparacion = LocalDateTime.MAX;
+        Asignable proximaAlarma = null;
+        for(Asignable asignable: asignables.values()){
+            for(Alarma alarma: asignable.getAlarmas()){
+                if(alarma.getFecha().minus(alarma.getTiempoAntes()).isBefore(fechaComparacion)){
+                    proximaAlarma = asignable;
+                    fechaComparacion = alarma.getFecha().minus(alarma.getTiempoAntes());
+                }
+            }
+        }
+        return proximaAlarma;
     }
 
     public Map<Integer, List<LocalDateTime>> obtenerAparicionesEnMesyAnio(int numeroDeMes, int anio){

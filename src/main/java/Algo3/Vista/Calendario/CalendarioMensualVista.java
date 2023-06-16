@@ -44,7 +44,9 @@ public class CalendarioMensualVista extends ScrollPane{
     @FXML
     GridPane grillaMensual;
 
-    private HashMap<LocalDate, Casilla> casillas = new HashMap<LocalDate, Casilla>();
+    private ObjectProperty<LocalDate> dateValue;
+
+    private final HashMap<LocalDate, Casilla> casillas = new HashMap<LocalDate, Casilla>();
 
     public CalendarioMensualVista( ){
         cargarFXML();
@@ -85,7 +87,7 @@ public class CalendarioMensualVista extends ScrollPane{
         }
     }
 
-    private void cambiarGrilla(LocalDate fecha){
+    public void cambiarGrilla(LocalDate fecha){
         grillaMensual.getChildren().clear();
         grillaMensual.setStyle("-fx-background-color: #142131");
 
@@ -102,7 +104,6 @@ public class CalendarioMensualVista extends ScrollPane{
         for(int i = 0; i < 7; i++){
             if(i<diaPrimerDia && diaPrimerDia != 7){
                 int o = ultimoDiaMesAnterior-(diaPrimerDia-i-1);
-                System.out.println(""+ o);
                 grillaMensual.add(diaParaGrillaMensual(o,fecha.minusMonths(1).getMonthValue(),fecha.minusMonths(1).getYear(), contador,false).getBase(),i,0);
             }else {
                 grillaMensual.add(diaParaGrillaMensual(dias,fecha.getMonthValue(), fecha.getYear(), contador,true).getBase(), i, 0);
@@ -164,7 +165,10 @@ public class CalendarioMensualVista extends ScrollPane{
             casilla.getBase().setStyle("-fx-border-color: white; -fx-background-color: derive(#142131, 70%)");
             label.setStyle("-fx-opacity: 0.5");
         }
-        casillas.put(LocalDate.of(anio,mes,dia), casilla);
+        if(casillas.containsKey(LocalDate.of(anio,mes,dia))){
+            casillas.replace(LocalDate.of(anio,mes,dia), casilla);
+        }else
+            casillas.put(LocalDate.of(anio,mes,dia), casilla);
         return casilla;
     }
     private void agregarSeparadores(){
@@ -213,13 +217,8 @@ public class CalendarioMensualVista extends ScrollPane{
     }
 
     public void montarVista(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,ObjectProperty<LocalDate> dateValue) {
+        this.dateValue = dateValue;
         crearGrilla(dateValue.get());
-        dateValue.addListener(new ChangeListener<LocalDate>() {
-            @Override
-            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
-                cambiarGrilla(t1);
-            }
-        });
     }
 
     public HashMap<LocalDate, Casilla> getCasillas() {

@@ -42,6 +42,15 @@ public class Alarma implements Serializable {
     public String toString(){
         return fecha.toString() + ", "+ tiempoAntes.toString()+ ", "+ disparador.getTipoDisparador();
     }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public Duration getTiempoAntes() {
+        return tiempoAntes;
+    }
+
     public void disparar(){
        this.disparador.disparar();
     }

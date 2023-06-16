@@ -24,14 +24,15 @@ public class CalendarioMensualControlador extends CalendarioControlador{
     CalendarioMensualControlador(Calendario calendario, ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty,
                                  ObjectProperty<LocalDate> dateValue){
         this.vista = new CalendarioMensualVista();
+        this.fecha = dateValue;
         vista.montarVista(widthProperty, heightProperty, dateValue);
         this.casillas = vista.getCasillas();
         this.calendario = calendario;
-
     }
 
     @Override
     public void cargarAsignables(Map<Integer, List<LocalDateTime>> repeticiones) {
+        vista.cambiarGrilla(fecha.getValue());
         for(Integer asidnableId: repeticiones.keySet()){
             for(LocalDateTime fecha: repeticiones.get(asidnableId)){
                 casillas.get(fecha.toLocalDate()).getBase().getChildren().add(vista.crearAsignable(calendario.obtenerAsignablePorId(asidnableId)));
