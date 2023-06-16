@@ -4,9 +4,9 @@ import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
+import Algo3.Modelo.Tarea;
 import Algo3.Utilidad.Completador;
 import Algo3.Vista.Calendario.CalendarioDiarioVista;
-import Algo3.Vista.DialogoEditarControlador;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -15,11 +15,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +68,14 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
             }
             apiladorDeAsignables.agregarComportamiento(actualAgregando);
             apiladorDeAsignables.apilar(actualAgregando);
+            LocalTime tiempoInicial = LocalTime.of(filaInicioDeArrastre/4,filaInicioDeArrastre%4 * 15,0);
+            LocalDateTime fechaInicial = LocalDateTime.of(fechaActual.get(),tiempoInicial);
+            LocalTime tiempoFinal = LocalTime.of((int) (actualAgregando.getHeight()/60 + filaInicioDeArrastre/4), (int) (actualAgregando.getHeight()%60),0);
+            LocalDateTime fechaFinal = LocalDateTime.of(fechaActual.get(),tiempoFinal);
+            Asignable nuevoAsignable = new Tarea("(Sin Titulo)","(Sin Descripcion)",fechaInicial,fechaFinal);
+            calendario.agregar(nuevoAsignable);
+            var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
+            cargarAsignables(aparicionesActuales);
             this.filaInicioDeArrastre = null;
             this.actualAgregando = null;
         });
@@ -94,6 +102,13 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
                 calendario.editar(id, resultado);
                 var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
                 cargarAsignables(aparicionesActuales);
+            }
+        });
+        apilable.addAlarmaEvent(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                DialogoAlarmaControlador dialogoAlarmaControlador = new DialogoAlarmaControlador((Stage)vista.getScene().getWindow());
+                dialogoAlarmaControlador.abrirYcrear(asignable.getFechaInicio());
             }
         });
         probarEsCompletable(asignable, apilable);

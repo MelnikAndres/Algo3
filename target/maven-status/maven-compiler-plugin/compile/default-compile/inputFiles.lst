@@ -8,6 +8,7 @@ C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Vista\
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Controlador\CalendarioMensualControlador.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Repeticion\RepeticionFechaLimite.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Constantes\DisparadorTipo.java
+C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Controlador\DialogoAlarmaControlador.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Modelo\Evento.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Vista\Calendario\CalendarioSemanalVista.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\OpcionesExtra\OpcionesExtra.java
@@ -17,6 +18,7 @@ C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Vista\
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\Casilla.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Controlador\CalendarioSemanalControlador.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Frecuencia\FrecuenciaMensual.java
+C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Vista\DialogoAlarmaVista.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\ApiladorDeAsignables.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\CeldaSemanal.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Repeticion\Repeticion.java
@@ -38,6 +40,7 @@ C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Utilid
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Frecuencia\Frecuencia.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\OpcionesExtra\ExtraRepeticion.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Constantes\ParametroTipo.java
+C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Controlador\DialogoEditarControlador.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Repeticion\RepeticionCantidadLimite.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Modelo\Tarea.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Modelo\Asignable.java
@@ -48,7 +51,6 @@ C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Compon
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\Menu.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Frecuencia\FrecuenciaSemanal.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\OpcionesExtra\ExtraFechaHora.java
-C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Vista\DialogoEditarControlador.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Controlador\CalendarioDiarioControlador.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Componentes\SelectorCalendario.java
 C:\Users\andre\OneDrive\Escritorio\Java\TP\Calendario\src\main\java\Algo3\Constantes\Mes.java

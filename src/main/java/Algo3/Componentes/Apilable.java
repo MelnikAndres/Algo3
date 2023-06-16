@@ -37,6 +37,8 @@ public class Apilable extends VBox {
     private Button botonBorrar;
     @FXML
     private Button botonEditar;
+    @FXML
+    private Button botonAlarma;
     private StringProperty tituloDeAsignable ;
     private String horarioInicio = "";
     private StringProperty horarioFin;
@@ -137,6 +139,7 @@ public class Apilable extends VBox {
         };
         botonEditar.styleProperty().bind(paddingBotones);
         botonBorrar.styleProperty().bind(paddingBotones);
+        botonAlarma.styleProperty().bind(paddingBotones);
     }
     private void listenerCompletado(){
         completada.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -207,14 +210,12 @@ public class Apilable extends VBox {
             }
         }
     }
-
     private void limitarTamanio() {
         this.setPrefHeight(18);
         this.setMaxHeight(-1);
         this.setMaxWidth(-1);
         this.setMinHeight(18);
     }
-
     private void agregarEstilos(){
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/celda.css").toUri().toString());
         horario.getStyleClass().add("texto-blanco");
@@ -229,12 +230,16 @@ public class Apilable extends VBox {
     private void botonesPadding(Insets insets){
         botonBorrar.setPadding(insets);
         botonEditar.setPadding(insets);
+        botonAlarma.setPadding(insets);
     }
     public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonBorrar.addEventHandler(ActionEvent.ACTION,handler);
     }
     public void addEditarEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonEditar.addEventHandler(ActionEvent.ACTION,handler);
+    }
+    public void addAlarmaEvent(EventHandler<javafx.event.ActionEvent> handler){
+        botonAlarma.addEventHandler(ActionEvent.ACTION,handler);
     }
 
     public void addCheckBoxListener(ChangeListener<Boolean> listener){
@@ -253,7 +258,6 @@ public class Apilable extends VBox {
         estasOcupadas.retainAll(otrasOcupadas);
         return estasOcupadas.size()>0;
     }
-
     public List<Integer> filasOcupadas(){
         List<Integer> ocupadas = new ArrayList<>();
         for(int i = filaInicio; i<=filaFin.getValue();i++){
@@ -272,7 +276,6 @@ public class Apilable extends VBox {
             throw new RuntimeException(e);
         }
     }
-
     public void editar(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
         titulo.textProperty().bind(this.tituloDeAsignable);

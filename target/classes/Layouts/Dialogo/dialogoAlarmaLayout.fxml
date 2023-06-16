@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import Algo3.Componentes.OpcionesExtra.*?>
+<fx:root type="DialogPane" maxWidth="400.0" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <HBox maxWidth="1.7976931348623157E308" spacing="10">
+         <children>
+            <ListView prefHeight="200.0" prefWidth="200.0" />
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Agregar Alarma">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Tiempo Antes">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ToggleButton fx:id="esTiempoAntes" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
+                           <font>
+                              <Font size="6.0" />
+                           </font>
+                        </ToggleButton>
+                     </children>
+                  </HBox>
+                   <ExtraFechaHora fx:id="fechaFinal" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </content>
+</fx:root>

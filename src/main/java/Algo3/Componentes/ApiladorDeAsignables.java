@@ -1,17 +1,12 @@
 package Algo3.Componentes;
 
-import Algo3.Vista.DialogoEditarControlador;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 public class ApiladorDeAsignables extends AnchorPane {
     //Este componente se usa para apilar asignables en la vista diaria del calendario

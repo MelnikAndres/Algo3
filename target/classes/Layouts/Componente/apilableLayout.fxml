@@ -17,7 +17,7 @@
             <Label fx:id="titulo" contentDisplay="RIGHT" text="(Sin titulo)" />
             <CheckBox fx:id="completada" maxHeight="26.0" mnemonicParsing="false">
                <font>
-                  <Font size="10.0" />
+                  <Font size="8.0" />
                </font>
             </CheckBox>
             <Label fx:id="horaInLine" contentDisplay="CENTER" text="Sin Hora">
@@ -42,6 +42,15 @@
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../Imagenes/edit.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="botonAlarma" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Imagenes/alarma.png" />
                      </image>
                   </ImageView>
                </graphic>

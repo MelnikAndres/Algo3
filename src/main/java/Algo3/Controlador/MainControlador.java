@@ -3,22 +3,13 @@ package Algo3.Controlador;
 import Algo3.Constantes.VistaTipo;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
-import Algo3.Modelo.Tarea;
-import Algo3.Vista.Calendario.CalendarioDiarioVista;
-import Algo3.Vista.Calendario.CalendarioMensualVista;
-import Algo3.Vista.DialogoEditarControlador;
 import Algo3.Vista.MainVista;
 import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class MainControlador {
 
@@ -40,7 +31,7 @@ public class MainControlador {
         mainVista.getFechaActualProperty().addListener((__,___,fechaElegida) -> {
             cargarApariciones(fechaElegida);
         });
-        EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
+        mainVista.addAgregarListener(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DialogoEditarControlador controlador = new DialogoEditarControlador((Stage) getVista().getScene().getWindow());
@@ -50,8 +41,7 @@ public class MainControlador {
                     cargarApariciones(mainVista.getFechaActualProperty().get());
                 }
             }
-        };
-        mainVista.addAgregarListener(handler);
+        });
     }
     private void cargarApariciones(LocalDate fechaElegida){
         var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaElegida.getMonthValue(), fechaElegida.getYear());

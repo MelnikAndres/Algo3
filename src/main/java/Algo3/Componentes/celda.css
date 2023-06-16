@@ -27,3 +27,18 @@
 .button:hover{
     -fx-blend-mode: SRC_OVER;
 }
+.check-box .box{
+    -fx-background-color: -fx-color-primario;
+    -fx-border-color: -fx-color-blanco;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-cursor: hand;
+}
+.check-box:selected .box{
+    -fx-background-color: -fx-color-primario, -fx-color-blanco;
+    -fx-background-insets: 0,4;
+}
+.check-box > .box > .mark {
+    -fx-background-color: null;
+    -fx-shape: "";
+}

@@ -1,4 +1,4 @@
-package Algo3.Vista;
+package Algo3.Controlador;
 
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Constantes.RepeticionTipo;
@@ -8,6 +8,7 @@ import Algo3.Modelo.Evento;
 import Algo3.Modelo.Tarea;
 import Algo3.Repeticion.Repeticion;
 import Algo3.Utilidad.FechaParser;
+import Algo3.Vista.DialogoEditarVista;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
