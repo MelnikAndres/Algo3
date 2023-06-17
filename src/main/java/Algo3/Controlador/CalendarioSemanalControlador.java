@@ -19,6 +19,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,6 +68,11 @@ public class CalendarioSemanalControlador extends CalendarioControlador {
                 calendario.eliminar(id);
                 var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
                 cargarAsignables(aparicionesActuales);
+                try {
+                    calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         celdaSemanal.addEditarEvent(new EventHandler<ActionEvent>() {
@@ -80,6 +87,11 @@ public class CalendarioSemanalControlador extends CalendarioControlador {
                 calendario.editar(id, resultado);
                 var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fechaActual.get().getMonthValue(), fechaActual.get().getYear());
                 cargarAsignables(aparicionesActuales);
+                try {
+                    calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         celdaSemanal.addAlarmaEvent(new EventHandler<ActionEvent>() {
@@ -90,6 +102,11 @@ public class CalendarioSemanalControlador extends CalendarioControlador {
                 if(resultado != null){
                     asignable.agregarAlarma(resultado);
                     vista.fireEvent(new AlarmaEvento(AlarmaEvento.NUEVA_ALARMA));
+                    try {
+                        calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });

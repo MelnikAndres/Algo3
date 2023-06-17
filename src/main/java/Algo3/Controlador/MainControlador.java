@@ -13,6 +13,9 @@ import javafx.event.EventHandler;
 
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,12 +25,17 @@ import java.util.*;
 public class MainControlador {
 
     private MainVista mainVista;
-    private Calendario calendario = new Calendario();
+    private Calendario calendario;
     private CalendarioControlador calendarioControlador;
     private final Timer timer = new Timer();
 
     //{anio --> mes -->apariciones}
     public MainControlador(ReadOnlyDoubleProperty widthProperty){
+        try {
+            calendario = Calendario.deserializar(new FileInputStream(System.getProperty("user.dir")+"\\calendario.json"));
+        } catch (IOException e) {
+            calendario = new Calendario();
+        }
         mainVista = new MainVista(widthProperty);
         calendarioControlador = new CalendarioDiarioControlador(calendario,mainVista.prefWidthProperty(),mainVista.heightProperty(),mainVista.getFechaActualProperty());
         mainVista.getContenido().getChildren().add(calendarioControlador.getVista());
@@ -49,6 +57,11 @@ public class MainControlador {
                 Asignable resultado = controlador.abrirYeditar();
                 if(resultado!=null){
                     calendario.agregar(resultado);
+                    try {
+                        calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         };

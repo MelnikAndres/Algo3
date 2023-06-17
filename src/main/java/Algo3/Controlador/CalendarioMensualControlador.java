@@ -14,6 +14,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -57,6 +59,11 @@ public class CalendarioMensualControlador extends CalendarioControlador{
                 calendario.eliminar(id);
                 var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fecha.get().getMonthValue(), fecha.get().getYear());
                 cargarAsignables(aparicionesActuales);
+                try {
+                    calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         celdaMensual.getBotonEditar().setOnAction(new EventHandler<ActionEvent>() {
@@ -69,6 +76,11 @@ public class CalendarioMensualControlador extends CalendarioControlador{
                     return;
                 }
                 calendario.editar(id, resultado);
+                try {
+                    calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 var aparicionesActuales = calendario.obtenerAparicionesEnMesyAnio(fecha.get().getMonthValue(), fecha.get().getYear());
                 cargarAsignables(aparicionesActuales);
             }
@@ -81,6 +93,11 @@ public class CalendarioMensualControlador extends CalendarioControlador{
                 if(resultado != null){
                     asignable.agregarAlarma(resultado);
                     vista.fireEvent(new AlarmaEvento(AlarmaEvento.NUEVA_ALARMA));
+                    try {
+                        calendario.serializar(new FileOutputStream(System.getProperty("user.dir")+"\\calendario.json"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
