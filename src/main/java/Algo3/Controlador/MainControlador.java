@@ -27,7 +27,7 @@ public class MainControlador {
     private MainVista mainVista;
     private Calendario calendario;
     private CalendarioControlador calendarioControlador;
-    private final Timer timer = new Timer();
+    private final Timer timer = new Timer(true);
 
     //{anio --> mes -->apariciones}
     public MainControlador(ReadOnlyDoubleProperty widthProperty){
