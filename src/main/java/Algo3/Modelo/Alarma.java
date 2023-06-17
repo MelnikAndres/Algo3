@@ -11,23 +11,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Alarma implements Serializable {
     /* tiempoAntes marca cuanto tiempo antes del evento/tarea debe sonar la alarma.
     Si la alarma es absoluta, es 0. */
     private LocalDateTime fecha;
-    private LocalDateTime tiempoAntes;
+    private Duration tiempoAntes;
     private Disparador disparador;
 
 
 
-    public Alarma(@JsonProperty("fecha") LocalDateTime fecha, @JsonProperty("tiempoAntes") LocalDateTime tiempoAntes, @JsonProperty("disparador") Disparador disparador) {
+    public Alarma(@JsonProperty("fecha") LocalDateTime fecha, @JsonProperty("tiempoAntes") Duration tiempoAntes, @JsonProperty("disparador") Disparador disparador) {
         if (fecha == null) {
             throw new RuntimeException(ErrorTipo.FECHA_FALTANTE.toString());
         }
         if (disparador == null) {
             throw new RuntimeException(ErrorTipo.TIPO_FALTANTE.toString());
         }
+
             this.fecha = fecha;
             this.tiempoAntes = tiempoAntes;
             this.disparador = disparador;

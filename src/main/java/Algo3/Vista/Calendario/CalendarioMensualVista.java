@@ -3,40 +3,27 @@ package Algo3.Vista.Calendario;
 
 import Algo3.Componentes.Casilla;
 import Algo3.Modelo.Asignable;
-import javafx.beans.property.BooleanProperty;
+import Algo3.Modelo.Calendario;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-
-import static java.awt.Color.white;
-import static java.lang.Double.MAX_VALUE;
 
 public class CalendarioMensualVista extends ScrollPane{
     @FXML
@@ -44,12 +31,15 @@ public class CalendarioMensualVista extends ScrollPane{
     @FXML
     GridPane grillaMensual;
 
+    private Calendario calendario;
+
     private ObjectProperty<LocalDate> dateValue;
 
     private final HashMap<LocalDate, Casilla> casillas = new HashMap<LocalDate, Casilla>();
 
-    public CalendarioMensualVista( ){
+    public CalendarioMensualVista( Calendario calendario){
         cargarFXML();
+        this.calendario = calendario;
     }
     private void cargarFXML() {
         try {
@@ -78,6 +68,7 @@ public class CalendarioMensualVista extends ScrollPane{
         for(int i = 0;i<7;i++){
             var column = new StackPane();
             var constraints = new ColumnConstraints();
+
             constraints.setMinWidth(200);
             constraints.setMaxWidth(200);
             constraints.setPrefWidth(200);
@@ -92,7 +83,7 @@ public class CalendarioMensualVista extends ScrollPane{
         grillaMensual.setStyle("-fx-background-color: #142131");
 
         rellenarGrilla(fecha);
-        agregarSeparadores();
+        //agregarSeparadores();
     }
     private void rellenarGrilla(LocalDate fecha){
         int year = fecha.getYear();
@@ -180,27 +171,39 @@ public class CalendarioMensualVista extends ScrollPane{
         }
     }
 
-    public HBox crearAsignable(Asignable asignable){
-        var vbox = new VBox();
-        var hbox = new HBox();
+    public HBox crearAsignable(Asignable asignable, Integer id){
+        var vbox = new HBox();
         var button = new Button();
         var label = new Label(asignable.getTitulo());
-
-        button.setMaxHeight(10);
-        button.setMinHeight(10);
+        label.setPrefWidth(150);
+        label.setMaxWidth(150);
+        label.setMinWidth(150);
         button.setPrefHeight(10);
+        button.setMinHeight(10);
+        button.setMaxHeight(10);
+        button.setPrefWidth(10);
+        button.setMinWidth(10);
+        button.setMaxWidth(10);
+        button.setStyle("-fx-background-color: red; -fx-border-color: black");
+        button.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                calendario.eliminar(id);
+                casillas.get(asignable.getFechaInicio().toLocalDate()).getBase().getChildren().remove(vbox);
 
-        hbox.getChildren().addAll(label,button);
-        HBox.setHgrow(label, Priority.ALWAYS);
-
-        label.setAlignment(Pos.CENTER);
+            }
+        });
         button.setAlignment(Pos.TOP_RIGHT);
-        hbox.setSpacing(100);
-        hbox.setMaxWidth(200);
-        hbox.setPrefWidth(200);
-        hbox.setMinWidth(200);
-
-        return hbox;
+        vbox.setAlignment(Pos.TOP_RIGHT);
+        vbox.setMaxWidth(200);
+        vbox.setMinWidth(200);
+        vbox.setPrefWidth(200);
+        vbox.setMaxHeight(30);
+        vbox.setMinHeight(30);
+        vbox.setPrefHeight(30);
+        vbox.getChildren().addAll(label, button);
+        vbox.setStyle("-fx-background-color: yellow");
+        return vbox;
     }
 
     private HBox crearSeparadores(){
