@@ -2,10 +2,12 @@ package Algo3.Controlador;
 
 import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
+import Algo3.Modelo.Alarma;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
 import Algo3.Modelo.Tarea;
 import Algo3.Utilidad.Completador;
+import Algo3.Utilidad.AlarmaEvento;
 import Algo3.Vista.Calendario.CalendarioDiarioVista;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -70,7 +72,7 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
             apiladorDeAsignables.apilar(actualAgregando);
             LocalTime tiempoInicial = LocalTime.of(filaInicioDeArrastre/4,filaInicioDeArrastre%4 * 15,0);
             LocalDateTime fechaInicial = LocalDateTime.of(fechaActual.get(),tiempoInicial);
-            LocalTime tiempoFinal = LocalTime.of((int) (actualAgregando.getHeight()/60 + filaInicioDeArrastre/4), (int) (actualAgregando.getHeight()%60),0);
+            LocalTime tiempoFinal = actualAgregando.getHoraFinal();
             LocalDateTime fechaFinal = LocalDateTime.of(fechaActual.get(),tiempoFinal);
             Asignable nuevoAsignable = new Tarea("(Sin Titulo)","(Sin Descripcion)",fechaInicial,fechaFinal);
             calendario.agregar(nuevoAsignable);
@@ -107,8 +109,12 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
         apilable.addAlarmaEvent(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DialogoAlarmaControlador dialogoAlarmaControlador = new DialogoAlarmaControlador((Stage)vista.getScene().getWindow());
-                dialogoAlarmaControlador.abrirYcrear(asignable.getFechaInicio());
+                DialogoAlarmaControlador dialogoAlarmaControlador = new DialogoAlarmaControlador((Stage)vista.getScene().getWindow(),asignable.getAlarmas());
+                Alarma resultado = dialogoAlarmaControlador.abrirYcrear(asignable.getFechaInicio());
+                if(resultado != null){
+                    asignable.agregarAlarma(resultado);
+                    vista.fireEvent(new AlarmaEvento(AlarmaEvento.NUEVA_ALARMA));
+                }
             }
         });
         probarEsCompletable(asignable, apilable);

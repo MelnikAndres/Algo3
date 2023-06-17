@@ -4,23 +4,14 @@ import Algo3.Componentes.Notificacion;
 import Algo3.Constantes.VistaTipo;
 import Algo3.Modelo.Asignable;
 import Algo3.Modelo.Calendario;
-import Algo3.Modelo.Tarea;
-import Algo3.Vista.Calendario.CalendarioDiarioVista;
-import Algo3.Vista.Calendario.CalendarioMensualVista;
-import Algo3.Vista.DialogoEditarControlador;
+import Algo3.Utilidad.AlarmaEvento;
 import Algo3.Vista.MainVista;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
-import javafx.scene.control.PopupControl;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
+
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -42,6 +33,7 @@ public class MainControlador {
         mainVista.getContenido().getChildren().add(calendarioControlador.getVista());
         agregarListeners();
         cargarApariciones(mainVista.getFechaActualProperty().get());
+        calendarioControlador.getVista().addEventHandler(AlarmaEvento.NUEVA_ALARMA, alarmaEvento -> ejecutarAlarma());
         ejecutarAlarma();
     }
     private void agregarListeners(){
@@ -76,6 +68,7 @@ public class MainControlador {
         }
         mainVista.getContenido().getChildren().add(calendarioControlador.getVista());
         cargarApariciones(mainVista.getFechaActualProperty().get());
+        calendarioControlador.getVista().addEventHandler(AlarmaEvento.NUEVA_ALARMA, alarmaEvento -> ejecutarAlarma());
     }
 
     public void ejecutarAlarma(){
@@ -90,7 +83,6 @@ public class MainControlador {
                         Platform.runLater(()->{
                             mainVista.getNotificaciones().getChildren().add(new Notificacion(asignable.getTitulo(), mainVista.getNotificaciones()));
                             ejecutarAlarma();
-
                         });
 
                     }
@@ -100,7 +92,6 @@ public class MainControlador {
 
         }
     }
-
 
     public MainVista getVista(){
         return mainVista;

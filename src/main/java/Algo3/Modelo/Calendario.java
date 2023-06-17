@@ -5,6 +5,7 @@ import java.io.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,7 @@ public class Calendario implements Serializable{
         for(int i=0;i<10;i++){
             var eventoDePrueba = new Evento("Prueba222222222222 2222","Esto es una prueba",
                     LocalDateTime.now(),
-                    LocalDateTime.now(),
+                    LocalDateTime.now().plusMinutes(60),
                     new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)),
                     new RepeticionCantidadLimite( new FrecuenciaSemanal(List.of(Dia.JUEVES,Dia.VIERNES)), LocalDateTime.now(), 10));
             if(i == 2 || i == 5){

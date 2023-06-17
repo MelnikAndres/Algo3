@@ -14,13 +14,15 @@ import javafx.stage.Stage;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class DialogoAlarmaControlador extends Dialog<ButtonType> {
-    DialogoAlarmaVista dialogoAlarmaVista = new DialogoAlarmaVista();
+    DialogoAlarmaVista dialogoAlarmaVista;
 
 
-    public DialogoAlarmaControlador(Stage stage){
+    public DialogoAlarmaControlador(Stage stage, List<Alarma> alarmas){
+        dialogoAlarmaVista = new DialogoAlarmaVista(alarmas);
         initModality(Modality.WINDOW_MODAL);
         initOwner(stage);
         setDialogPane(dialogoAlarmaVista);
@@ -36,13 +38,14 @@ public class DialogoAlarmaControlador extends Dialog<ButtonType> {
         if(result.isPresent()){
             var resultadoTipo = result.get();
             if(resultadoTipo.getButtonData() == ButtonBar.ButtonData.APPLY){
-                LocalDateTime fechaDeDisparo = dialogoAlarmaVista.obtenerFecha();
-                boolean esAbsoluta = dialogoAlarmaVista.obtenerTiempoAntes();
                 Disparador disparador = new Notificacion();
-                if(esAbsoluta){
-                    return new Alarma(fechaDeDisparo,null, disparador);
+                if(dialogoAlarmaVista.esAbsoluta()){
+                    return new Alarma(dialogoAlarmaVista.getFecha(),Duration.ZERO,disparador);
+                }else{
+                    Duration duration = dialogoAlarmaVista.getDuration();
+                    System.out.println(duration);
+                    return new Alarma(fechaDeAsignable,duration, disparador);
                 }
-                return new Alarma(fechaDeAsignable,fechaDeDisparo,disparador);
             }else{
                 return null;
             }

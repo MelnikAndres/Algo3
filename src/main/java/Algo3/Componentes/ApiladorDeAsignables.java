@@ -39,7 +39,7 @@ public class ApiladorDeAsignables extends AnchorPane {
         List<Integer> filasOcupadas = nuevoApilado.filasOcupadas();
         //buscar la fila ocupada por el nuevo apilable que tenga el mayor ancho
         for(Integer fila: filasOcupadas){
-            double anchoDeFila = anchosDeFilas.get(fila);
+            double anchoDeFila = anchosDeFilas.get(Math.min(fila,95));
             if(anchoDeFila>mayorAncho){
                 mayorAncho = anchoDeFila;
             }
@@ -49,7 +49,7 @@ public class ApiladorDeAsignables extends AnchorPane {
         apilados.add(nuevoApilado);
         //actualizar el mayor ancho de todas las filas ocupadas
         for(Integer fila: filasOcupadas){
-            anchosDeFilas.set(fila,mayorAncho + nuevoApilado.getWidth());
+            anchosDeFilas.set(Math.min(fila,95),mayorAncho + nuevoApilado.getWidth());
         }
     }
 

@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class Apilable extends VBox {
     private Button botonAlarma;
     private StringProperty tituloDeAsignable ;
     private String horarioInicio = "";
-    private StringProperty horarioFin;
+    private ObjectProperty<LocalTime> horarioFin;
     private BooleanProperty reescalando = new SimpleBooleanProperty(false);
     private int filaInicio;
     private int offsetInicio;
@@ -64,7 +65,7 @@ public class Apilable extends VBox {
 
         //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
         horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15);
-        horarioFin = new SimpleStringProperty(horarioInicio);
+        horarioFin = new SimpleObjectProperty<>(LocalTime.of(filaInicio/4,filaInicio%4 * 15));
         horarioDinamico();
         completada.visibleProperty().bind(esTarea);
     }
@@ -85,12 +86,12 @@ public class Apilable extends VBox {
 
         //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
         horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15 + offsetInicio);
-        horarioFin = new SimpleStringProperty(calcularHorario(filaFin.get()/4,filaFin.get()%4 * 15));
+        horarioFin = new SimpleObjectProperty<>(LocalTime.of(filaFin.get()/4,filaFin.get()%4 * 15));
         horarioDinamico();
 
         double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
                 (fechaInicio.getHour()*60 + fechaInicio.getMinute());
-        setNuevaAltura(altura);
+        setNuevaAltura(Math.max(altura,15));
         completada.visibleProperty().bind(esTarea);
     }
     private void cambioSuaveDePadding(){
@@ -162,10 +163,11 @@ public class Apilable extends VBox {
             }
             @Override
             protected String computeValue() {
-                if(horarioInicio.equals(horarioFin.get())){
+                var horaFinText = calcularHorario(horarioFin.get().getHour(),horarioFin.get().getMinute());
+                if(horarioInicio.equals(horaFinText)){
                     return "Dia Completo";
                 }
-                return horarioInicio+ " a " +horarioFin.get();
+                return horarioInicio+ " a " +horaFinText;
             }
         };
 
@@ -192,7 +194,14 @@ public class Apilable extends VBox {
         nuevaAltura += (filaInicio*15)%60 + offsetInicio;
         var horaEntera = (int)nuevaAltura/60 + filaInicio/4;
         var minutos = (int)nuevaAltura%60;
-        horarioFin.set(calcularHorario(horaEntera,minutos));
+        System.out.println(horaEntera);
+        System.out.println(nuevaAltura);
+        System.out.println(minutos);
+        if(horaEntera == 24){
+            horarioFin.set(LocalTime.of(23,59,0));
+        }else{
+            horarioFin.set(LocalTime.of(horaEntera,minutos,0));
+        }
     }
     private String calcularHorario(int horaEntera, int minutos){
         String minutosTexto = minutos<10?"0"+minutos:String.valueOf(minutos);
@@ -241,11 +250,9 @@ public class Apilable extends VBox {
     public void addAlarmaEvent(EventHandler<javafx.event.ActionEvent> handler){
         botonAlarma.addEventHandler(ActionEvent.ACTION,handler);
     }
-
     public void addCheckBoxListener(ChangeListener<Boolean> listener){
         completada.selectedProperty().addListener(listener);
     }
-
     public void setEsTarea(boolean esTarea){
         this.esTarea.set(esTarea);
     }
@@ -276,22 +283,8 @@ public class Apilable extends VBox {
             throw new RuntimeException(e);
         }
     }
-    public void editar(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
-        titulo.textProperty().bind(this.tituloDeAsignable);
 
-        this.filaInicio = fechaInicio.getHour()*4 + fechaInicio.getMinute()/15;
-        this.offsetInicio = fechaInicio.getMinute()%15;
-        this.filaFin = new SimpleIntegerProperty(fechaFin.getHour()*4+ fechaFin.getMinute()/15);
-        AnchorPane.setTopAnchor(this,(double) filaInicio*15 + offsetInicio);
-
-        //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
-        horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15 + offsetInicio);
-        horarioFin = new SimpleStringProperty(calcularHorario(filaFin.get()/4,filaFin.get()%4 * 15));
-        horarioDinamico();
-
-        double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
-                (fechaInicio.getHour()*60 + fechaInicio.getMinute());
-        setNuevaAltura(altura);
+    public LocalTime getHoraFinal() {
+        return horarioFin.get();
     }
 }
