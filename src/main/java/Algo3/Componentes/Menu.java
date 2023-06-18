@@ -40,7 +40,6 @@ public class Menu extends VBox {
     private Button botonAgregar;
     public Menu(){
         cargarFXML();
-        agregarListeners();
         asignarFecha(selectorCalendario.getFecha());
         selectorCalendario.setOnAction(actionEvent -> asignarFecha(selectorCalendario.getFecha()));
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/menu.css").toUri().toString());
@@ -54,25 +53,14 @@ public class Menu extends VBox {
         return selectorCalendario.getFechaActualProperty();
     }
 
-    private void agregarListeners(){
-        botonDiario.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                vistaSeleccionada.set(VistaTipo.DIARIA);
-            }
-        });
-        botonSemanal.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                vistaSeleccionada.set(VistaTipo.SEMANAL);
-            }
-        });
-        botonMensual.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                vistaSeleccionada.set(VistaTipo.MENSUAL);
-            }
-        });
+    public void addDiarioListener(EventHandler<ActionEvent> handler){
+        botonDiario.setOnAction(handler);
+    }
+    public void addSemanalListener(EventHandler<ActionEvent> handler){
+        botonSemanal.setOnAction(handler);
+    }
+    public void addMensualListener(EventHandler<ActionEvent> handler){
+        botonMensual.setOnAction(handler);
     }
 
     public void addAgregarListener(EventHandler<ActionEvent> handler){

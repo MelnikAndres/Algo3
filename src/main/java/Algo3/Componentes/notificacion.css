@@ -1,0 +1,16 @@
+@import "../constantes.css";
+.notificacion{
+    -fx-background-color: -fx-color-accion,-fx-color-blanco,-fx-color-accion;
+    -fx-background-insets: 0,1,2;
+}
+.notificacion-error{
+    -fx-background-color: darkred, white, darkred;
+    -fx-background-insets: 0,1,2
+}
+.label{
+    -fx-text-fill: -fx-color-blanco;
+}
+.button{
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}

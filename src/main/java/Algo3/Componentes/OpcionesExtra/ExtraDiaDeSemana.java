@@ -4,6 +4,7 @@ import Algo3.Constantes.Dia;
 import Algo3.Constantes.ParametroTipo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 
@@ -68,5 +69,10 @@ public class ExtraDiaDeSemana extends VBox implements OpcionExtra {
             Dia dia = Dia.valueOf(diaStr);
             opcionesDias.get(dia.ordinal()).setSelected(true);
         }
+    }
+
+    @Override
+    public Node getRoot() {
+        return this;
     }
 }

@@ -59,6 +59,9 @@ public class MainVista extends StackPane {
             throw new RuntimeException(e);
         }
     }
+    public Menu getMenu(){
+        return menu;
+    }
 
     public void addAgregarListener(EventHandler<ActionEvent> handler) {
         menu.addAgregarListener(handler);

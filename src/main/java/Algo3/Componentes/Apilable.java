@@ -25,7 +25,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Apilable extends VBox {
+public class Apilable extends Celda {
     @FXML
     private Label horario;
     @FXML
@@ -43,13 +43,11 @@ public class Apilable extends VBox {
     private StringProperty tituloDeAsignable ;
     private String horarioInicio = "";
     private ObjectProperty<LocalTime> horarioFin;
-    private BooleanProperty reescalando = new SimpleBooleanProperty(false);
     private int filaInicio;
     private int offsetInicio;
     private IntegerProperty filaFin;
-    private BooleanProperty esTarea = new SimpleBooleanProperty(false);
     public Apilable(int filaInicio){//constructor desde arrastre
-        cargarFXML();
+        cargarFXML("src/main/resources/Layouts/Componente/apilableLayout.fxml");
         agregarEstilos();
         limitarTamanio();
         cambioSuaveDePadding();
@@ -64,14 +62,13 @@ public class Apilable extends VBox {
         AnchorPane.setTopAnchor(this,(double) this.filaInicio*15);
 
         //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
-        horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15);
+        horarioInicio = formatearHora(LocalTime.of(filaInicio/4,filaInicio%4 * 15,0));
         horarioFin = new SimpleObjectProperty<>(LocalTime.of(filaInicio/4,filaInicio%4 * 15));
         horarioDinamico();
         completada.visibleProperty().bind(esTarea);
     }
-
     public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin){
-        cargarFXML();
+        cargarFXML("src/main/resources/Layouts/Componente/apilableLayout.fxml");
         agregarEstilos();
         limitarTamanio();
         cambioSuaveDePadding();
@@ -85,13 +82,12 @@ public class Apilable extends VBox {
         AnchorPane.setTopAnchor(this,(double) filaInicio*15 + offsetInicio);
 
         //filaInicio/4 : hora --- filaInicio%4 * 15 : minutos
-        horarioInicio = calcularHorario(filaInicio/4,filaInicio%4 * 15 + offsetInicio);
-        horarioFin = new SimpleObjectProperty<>(LocalTime.of(filaFin.get()/4,filaFin.get()%4 * 15));
+        horarioInicio = formatearHora(LocalTime.of(filaInicio/4,filaInicio%4 * 15 + offsetInicio));
+        horarioFin = new SimpleObjectProperty<>(fechaFin.toLocalTime());
         horarioDinamico();
-
         double altura = fechaFin.getHour()*60+ fechaFin.getMinute() -
                 (fechaInicio.getHour()*60 + fechaInicio.getMinute());
-        setNuevaAltura(Math.max(altura,15));
+        setNuevaAltura(altura);
         completada.visibleProperty().bind(esTarea);
     }
     private void cambioSuaveDePadding(){
@@ -142,20 +138,6 @@ public class Apilable extends VBox {
         botonBorrar.styleProperty().bind(paddingBotones);
         botonAlarma.styleProperty().bind(paddingBotones);
     }
-    private void listenerCompletado(){
-        completada.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if(t1){
-                    getStyleClass().clear();
-                    getStyleClass().add("contenedor-completado");
-                }else{
-                    getStyleClass().clear();
-                    getStyleClass().add("contenedor");
-                }
-            }
-        });
-    }
     private void horarioDinamico(){
         StringBinding horarioAmostrar = new StringBinding() {
             {
@@ -163,7 +145,7 @@ public class Apilable extends VBox {
             }
             @Override
             protected String computeValue() {
-                var horaFinText = calcularHorario(horarioFin.get().getHour(),horarioFin.get().getMinute());
+                var horaFinText = formatearHora(horarioFin.get());
                 if(horarioInicio.equals(horaFinText)){
                     return "Dia Completo";
                 }
@@ -180,6 +162,7 @@ public class Apilable extends VBox {
         horaInLine.visibleProperty().bind(horario.visibleProperty().not());
     }
     public void setNuevaAltura(double altura) {
+        boolean hayCambio = altura>18;
         filaFin.set(filaInicio  + ((int)(altura+14+offsetInicio)/15)-1);
         this.setPrefHeight(altura);
         this.horario.setVisible(altura >= 30);
@@ -190,33 +173,14 @@ public class Apilable extends VBox {
         }
         reescribirHorario(altura);
     }
-    public void reescribirHorario(double nuevaAltura) {
+    private void reescribirHorario(double nuevaAltura) {
         nuevaAltura += (filaInicio*15)%60 + offsetInicio;
         var horaEntera = (int)nuevaAltura/60 + filaInicio/4;
         var minutos = (int)nuevaAltura%60;
-        System.out.println(horaEntera);
-        System.out.println(nuevaAltura);
-        System.out.println(minutos);
         if(horaEntera == 24){
             horarioFin.set(LocalTime.of(23,59,0));
         }else{
             horarioFin.set(LocalTime.of(horaEntera,minutos,0));
-        }
-    }
-    private String calcularHorario(int horaEntera, int minutos){
-        String minutosTexto = minutos<10?"0"+minutos:String.valueOf(minutos);
-        if(horaEntera <12){
-            if(horaEntera == 0){
-                return "12:"+minutosTexto+" AM";
-            }else{
-                return horaEntera+":"+minutosTexto+" AM";
-            }
-        }else{
-            if(horaEntera == 12){
-                return "12:"+minutosTexto+" PM";
-            }else{
-                return horaEntera-12+":"+minutosTexto+" PM";
-            }
         }
     }
     private void limitarTamanio() {
@@ -241,24 +205,6 @@ public class Apilable extends VBox {
         botonEditar.setPadding(insets);
         botonAlarma.setPadding(insets);
     }
-    public void addBorrarEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonBorrar.addEventHandler(ActionEvent.ACTION,handler);
-    }
-    public void addEditarEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonEditar.addEventHandler(ActionEvent.ACTION,handler);
-    }
-    public void addAlarmaEvent(EventHandler<javafx.event.ActionEvent> handler){
-        botonAlarma.addEventHandler(ActionEvent.ACTION,handler);
-    }
-    public void addCheckBoxListener(ChangeListener<Boolean> listener){
-        completada.selectedProperty().addListener(listener);
-    }
-    public void setEsTarea(boolean esTarea){
-        this.esTarea.set(esTarea);
-    }
-    public void setCheckBoxEstado(boolean nuevoEstado){
-        completada.setSelected(nuevoEstado);
-    }
     public boolean haySuperposicion(Apilable otro){
         var estasOcupadas = this.filasOcupadas();
         var otrasOcupadas = otro.filasOcupadas();
@@ -272,18 +218,6 @@ public class Apilable extends VBox {
         }
         return ocupadas;
     }
-    private void cargarFXML(){
-        try {
-            FXMLLoader loader =  new FXMLLoader(
-                    Path.of("src/main/resources/Layouts/Componente/apilableLayout.fxml").toUri().toURL());
-            loader.setController(this);
-            loader.setRoot(this);
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public LocalTime getHoraFinal() {
         return horarioFin.get();
     }

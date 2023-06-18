@@ -1,14 +1,4 @@
 {
-  "asignables" : {
-    "0" : {
-      "@type" : "Algo3.Modelo.Tarea",
-      "titulo" : "(Sin Titulo)",
-      "descripcion" : "(Sin Descripcion)",
-      "fechaInicio" : [ 2023, 6, 16, 3, 45 ],
-      "fechaFinal" : [ 2023, 6, 16, 5, 7 ],
-      "alarmas" : [ ],
-      "esCompletada" : false
-    }
-  },
-  "idIncremental" : 1
+  "asignables" : { },
+  "idIncremental" : 0
 }

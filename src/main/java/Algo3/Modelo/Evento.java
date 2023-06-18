@@ -7,6 +7,7 @@ import Algo3.Constantes.RepeticionTipo;
 import Algo3.Frecuencia.Frecuencia;
 import Algo3.Repeticion.Repeticion;
 import Algo3.Utilidad.Completador;
+import Algo3.Utilidad.Editor;
 import com.fasterxml.jackson.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,18 +36,30 @@ public class Evento extends Asignable {
 
     @JsonIgnore
     public FrecuenciaTipo getFrecuenciaTipo() {
+        if(frecuencia == null){
+            return FrecuenciaTipo.NULA;
+        }
         return frecuencia.getTipo();
     }
     @JsonIgnore
     public RepeticionTipo getRepeticionTipo() {
+        if(repeticion == null){
+            return RepeticionTipo.NULA;
+        }
         return repeticion.getTipo();
     }
     @JsonIgnore
     public String getParametrosFrecuencia() {
+        if(frecuencia == null){
+            return "null";
+        }
         return frecuencia.getParams();
     }
     @JsonIgnore
     public String getParametrosRepeticion() {
+        if(repeticion == null){
+            return "null";
+        }
         return repeticion.getParams();
     }
     public LocalDateTime getUltimoDiaDeRepeticion(){return ultimoDiaDeRepeticion;}
@@ -105,7 +118,7 @@ public class Evento extends Asignable {
         return frecuencia.obtenerSiguienteAparicion(fechaActual);
     }
     private LocalDateTime obtenerUltimoDiaDeRepeticion(){
-        if(repeticion == null){
+        if(repeticion == null || frecuencia == null){
             return getFechaInicio();
         }
         return repeticion.obtenerUltimoDiaDeRepeticion();
@@ -131,19 +144,13 @@ public class Evento extends Asignable {
     public String toString(){
         String data = super.toString();
         data = data.concat(", " + ultimoDiaDeRepeticion.toString());
-        data = data.concat(", "+getParametrosFrecuencia());
-        data = data.concat(", "+getParametrosRepeticion());
+        data = data.concat(", " + getFrecuenciaTipo()+", "+getParametrosFrecuencia());
+        data = data.concat(", " +getRepeticionTipo()+", "+getParametrosRepeticion());
         return data;
     }
+
     @Override
-    public Map<ParametroTipo,String> obtenerParametros(){
-        var parametros = super.obtenerParametros();
-        parametros.put(ParametroTipo.TIPO,"Evento");
-        var repeticionFrecuencia =
-                getRepeticionTipo().name()+";"+getParametrosRepeticion()+
-                "R:F"+
-                getFrecuenciaTipo().name()+";"+getParametrosFrecuencia();
-        parametros.put(ParametroTipo.REPETICION_FRECUENCIA,repeticionFrecuencia);
-        return parametros;
+    public void recibirEditor(Editor editor) {
+        editor.editar(this);
     }
 }

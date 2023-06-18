@@ -19,8 +19,8 @@
       <StackPane fx:id="container" alignment="TOP_LEFT">
          <GridPane fx:id="grillaDiario" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: #142131">
             <columnConstraints>
-               <ColumnConstraints fx:id="columnaHoras" hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-               <ColumnConstraints fx:id="columnaAsignables" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="60.0" />
+               <ColumnConstraints fx:id="columnaHoras" hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+               <ColumnConstraints fx:id="columnaAsignables" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="60.0" />
             </columnConstraints>
          </GridPane>
          <ApiladorDeAsignables fx:id="apiladorDeAsignables">

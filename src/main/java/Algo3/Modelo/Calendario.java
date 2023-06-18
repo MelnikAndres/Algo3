@@ -35,10 +35,6 @@ public class Calendario implements Serializable{
 
     public Calendario(){
     }
-    public int getIdIncremental() {
-        return idIncremental;
-    }
-
 
     public Asignable obtenerAsignablePorId(Integer id){
         return asignables.get(id);

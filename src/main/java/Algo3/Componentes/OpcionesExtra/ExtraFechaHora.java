@@ -2,6 +2,7 @@ package Algo3.Componentes.OpcionesExtra;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
@@ -40,6 +41,7 @@ public class ExtraFechaHora extends HBox implements OpcionExtra {
         minutoScroll.getStyleClass().addAll("fondo-primario","borde-Y");
         horasContainer.getStyleClass().add("fondo-primario");
         minutosContainer.getStyleClass().add("fondo-primario");
+        setFecha(LocalDateTime.now());
     }
 
     private void cargarOpciones(){
@@ -83,6 +85,22 @@ public class ExtraFechaHora extends HBox implements OpcionExtra {
         return LocalDateTime.of(fechaActual.getValue(),hora).toString();
     }
 
+    public LocalDateTime getFecha(){
+        LocalTime hora = LocalTime.of(Integer.parseInt(((ToggleButton)grupoHoras.getSelectedToggle()).getText()),
+                Integer.parseInt(((ToggleButton)grupoMinutos.getSelectedToggle()).getText()),0);
+        return LocalDateTime.of(fechaActual.getValue(),hora);
+    }
+    public void setFecha(LocalDateTime fecha){
+        grupoHoras.getToggles().get(fecha.getHour()).setSelected(true);
+        grupoMinutos.getToggles().get(fecha.getMinute()).setSelected(true);
+        fechaActual.setValue(fecha.toLocalDate());
+    }
+
+    @Override
+    public Node getRoot() {
+        return this;
+    }
+
     private void cargarFXML(){
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -94,5 +112,10 @@ public class ExtraFechaHora extends HBox implements OpcionExtra {
                 IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    public void setDisableHoras(Boolean t1) {
+        horaScroll.setDisable(t1);
+        minutoScroll.setDisable(t1);
     }
 }

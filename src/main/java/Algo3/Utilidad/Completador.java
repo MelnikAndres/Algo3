@@ -20,7 +20,7 @@ public class Completador {
         asignable.recibirCompletador(this);
         return soloPreguntar;
     }
-    public void trabajar(Tarea tarea){
+    public void completar(Tarea tarea){
         if(soloRecibir){
             soloRecibir = false;
             return;

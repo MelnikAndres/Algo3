@@ -30,7 +30,6 @@ public class ApiladorDeAsignables extends AnchorPane {
             }
         });
     }
-
     public void apilar(Apilable nuevoApilado){
         if(apilados.contains(nuevoApilado)){
             return;
@@ -52,7 +51,6 @@ public class ApiladorDeAsignables extends AnchorPane {
             anchosDeFilas.set(Math.min(fila,95),mayorAncho + nuevoApilado.getWidth());
         }
     }
-
     public void desapilarTodo(){
         getChildren().clear();
         apilados.clear();

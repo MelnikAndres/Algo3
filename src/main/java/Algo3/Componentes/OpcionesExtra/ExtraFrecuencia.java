@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 
@@ -36,8 +37,8 @@ public class ExtraFrecuencia extends VBox implements OpcionExtra {
             @Override
             public void changed(ObservableValue<? extends FrecuenciaTipo> observableValue, FrecuenciaTipo frecuenciaTipo, FrecuenciaTipo t1) {
                 switch (t1){
-                    case DIARIA -> opcionesExtra.addExtra(ParametroTipo.INTERVALO);
-                    case SEMANAL -> opcionesExtra.addExtra(ParametroTipo.DIASDESEMANA);
+                    case DIARIA -> opcionesExtra.addExtra(new ExtraEntero("Intervalo"));
+                    case SEMANAL -> opcionesExtra.addExtra(new ExtraDiaDeSemana());
                     case MENSUAL, ANUAL, NULA -> opcionesExtra.addExtra();
                 }
             }
@@ -51,6 +52,11 @@ public class ExtraFrecuencia extends VBox implements OpcionExtra {
         String[] valorSplit = valor.split(";");
         opciones.setValue(FrecuenciaTipo.valueOf(valorSplit[0]));
         opcionesExtra.setValor(valorSplit[1]);
+    }
+
+    @Override
+    public Node getRoot() {
+        return this;
     }
 
     private void cargarFXML(){

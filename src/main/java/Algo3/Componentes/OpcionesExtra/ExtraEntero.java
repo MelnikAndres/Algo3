@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -50,5 +51,9 @@ public class ExtraEntero extends VBox implements OpcionExtra {
     @Override
     public void setValor(String valor) {
         enteroInput.setText(valor);
+    }
+    @Override
+    public Node getRoot() {
+        return this;
     }
 }

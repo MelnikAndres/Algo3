@@ -3,19 +3,26 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 
+<?import javafx.scene.layout.ColumnConstraints?>
 <fx:root type="ScrollPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <StackPane fx:id="contenedor" alignment="TOP_LEFT">
-        <GridPane fx:id="grillaMensual" minHeight="-Infinity" minWidth="-Infinity">
-            <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-        </GridPane>
-    </StackPane>
+    <GridPane styleClass="grid-pane" fx:id="grillaMensual" minHeight="-Infinity" minWidth="-Infinity">
+        <rowConstraints>
+            <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="200.0" prefWidth="200.0" maxWidth="200.0" halignment="RIGHT"/>
+        </columnConstraints>
+    </GridPane>
 </fx:root>

@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 
@@ -35,8 +36,8 @@ public class ExtraRepeticion extends VBox implements OpcionExtra {
             @Override
             public void changed(ObservableValue<? extends RepeticionTipo> observableValue, RepeticionTipo repeticionTipo, RepeticionTipo t1) {
                 switch (t1){
-                    case FECHA_LIMITE -> opcionesExtra.addExtra(ParametroTipo.FECHA);
-                    case CANTIDAD_LIMITE -> opcionesExtra.addExtra(ParametroTipo.CANTIDAD);
+                    case FECHA_LIMITE -> opcionesExtra.addExtra(new ExtraFechaHora());
+                    case CANTIDAD_LIMITE -> opcionesExtra.addExtra(new ExtraEntero("Repeticiones"));
                     case INFINITO -> opcionesExtra.addExtra();
                 }
             }
@@ -60,8 +61,11 @@ public class ExtraRepeticion extends VBox implements OpcionExtra {
     }
     public void setValor(String valor){
         String[] valorSplit = valor.split(";");
-        System.out.println(valor);
         opciones.setValue(RepeticionTipo.valueOf(valorSplit[0]));
         opcionesExtra.setValor(valorSplit[1]);
+    }
+    @Override
+    public Node getRoot() {
+        return this;
     }
 }

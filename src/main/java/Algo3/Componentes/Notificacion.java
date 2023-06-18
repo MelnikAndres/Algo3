@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,17 +20,25 @@ public class Notificacion extends VBox {
     @FXML
     Button botonCerrar;
 
-    public Notificacion(String texto, VBox notificacionVista){
+    public Notificacion(String texto, boolean esError){
         cargarFXML();
-        titulo.setText(texto);
-        var notificacion = this;
-
-        botonCerrar.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                notificacionVista.getChildren().remove(notificacion);
-            }
-        });
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/notificacion.css").toUri().toString());
+        ImageView imageView;
+        if(esError){
+            getStyleClass().add("notificacion-error");
+            titulo.setText("ERROR \n" + texto);
+            imageView = new ImageView(new Image(Path.of("src/main/resources/Imagenes/error.png").toUri().toString()));
+        }else{
+            getStyleClass().add("notificacion");
+            titulo.setText("Recordatorio para\n"+texto);
+            imageView = new ImageView(new Image(Path.of("src/main/resources/Imagenes/alarma.png").toUri().toString()));
+        }
+        imageView.setFitWidth(24);
+        imageView.setFitHeight(24);
+        getChildren().add(imageView);
+    }
+    public void addCerrarHandler(EventHandler<ActionEvent> handler){
+        botonCerrar.addEventHandler(ActionEvent.ACTION, handler);
     }
     public void cargarFXML(){
         try {

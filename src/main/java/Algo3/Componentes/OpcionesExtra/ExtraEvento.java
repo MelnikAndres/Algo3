@@ -1,8 +1,11 @@
 package Algo3.Componentes.OpcionesExtra;
 
+import Algo3.Frecuencia.Frecuencia;
+import Algo3.Repeticion.Repeticion;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
-public class ExtraEvento extends VBox implements OpcionExtra {
+public class ExtraEvento extends VBox {
     private ExtraFrecuencia extraFrecuencia = new ExtraFrecuencia();
     private ExtraRepeticion extraRepeticion = new ExtraRepeticion();
 
@@ -12,17 +15,16 @@ public class ExtraEvento extends VBox implements OpcionExtra {
         setSpacing(10);
         getChildren().addAll(extraFrecuencia,extraRepeticion);
     }
-
-    @Override
-    public String getValor() {
-        return extraRepeticion.getValor() + "R:F"+extraFrecuencia.getValor();
+    public void setFrecuencia(String frecuencia){
+        extraFrecuencia.setValor(frecuencia);
     }
-
-    @Override
-    public void setValor(String valor) {
-        System.out.println(valor);
-        String[] valorSplit = valor.split("R:F");
-        extraFrecuencia.setValor(valorSplit[1]);
-        extraRepeticion.setValor(valorSplit[0]);
+    public void setRepeticion(String repeticion){
+        extraRepeticion.setValor(repeticion);
+    }
+    public Frecuencia getFrecuencia(){
+        return Frecuencia.desdeString(extraFrecuencia.getValor());
+    }
+    public String getRepeticionString(){
+        return extraRepeticion.getValor();
     }
 }

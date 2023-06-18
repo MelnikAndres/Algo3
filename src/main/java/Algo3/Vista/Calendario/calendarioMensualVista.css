@@ -1,0 +1,8 @@
+@import "../../constantes.css";
+.grid-pane{
+    -fx-background-color: -fx-color-primario;
+}
+.scroll-pane{
+    -fx-background-color: -fx-color-primario;
+
+}

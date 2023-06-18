@@ -12,7 +12,7 @@
 
 <fx:root maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="100.0" styleClass="contenedor" type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox  alignment="CENTER">
+      <HBox fx:id="tituloContenedor"  alignment="CENTER">
          <children>
             <Label fx:id="titulo" maxWidth="1.7976931348623157E308" styleClass="titulo" text="(Sin Titulo)" wrapText="true" HBox.hgrow="ALWAYS" />
             <CheckBox fx:id="completada" mnemonicParsing="false">
@@ -27,7 +27,7 @@
       </HBox>
       <Label fx:id="horaInicial" text="-" />
       <Label fx:id="horaFinal" text="-" />
-      <HBox alignment="CENTER_RIGHT">
+      <HBox fx:id="botonesContenedor" alignment="CENTER_RIGHT">
          <children>
             <Button fx:id="botonBorrar" mnemonicParsing="false">
                <graphic>

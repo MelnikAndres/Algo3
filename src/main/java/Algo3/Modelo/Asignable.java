@@ -4,6 +4,7 @@ package Algo3.Modelo;
 import Algo3.Constantes.ErrorTipo;
 import Algo3.Constantes.ParametroTipo;
 import Algo3.Utilidad.Completador;
+import Algo3.Utilidad.Editor;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
@@ -92,15 +93,6 @@ public abstract class Asignable implements Serializable {
         }
         return data;
     }
-    public Map<ParametroTipo,String> obtenerParametros(){
-        HashMap<ParametroTipo,String> parametros = new HashMap<>();
-        parametros.put(ParametroTipo.TITULO,titulo);
-        parametros.put(ParametroTipo.DESCRIPCION,descripcion);
-        parametros.put(ParametroTipo.DIACOMPLETO,fechaFinal.equals(fechaInicio)?"1":"");
-        parametros.put(ParametroTipo.FECHAINICIAL,fechaInicio.toString());
-        parametros.put(ParametroTipo.FECHAFINAL, fechaFinal.toString());
-        return parametros;
-    }
     public boolean comparar(Asignable asignable) {
         return this.toString().equals(asignable.toString());
     }
@@ -108,4 +100,5 @@ public abstract class Asignable implements Serializable {
         //retorna true si el completador fue recibido, false si fue rechazado
         return false;
     }
+    public abstract void recibirEditor(Editor editor);
 }

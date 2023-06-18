@@ -3,6 +3,7 @@ package Algo3.Vista.Calendario;
 import Algo3.Componentes.Apilable;
 import Algo3.Componentes.ApiladorDeAsignables;
 import Algo3.Modelo.Asignable;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -60,10 +61,20 @@ public class CalendarioDiarioVista extends ScrollPane {
     public void montarVista(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty) {
         prefWidthProperty().bind(widthProperty.subtract(250));
         maxHeightProperty().bind(heightProperty);
+        DoubleBinding widthBinding = new DoubleBinding() {
+            {
+                super.bind(apiladorDeAsignables.widthProperty(),containerDiaCompleto.widthProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return Math.max(apiladorDeAsignables.widthProperty().get(),containerDiaCompleto.widthProperty().get());
+            }
+        };
+        containerDiaCompleto.prefWidthProperty().bind(widthProperty.subtract(278));
         apiladorDeAsignables.prefWidthProperty().bind(widthProperty.subtract(338));
         apiladorDeAsignables.maxWidthProperty().bind(widthProperty.subtract(338));
-        grillaDiario.prefWidthProperty().bind(apiladorDeAsignables.prefWidthProperty().add(60));
-        grillaDiario.minWidthProperty().bind(apiladorDeAsignables.widthProperty().add(60));
+        grillaDiario.prefWidthProperty().bind(widthBinding);
+        grillaDiario.minWidthProperty().bind(widthBinding);
     }
 
     private void crearGrilla() {

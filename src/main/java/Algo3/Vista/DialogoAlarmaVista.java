@@ -77,7 +77,7 @@ public class DialogoAlarmaVista extends DialogPane {
             }
         });
         fechaYhora.setDisable(true);
-        fechaYhora.setValor(LocalDateTime.now().toString());
+        fechaYhora.setFecha(LocalDateTime.now());
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Vista/dialogoAlarmaVista.css").toUri().toString());
     }
 
@@ -134,7 +134,7 @@ public class DialogoAlarmaVista extends DialogPane {
         return toggleAbsoluta.isSelected();
     }
     public LocalDateTime getFecha(){
-        return FechaParser.fromString(fechaYhora.getValor());
+        return fechaYhora.getFecha();
     }
     private void cargarFXML() {
         try {
