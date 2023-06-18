@@ -43,7 +43,6 @@ public class DialogoAlarmaControlador extends Dialog<ButtonType> {
                     return new Alarma(dialogoAlarmaVista.getFecha(),Duration.ZERO,disparador);
                 }else{
                     Duration duration = dialogoAlarmaVista.getDuration();
-                    System.out.println(duration);
                     return new Alarma(fechaDeAsignable,duration, disparador);
                 }
             }else{
