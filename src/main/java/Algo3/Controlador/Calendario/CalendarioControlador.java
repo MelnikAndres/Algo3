@@ -33,9 +33,7 @@ public abstract class CalendarioControlador {
         limpiarVista();
         for(Integer asignableID: repeticiones.keySet()){
             for(LocalDateTime fecha: repeticiones.get(asignableID)){
-                if(esAgregable(fecha)){
-                    cargarAsignable(asignableID, fecha);
-                }
+                cargarAsignable(asignableID, fecha);
             }
         }
     }
@@ -115,7 +113,6 @@ public abstract class CalendarioControlador {
         };
     }
 
-    abstract boolean esAgregable(LocalDateTime fecha);
     abstract void limpiarVista();
 
 }

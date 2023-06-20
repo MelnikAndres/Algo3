@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class CalendarioSemanalControlador extends CalendarioControlador {
@@ -29,22 +30,34 @@ public class CalendarioSemanalControlador extends CalendarioControlador {
 
     @Override
     void cargarAsignable(Integer asignableId, LocalDateTime fecha) {
-        var diferenciaDeDias = fecha.getDayOfMonth() - fechaActual.get().getDayOfMonth();
         Asignable asignable = calendario.obtenerAsignablePorId(asignableId);
-        var nuevaCelda = new CeldaSemanal(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
-        containers.get(diferenciaDeDias).getChildren().add(nuevaCelda);
-        agregarAcciones(nuevaCelda,asignableId);
+        long duracionDias = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.DAYS);
+        long duracionMinutos = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.MINUTES);
+
+        if(duracionDias == 0){
+            int diferenciaDeDias = (int) fechaActual.get().until(fecha.toLocalDate(),ChronoUnit.DAYS);
+            if(diferenciaDeDias>6 ||diferenciaDeDias<0){
+                return;
+            }
+            LocalDateTime fechaFinal = fecha.plusMinutes(duracionDias);
+            var nuevaCelda = new CeldaSemanal(asignable.getTitulo(), fecha,fechaFinal, fechaActual.get());
+            containers.get(diferenciaDeDias).getChildren().add(nuevaCelda);
+            agregarAcciones(nuevaCelda,asignableId);
+        }else{
+            for(int i = 0; i<= duracionDias; i++){
+                int diferenciaDeDias = (int) fechaActual.get().until(fecha.plusDays(i).toLocalDate(),ChronoUnit.DAYS);
+                if(diferenciaDeDias<=6 && diferenciaDeDias>=0){
+                    var nuevaCelda = new CeldaSemanal(asignable.getTitulo(), fecha,fecha.plusMinutes(duracionMinutos), fechaActual.get().plusDays(diferenciaDeDias));
+                    containers.get(diferenciaDeDias).getChildren().add(nuevaCelda);
+                    agregarAcciones(nuevaCelda,asignableId);
+                }
+            }
+        }
     }
 
     @Override
     public Node getVista() {
         return vista;
-    }
-
-    @Override
-    boolean esAgregable(LocalDateTime fecha) {
-        var diferenciaDeDias = fecha.getDayOfMonth() - fechaActual.get().getDayOfMonth();
-        return diferenciaDeDias >=0 && diferenciaDeDias<7;
     }
 
     @Override

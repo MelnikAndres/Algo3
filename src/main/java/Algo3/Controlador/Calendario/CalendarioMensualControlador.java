@@ -10,6 +10,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Node;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
 public class CalendarioMensualControlador extends CalendarioControlador{
@@ -27,17 +28,29 @@ public class CalendarioMensualControlador extends CalendarioControlador{
 
     void cargarAsignable(Integer asignableId, LocalDateTime fecha) {
         Asignable asignable = calendario.obtenerAsignablePorId(asignableId);
-        CeldaMensual celdaMensual = new CeldaMensual(asignable.getTitulo(),asignable.getFechaInicio(),asignable.getFechaFinal());
-        agregarAcciones(celdaMensual,asignableId);
-        casillas.get(fecha.toLocalDate()).agregarNuevo(celdaMensual);
+        long duracionDias = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.DAYS);
+        long duracionMinutos = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.MINUTES);
+
+        if(duracionDias == 0){
+            LocalDateTime fechaFinal = fecha.plusMinutes(duracionDias);
+            CeldaMensual celdaMensual = new CeldaMensual(asignable.getTitulo(), fecha,fechaFinal,fechaActual.get());
+            agregarAcciones(celdaMensual,asignableId);
+            casillas.get(fecha.toLocalDate()).agregarNuevo(celdaMensual);
+        }else{
+            for(int i = 0; i<= duracionDias; i++){
+                CeldaMensual celdaMensual = new CeldaMensual(asignable.getTitulo(),fecha,fecha.plusMinutes(duracionMinutos), fecha.plusDays(i).toLocalDate());
+                agregarAcciones(celdaMensual,asignableId);
+                Casilla casilla = casillas.get(fecha.plusDays(i).toLocalDate());
+                if(casilla!= null){
+                    casilla.agregarNuevo(celdaMensual);
+                }
+            }
+        }
+
     }
 
     @Override
     public Node getVista(){return vista;}
-
-    boolean esAgregable(LocalDateTime fecha) {
-        return true;
-    }
 
     @Override
     void limpiarVista() {

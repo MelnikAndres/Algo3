@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -67,12 +68,25 @@ public class Apilable extends Celda {
         horarioDinamico();
         completada.visibleProperty().bind(esTarea);
     }
-    public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin){
+    public Apilable(String tituloDeAsignable, LocalDateTime fechaInicio, LocalDateTime fechaFin, LocalDate hoy){
         cargarFXML("src/main/resources/Layouts/Componente/apilableLayout.fxml");
         agregarEstilos();
         limitarTamanio();
         cambioSuaveDePadding();
         listenerCompletado();
+        if(fechaInicio.toLocalDate() != fechaFin.toLocalDate()){
+            if(fechaInicio.toLocalDate().isBefore(hoy) && fechaFin.toLocalDate().isAfter(hoy)){
+                fechaFin = LocalDateTime.of(hoy,LocalTime.of(23,59));
+                fechaInicio = LocalDateTime.of(hoy,LocalTime.of(0,0));
+                getStyleClass().add("todo-el-dia");
+            }else if(fechaInicio.toLocalDate().isBefore(hoy)){
+                fechaInicio = LocalDateTime.of(hoy,LocalTime.of(0,0));
+                getStyleClass().add("no-empieza-hoy");
+            }else if(fechaFin.toLocalDate().isAfter(hoy)){
+                fechaFin = LocalDateTime.of(hoy,LocalTime.of(23,59));
+                getStyleClass().add("no-termina-hoy");
+            }
+        }
         this.tituloDeAsignable =  new SimpleStringProperty(tituloDeAsignable);
         titulo.textProperty().bind(this.tituloDeAsignable);
 
@@ -146,7 +160,8 @@ public class Apilable extends Celda {
             @Override
             protected String computeValue() {
                 var horaFinText = formatearHora(horarioFin.get());
-                if(horarioInicio.equals(horaFinText)){
+                if(horarioInicio.equals(horaFinText) &&
+                !(getStyleClass().contains("no-empieza-hoy") || getStyleClass().contains("no-termina-hoy"))){
                     return "Dia Completo";
                 }
                 return horarioInicio+ " a " +horaFinText;
@@ -162,8 +177,7 @@ public class Apilable extends Celda {
         horaInLine.visibleProperty().bind(horario.visibleProperty().not());
     }
     public void setNuevaAltura(double altura) {
-        boolean hayCambio = altura>18;
-        filaFin.set(filaInicio  + ((int)(altura+14+offsetInicio)/15)-1);
+        filaFin.set(Math.max(filaInicio  + ((int)(altura+14+offsetInicio)/15)-1,0));
         this.setPrefHeight(altura);
         this.horario.setVisible(altura >= 30);
         if(altura < 45){
@@ -191,6 +205,7 @@ public class Apilable extends Celda {
     }
     private void agregarEstilos(){
         this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/celda.css").toUri().toString());
+        this.getStylesheets().add(Path.of("src/main/java/Algo3/Componentes/apilable.css").toUri().toString());
         horario.getStyleClass().add("texto-blanco");
         horario.setVisible(false);
         horario.setPadding(new Insets(-6,0,0,0));

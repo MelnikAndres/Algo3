@@ -12,11 +12,11 @@
     -fx-background-insets: 0,1;
 }
 .contenedor{
-    -fx-background-color: derive(-fx-color-accion,40%),-fx-color-accion;
-
+    -fx-background-color: rgba(197, 119, 1, 0.1),rgba(197, 119, 1, 0.2), rgba(197, 119, 1, 0.4), rgba(197, 119, 1, 0.6), rgba(197, 119, 1, 0.8),derive(-fx-color-accion,40%),-fx-color-accion;
+    -fx-background-insets: 0,0,0,0,0,0,1;
 }
 .contenedor-completado{
-    -fx-background-color: derive(-fx-color-accion,40%),derive(-fx-color-accion,-40%);
+    -fx-background-color: rgba(129, 78, 0, 0.1),rgba(129, 78, 0, 0.2), rgba(129, 78, 0, 0.4), rgba(129, 78, 0, 0.6), rgba(129, 78, 0, 0.8),derive(-fx-color-accion,40%),derive(-fx-color-accion,-40%) !important;
 }
 .button{
     -fx-background-color: transparent;

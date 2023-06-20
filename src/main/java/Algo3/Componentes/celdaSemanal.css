@@ -1,0 +1,20 @@
+@import "../constantes.css";
+.no-empieza-hoy{
+    -fx-background-color: rgba(197, 119, 1, 0.1),rgba(197, 119, 1, 0.2), rgba(197, 119, 1, 0.4), rgba(197, 119, 1, 0.6), rgba(197, 119, 1, 0.8),derive(-fx-color-accion,40%),-fx-color-accion;
+    -fx-background-insets: 0,0 0 0 1,0 0 0 2,0 0 0 3,0 0 0 4,0 0 0 5, 1 1 1 5;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 10 10 0;
+
+}
+.no-termina-hoy{
+    -fx-background-color: rgba(197, 119, 1, 0.1),rgba(197, 119, 1, 0.2), rgba(197, 119, 1, 0.4), rgba(197, 119, 1, 0.6), rgba(197, 119, 1, 0.8),derive(-fx-color-accion,40%),-fx-color-accion;
+    -fx-background-insets: 0,0 1 0 0,0 2 0 0,0 3 0 0,0 4 0 0,0 5 0 0, 1 5 1 1;
+    -fx-border-radius:  10 0 0 10 ;
+    -fx-background-radius: 10 0 0 10;
+}
+.todo-el-dia{
+    -fx-background-color: rgba(197, 119, 1, 0.1),rgba(197, 119, 1, 0.2), rgba(197, 119, 1, 0.4), rgba(197, 119, 1, 0.6), rgba(197, 119, 1, 0.8),derive(-fx-color-accion,40%),-fx-color-accion;
+    -fx-background-insets: 0,0 1 0 1,0 2 0 2,0 3 0 3,0 4 0 4,0 5 0 5,1 5 1 5;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}

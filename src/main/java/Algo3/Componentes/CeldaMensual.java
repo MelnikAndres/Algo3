@@ -4,11 +4,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CeldaMensual extends CeldaSemanal{
-    public CeldaMensual(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
-        super(titulo, fechaInicio, fechaFinal);
+    public CeldaMensual(String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, LocalDate fechaActual) {
+        super(titulo, fechaInicio, fechaFinal,fechaActual);
         adaptarMensual();
     }
     private void adaptarMensual() {

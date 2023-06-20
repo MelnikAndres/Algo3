@@ -61,11 +61,9 @@ public abstract class Celda extends VBox {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if(t1){
-                    getStyleClass().clear();
                     getStyleClass().add("contenedor-completado");
                 }else{
-                    getStyleClass().clear();
-                    getStyleClass().add("contenedor");
+                    getStyleClass().remove("contenedor-completado");
                 }
             }
         });

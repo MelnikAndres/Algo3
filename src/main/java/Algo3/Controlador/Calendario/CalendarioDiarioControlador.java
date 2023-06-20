@@ -17,6 +17,7 @@ import javafx.scene.input.MouseButton;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class CalendarioDiarioControlador extends CalendarioControlador {
     private Integer filaInicioDeArrastre;
@@ -89,21 +90,28 @@ public class CalendarioDiarioControlador extends CalendarioControlador {
     private Integer obtenerPosicionEnCalendario(double y){
         return (int) ((24*y*4)/apiladorDeAsignables.getHeight());
     }
-    boolean esAgregable(LocalDateTime fecha){
-        return fecha.toLocalDate().equals(fechaActual.get());
-    }
     void limpiarVista() {
         apiladorDeAsignables.desapilarTodo();
         vista.limpiarDiaCompleto();
     }
     void cargarAsignable(Integer asignableId, LocalDateTime fecha){
         Asignable asignable = calendario.obtenerAsignablePorId(asignableId);
-        var nuevoApilable = new Apilable(asignable.getTitulo(), asignable.getFechaInicio(),asignable.getFechaFinal());
+
+        long duracionMinutos = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.MINUTES);
+        LocalDateTime fechaFinal = fecha.plusMinutes(duracionMinutos);
+        if(fecha.toLocalDate().isAfter(fechaActual.get()) || fechaFinal.toLocalDate().isBefore(fechaActual.get())){
+            return;
+        }
+
+        var nuevoApilable = new Apilable(asignable.getTitulo(), fecha,fechaFinal,fechaActual.get());
         if(asignable.getFechaInicio().equals(asignable.getFechaFinal())){
             vista.agregarDiaCompleto(nuevoApilable);
         }else{
+
             apiladorDeAsignables.getChildren().add(nuevoApilable);
             apiladorDeAsignables.agregarComportamiento(nuevoApilable);
+            //el listener espera a que se calcule el ancho del apilable nuevo antes de apilar
+            //apilar usa el ancho para acomodar a los apilados, el ancho se calcula en el siguiente frame
             var listener = new ChangeListener<Number>() {
                 @Override
                 public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
