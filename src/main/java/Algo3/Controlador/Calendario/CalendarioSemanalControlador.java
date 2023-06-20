@@ -31,7 +31,7 @@ public class CalendarioSemanalControlador extends CalendarioControlador {
     @Override
     void cargarAsignable(Integer asignableId, LocalDateTime fecha) {
         Asignable asignable = calendario.obtenerAsignablePorId(asignableId);
-        long duracionDias = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.DAYS);
+        long duracionDias = asignable.getFechaInicio().toLocalDate().until(asignable.getFechaFinal().toLocalDate(), ChronoUnit.DAYS);
         long duracionMinutos = asignable.getFechaInicio().until(asignable.getFechaFinal(), ChronoUnit.MINUTES);
 
         if(duracionDias == 0){
